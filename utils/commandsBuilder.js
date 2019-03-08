@@ -32,6 +32,4 @@ const commandsBuilder = currentPath => {
   return commandsToPath;
 };
 
-commandsBuilder(process.cwd());
-
 module.exports = commandsBuilder;

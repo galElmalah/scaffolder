@@ -3,18 +3,45 @@ const path = require('path');
 
 const commandsBuilder = require('./commandsBuilder');
 
-const templateReader = (commands, injector) => cmd => {
-  const files = fs.readdirSync(commands[cmd]);
-  console.log(files);
-  injector('{{abc}}');
+const join = (...args) => path.join(...args);
+
+const extractKey = k => k.replace(/({|})/g, '');
+
+replaceKeyWithValue = keyValuePairs => match => {
+  const key = extractKey(match);
+  if (!keyValuePairs[key]) {
+    throw new Error(`No matching key value for the following:: ${match}`);
+  }
+  return keyValuePairs[key];
 };
+
+const templateReader = commands => cmd => {
+  const files = fs.readdirSync(commands[cmd]);
+  const fileObjects = files.map(file => ({
+    name: file,
+    content: fs.readFileSync(join(commands[cmd], file)).toString(),
+  }));
+
+  return fileObjects;
+};
+
+const templateTransformer = (templateDescriptor, injector) =>
+  templateDescriptor.map(file => ({
+    name: injector(file.name),
+    content: injector(file.content),
+  }));
 
 const injector = keyValuePairs => text => {
-  const matches = text.match(/{{\w+}}/);
-  console.log(keyValuePairs, text, matches);
+  const keyPattern = /{{\w+}}/g;
+  const replacer = replaceKeyWithValue(keyValuePairs);
+
+  const transformedText = text.replace(keyPattern, replacer);
+  return transformedText;
 };
 
-templateReader(
-  commandsBuilder(process.cwd()),
-  injector({ key: 'value', bc: 'hoo yeah' })
-)('a');
+module.exports = { templateReader, templateTransformer, injector, join };
+
+// const obj = templateReader(commandsBuilder(process.cwd()))('a');
+// console.log(
+//   templateTransformer(obj, injector({ bc: 123123, yeah: 'hoooo yeah' }))
+// );
