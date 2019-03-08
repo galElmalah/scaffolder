@@ -14,7 +14,7 @@ const writeFilePromise = (path, content) =>
 class TemplatesBuilder {
   constructor(templates) {
     this.templates = templates;
-    this.folder = '/';
+    this.folder = '';
   }
 
   inAFolder(folderName) {

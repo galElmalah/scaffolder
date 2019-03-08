@@ -27,18 +27,22 @@ const getTransformedTemplates = (command, cmd) => {
 
 cli
   .command('create <commandName>')
+  .option(
+    '-f, --folder [value]',
+    'Folder name that the template will be generated into'
+  )
   .alias('c')
   .description('Create template folder structure')
   .action((command, cmd) => {
-    const { templates, keyValuePairs } = getTransformedTemplates(command, cmd);
+    const { templates } = getTransformedTemplates(command, cmd);
     const templateBuilder = new TemplatesBuilder(templates);
-    const folder = keyValuePairs.folder;
+    const folder = cmd.folder;
     try {
       if (folder) {
         templateBuilder.inAFolder(folder);
       }
       Promise.all(templateBuilder.create()).then(() => {
-      showSuccessMessage(command, templateBuilder.getFullPath());
+        showSuccessMessage(command, templateBuilder.getFullPath());
       });
     } catch (err) {
       showErrorMessage(command, folder, templateBuilder.getFullPath());
