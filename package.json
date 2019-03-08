@@ -1,0 +1,14 @@
+{
+  "name": "ctf",
+  "version": "1.0.0",
+  "description": "Create folders with file using a template you define",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^24.1.0"
+  }
+}
