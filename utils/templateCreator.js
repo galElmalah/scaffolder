@@ -1,8 +1,6 @@
 const fs = require('fs');
 const path = require('path');
 
-const commandsBuilder = require('./commandsBuilder');
-
 const join = (...args) => path.join(...args);
 
 const extractKey = k => k.replace(/({|})/g, '');
@@ -40,8 +38,3 @@ const injector = keyValuePairs => text => {
 };
 
 module.exports = { templateReader, templateTransformer, injector, join };
-
-// const obj = templateReader(commandsBuilder(process.cwd()))('a');
-// console.log(
-//   templateTransformer(obj, injector({ bc: 123123, yeah: 'hoooo yeah' }))
-// );

@@ -7,7 +7,11 @@ const {
 } = require('./utils/templateCreator');
 const commandsBuilder = require('./utils/commandsBuilder');
 const TemplatesBuilder = require('./utils/templateBuilder');
-const { generateKeyValues } = require('./utils/cliHelpers');
+const {
+  generateKeyValues,
+  showErrorMessage,
+  showSuccessMessage,
+} = require('./utils/cliHelpers');
 
 const getTransformedTemplates = (command, cmd) => {
   const commandsLocations = commandsBuilder(process.cwd());
@@ -28,10 +32,17 @@ cli
   .action((command, cmd) => {
     const { templates, keyValuePairs } = getTransformedTemplates(command, cmd);
     const templateBuilder = new TemplatesBuilder(templates);
-    if (keyValuePairs.folder) {
-      templateBuilder.inAFolder(keyValuePairs.folder);
+    const folder = keyValuePairs.folder;
+    try {
+      if (folder) {
+        templateBuilder.inAFolder(folder);
+      }
+      Promise.all(templateBuilder.create()).then(() => {
+      showSuccessMessage(command, templateBuilder.getFullPath());
+      });
+    } catch (err) {
+      showErrorMessage(command, folder, templateBuilder.getFullPath());
     }
-    templateBuilder.create();
   });
 
 cli.parse(process.argv);

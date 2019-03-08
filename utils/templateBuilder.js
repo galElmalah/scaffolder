@@ -31,6 +31,10 @@ class TemplatesBuilder {
     });
     return promises;
   }
+
+  getFullPath() {
+    return join(process.cwd(), this.folder);
+  }
 }
 
 module.exports = TemplatesBuilder;
