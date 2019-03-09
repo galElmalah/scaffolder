@@ -24,7 +24,7 @@
 ### install ctf globaly
 
 ```npm
-npm i -g ctf
+npm i -g ctf-cli
 ```
 
 ### Create a commands folder in your project root directory
