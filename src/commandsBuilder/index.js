@@ -7,16 +7,17 @@ const isFolder = basePath => filePath =>
 const TEMPLATE_FOLDER_NAME = 'ctf';
 
 const templatePathFinder = currentPath => {
-  if (currentPath === '/') {
+  if (currentPath === '/' || currentPath === '' || currentPath === './') {
     throw new NoCtfFolder();
   }
   const currentDir = fs.readdirSync(currentPath);
+
   const isCtfFolderInThisLevel = currentDir.find(
     f => f === TEMPLATE_FOLDER_NAME
   );
 
   if (isCtfFolderInThisLevel && isFolder(currentPath)(TEMPLATE_FOLDER_NAME)) {
-    return path.resolve(currentPath, TEMPLATE_FOLDER_NAME);
+    return path.join(currentPath, TEMPLATE_FOLDER_NAME);
   }
 
   return templatePathFinder(path.join(currentPath, '../'));
