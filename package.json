@@ -1,5 +1,5 @@
 {
-  "name": "ctf",
+  "name": "ctf-cli",
   "version": "1.0.0",
   "bin": {
     "ctf": "./cli.js"
