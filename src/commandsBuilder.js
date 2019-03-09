@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-
+const { NoCtfFolder } = require('../Errors');
 const isFolder = basePath => filePath =>
   fs.lstatSync(path.resolve(basePath, filePath)).isDirectory();
 
@@ -8,7 +8,7 @@ const TEMPLATE_FOLDER_NAME = 'ctf';
 
 const templatePathFinder = currentPath => {
   if (currentPath === '/') {
-    throw new Error('No CTF template folder was found :/');
+    throw new NoCtfFolder();
   }
   const currentDir = fs.readdirSync(currentPath);
   const isCtfFolderInThisLevel = currentDir.find(

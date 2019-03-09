@@ -4,14 +4,14 @@ const {
   templateReader,
   templateTransformer,
   injector: _injector,
-} = require('./utils/templatesCreator');
-const commandsBuilder = require('./utils/commandsBuilder');
-const TemplatesBuilder = require('./utils/TemplatesBuilder');
+} = require('./src/templatesCreator');
+const commandsBuilder = require('./src/commandsBuilder');
+const TemplatesBuilder = require('./src/TemplatesBuilder');
 const {
   generateKeyValues,
   handleError,
   showSuccessMessage,
-} = require('./utils/cliHelpers');
+} = require('./src/cliHelpers');
 
 const getTransformedTemplates = (command, cmd) => {
   const commandsLocations = commandsBuilder(process.cwd());
