@@ -116,7 +116,8 @@ describe('CoolAFComponent', () => {
 ```
 
 How cool is this, right?  
-As you can see our params got injected to the right places and we created our template with little effort.
+As you can see our params got injected to the right places and we created our template with little effort.  
+Horray!! :sparkles: :fireworks: :sparkler: :sparkles:
 
 ## TODO
 
