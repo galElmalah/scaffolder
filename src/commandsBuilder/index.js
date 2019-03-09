@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const { NoCtfFolder } = require('../Errors');
+const { NoCtfFolder } = require('../../Errors');
 const isFolder = basePath => filePath =>
   fs.lstatSync(path.resolve(basePath, filePath)).isDirectory();
 
@@ -32,4 +32,4 @@ const commandsBuilder = currentPath => {
   return commandsToPath;
 };
 
-module.exports = commandsBuilder;
+module.exports = { commandsBuilder, templatePathFinder };

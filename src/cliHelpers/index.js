@@ -11,8 +11,15 @@ const handleError = err => {
 const generateKeyValues = cmd =>
   cmd.parent.rawArgs
     .slice(4)
+    .filter(keyValuePair => keyValuePair.includes('='))
     .map(keyValuePair => keyValuePair.split('='))
-    .reduce((accm, [key, value]) => ({ ...accm, [key]: value }), {});
+    .reduce(
+      (accm, [key, value]) => ({
+        ...accm,
+        [key.trim()]: value.trim(),
+      }),
+      {}
+    );
 
 const boldGreen = chalk.green.bold;
 const path = chalk.blue.underline.bold;

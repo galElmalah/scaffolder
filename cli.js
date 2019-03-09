@@ -5,7 +5,7 @@ const {
   templateTransformer,
   injector: _injector,
 } = require('./src/templatesCreator');
-const commandsBuilder = require('./src/commandsBuilder');
+const { commandsBuilder } = require('./src/commandsBuilder');
 const TemplatesBuilder = require('./src/TemplatesBuilder');
 const {
   generateKeyValues,
