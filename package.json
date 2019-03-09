@@ -1,12 +1,15 @@
 {
   "name": "ctf",
   "version": "1.0.0",
-  "description": "Create folders with file using a template you define",
+  "bin": {
+    "ctf": "./cli.js"
+  },
+  "description": "Dynamically create predefined templates",
   "main": "index.js",
   "scripts": {
     "test": "test"
   },
-  "author": "",
+  "author": "Gal ELmalah",
   "license": "ISC",
   "devDependencies": {
     "jest": "^24.1.0",
