@@ -5,7 +5,7 @@ const path = chalk.blue.underline.bold;
 
 class NoMatchingTemplate extends Error {
   constructor(cmd) {
-    super(`There is no template matching the ${cmd} command`);
+    super();
     this.cmd = cmd;
   }
 

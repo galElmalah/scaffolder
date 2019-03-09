@@ -1,3 +1,8 @@
 const NoMatchingTemplate = require('./NoMatchingTemplate');
 const FolderAlreadyExists = require('./FolderAlreadyExists');
-module.exports = { NoMatchingTemplate, FolderAlreadyExists };
+const MissingKeyValuePairs = require('./MissingKeyValuePairs');
+module.exports = {
+  NoMatchingTemplate,
+  FolderAlreadyExists,
+  MissingKeyValuePairs,
+};

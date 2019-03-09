@@ -1,14 +1,14 @@
 const fs = require('fs');
 const path = require('path');
-const { NoMatchingTemplate } = require('../Errors');
+const { NoMatchingTemplate, MissingKeyValuePairs } = require('../Errors');
 const join = (...args) => path.join(...args);
 
 const extractKey = k => k.replace(/({|})/g, '');
 
-replaceKeyWithValue = keyValuePairs => match => {
+replaceKeyWithValue = (keyValuePairs, cmd) => match => {
   const key = extractKey(match);
   if (!keyValuePairs[key]) {
-    throw new Error(`No matching key value for the following:: ${match}`);
+    throw new MissingKeyValuePairs(match);
   }
   return keyValuePairs[key];
 };
@@ -40,4 +40,10 @@ const injector = keyValuePairs => text => {
   return transformedText;
 };
 
-module.exports = { templateReader, templateTransformer, injector, join };
+module.exports = {
+  templateReader,
+  templateTransformer,
+  injector,
+  join,
+  extractKey,
+};

@@ -20,7 +20,7 @@ class TemplatesBuilder {
 
   inAFolder(folderName) {
     this.folder = folderName;
-    const newFolderPath = join(process.cwd(), this.folder);
+    const newFolderPath = this.getFullPath();
 
     if (fs.existsSync(newFolderPath)) {
       throw new FolderAlreadyExists({

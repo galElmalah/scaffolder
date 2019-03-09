@@ -5,7 +5,7 @@ const path = chalk.blue.underline.bold;
 
 class FolderAlreadyExists extends Error {
   constructor({ cmd, folder, path }) {
-    super(`There is no template matching the ${cmd} command`);
+    super();
     this.cmd = cmd;
     this.folder = folder;
     this.path = path;
