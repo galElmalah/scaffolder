@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-
+const { NoMatchingTemplate } = require('../Errors');
 const join = (...args) => path.join(...args);
 
 const extractKey = k => k.replace(/({|})/g, '');
@@ -14,6 +14,9 @@ replaceKeyWithValue = keyValuePairs => match => {
 };
 
 const templateReader = commands => cmd => {
+  if (!commands[cmd]) {
+    throw new NoMatchingTemplate(cmd);
+  }
   const files = fs.readdirSync(commands[cmd]);
   const fileObjects = files.map(file => ({
     name: file,

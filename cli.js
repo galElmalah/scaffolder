@@ -4,12 +4,12 @@ const {
   templateReader,
   templateTransformer,
   injector: _injector,
-} = require('./utils/templateCreator');
+} = require('./utils/templatesCreator');
 const commandsBuilder = require('./utils/commandsBuilder');
-const TemplatesBuilder = require('./utils/templateBuilder');
+const TemplatesBuilder = require('./utils/TemplatesBuilder');
 const {
   generateKeyValues,
-  showErrorMessage,
+  handleError,
   showSuccessMessage,
 } = require('./utils/cliHelpers');
 
@@ -22,7 +22,7 @@ const getTransformedTemplates = (command, cmd) => {
     currentCommandTemplate,
     injector
   );
-  return { templates: transformedTemplate, keyValuePairs };
+  return transformedTemplate;
 };
 
 cli
@@ -34,18 +34,18 @@ cli
   .alias('c')
   .description('Create template folder structure')
   .action((command, cmd) => {
-    const { templates } = getTransformedTemplates(command, cmd);
-    const templateBuilder = new TemplatesBuilder(templates);
-    const folder = cmd.folder;
     try {
+      const templates = getTransformedTemplates(command, cmd);
+      const templatesBuilder = new TemplatesBuilder(templates, command);
+      const folder = cmd.folder;
       if (folder) {
-        templateBuilder.inAFolder(folder);
+        templatesBuilder.inAFolder(folder);
       }
-      Promise.all(templateBuilder.create()).then(() => {
-        showSuccessMessage(command, templateBuilder.getFullPath());
+      Promise.all(templatesBuilder.create()).then(() => {
+        showSuccessMessage(command, templatesBuilder.getFullPath());
       });
     } catch (err) {
-      showErrorMessage(command, folder, templateBuilder.getFullPath());
+      handleError(err);
     }
   });
 
