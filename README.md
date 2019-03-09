@@ -1,6 +1,23 @@
 # ctf - Create Template Folder
 
-**ctf** lets you create dynamic templates to increase your project velocity.
+**ctf** lets you create dynamic templates to increase your project velocity. :shipit: :shipit:
+
+## API
+
+### Commands
+
+- create _\<commandName>_  
+  _\<commandName>_: One of the commands defined in the **ctf** folder.
+
+### Options
+
+- --folder, -f _\<folderName>_  
+  _\<folderName>_: The name of the folder you want the template to be generated into. If none is supplied the template will be generated to the current working directory.
+
+- _\<key>=\<value>_
+  _\<key>_: One of the keys for a specific template  
+  _\<value>_: The value you want the key to be replaced with.  
+  **Must come after the create \<commandName>**
 
 ## Getting started
 
@@ -101,7 +118,7 @@ describe('CoolAFComponent', () => {
 How cool is this, right?  
 As you can see our params got injected to the right places and we created our template with little effort.
 
-
 ## TODO
+
 1. Support global settings i.e --global flag.
 2. Consider default templates.
