@@ -7,7 +7,8 @@
   "description": "Dynamically create predefined templates",
   "main": "index.js",
   "scripts": {
-    "test": "test"
+    "preversion": "npm test",
+    "test": "jest"
   },
   "author": "Gal ELmalah",
   "license": "ISC",
