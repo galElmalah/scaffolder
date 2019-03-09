@@ -9,10 +9,11 @@ class NoCtfFolder extends Error {
   }
 
   getDisplayErrorMessage() {
+    const githubLink = 'https://github.com/galElmalah/ctf';
     const message = `${error(
       'Error there is no ctf folder.'
     )}\nPlease create a ctf folder.\nFor more info checkout: ${path(
-      'githublink'
+      githubLink
     )}`;
 
     return message;
