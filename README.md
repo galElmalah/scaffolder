@@ -8,6 +8,8 @@
 
 - create _\<commandName>_  
   _\<commandName>_: One of the commands defined in the **ctf** folder.
+- list, ls
+  Show the available commands from the current working directory.
 
 ### Options
 
@@ -29,8 +31,11 @@ npm i -g ctf-cli
 
 ### Create a commands folder in your project root directory
 
-The commands folder should be named **ctf** and it should contains folder with each folder representing a different command and inside of that folder there is the template you wish to create.  
+The commands folder should be named **ctf** and it should contain a folder with each folder representing a different command and inside of that folder, there is the template you wish to create.  
+The commands available are the commands defined in the **ctf** folder.  
+If you have more ctf folders in the current file system hierarchy then all of them will be included with precedence to the nearest **ctf** folder.  
 **For example:**
+In our current project root
 
 ```bash
 ctf
@@ -42,9 +47,21 @@ ctf
     └── index.js
 ```
 
-From the above structure we will have two commands **component** and **index**.  
+In our desktop
+
+```bash
+ctf
+├── component
+│   ├── index.js
+│   ├── {{lol}}.js
+│   └── {{wattt}}.spec.js
+└── coolFile
+    └── coolFile.sh
+```
+
+From the above structure, we will have three commands **component** (from the project ctf), **index** (from the project ctf) and **coolFile** (from the desktop ctf).  
 Lets look at the content of **{{componentName}}.js** and **{{componentName}}.spec.js**.
-**{{componentName}}.js**
+**{{componentName}}.js** from the current project **ctf** folder.
 
 ```javascript
 import React from 'react'
@@ -75,13 +92,13 @@ describe('{{componentName}}', () => {
 });
 ```
 
-Now lets run the following command somewhere in our project
+Now let's run the following command somewhere in our project
 
 ```bash
 ctf create component componentName=CoolAFComponent --folder MyCoolComp
 ```
 
-A new folder will be created under our currently working folder, lets look at what we got.
+A new folder will be created under our currently working folder, let's look at what we got.
 
 ```bash
 MyCoolComp
@@ -121,5 +138,5 @@ Horray!! :sparkles: :fireworks: :sparkler: :sparkles:
 
 ## TODO
 
-1. Support global settings i.e --global flag.
+1. Support global settings. DONE
 2. Consider default templates.
