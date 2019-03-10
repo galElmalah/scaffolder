@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const { NoCtfFolder } = require('../../Errors');
+
 const isFolder = basePath => filePath =>
   fs.lstatSync(path.resolve(basePath, filePath)).isDirectory();
 

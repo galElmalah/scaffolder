@@ -1,6 +1,7 @@
 const fs = require('fs');
-const { join } = require('./templatesCreator');
-const { FolderAlreadyExists } = require('../Errors');
+const { join } = require('../templatesCreator');
+const { FolderAlreadyExists } = require('../../Errors');
+
 const writeFilePromise = (path, content) =>
   new Promise((resolve, reject) => {
     fs.writeFile(path, content, err => {
