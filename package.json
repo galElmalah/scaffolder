@@ -19,5 +19,18 @@
   "dependencies": {
     "chalk": "^2.4.2",
     "commander": "^2.19.0"
+  },
+  "keywords": [
+    "cli",
+    "generator",
+    "templates"
+  ],
+  "bugs": {
+    "url": "https://github.com/galElmalah/ctf/issues"
+  },
+  "homepage": "https://github.com/galElmalah/ctf",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/galElmalah/ctf"
   }
 }
