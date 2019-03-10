@@ -11,6 +11,7 @@ const {
   generateKeyValues,
   handleError,
   showSuccessMessage,
+  displayAvailableCommands,
 } = require('./src/cliHelpers');
 
 const getTransformedTemplates = (command, cmd) => {
@@ -47,6 +48,15 @@ cli
     } catch (err) {
       handleError(err);
     }
+  });
+
+cli
+  .command('list')
+  .alias('ls')
+  .description('Show all available commands and their paths')
+  .action(() => {
+    const commands = commandsBuilder(process.cwd());
+    displayAvailableCommands(commands);
   });
 
 cli.parse(process.argv);

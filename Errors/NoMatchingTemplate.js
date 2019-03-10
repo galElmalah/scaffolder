@@ -12,7 +12,11 @@ class NoMatchingTemplate extends Error {
   getDisplayErrorMessage() {
     const message = `${error(
       `Error while creating the ${boldGreen(this.cmd)} template.`
-    )}\nThere is no template matching the ${boldGreen(this.cmd)} command`;
+    )}\nThere is no template matching the ${boldGreen(
+      this.cmd
+    )} command.\nYou can see the available commands by typing ${boldGreen(
+      'ctf list'
+    )} in the terminal.`;
     return message;
   }
 

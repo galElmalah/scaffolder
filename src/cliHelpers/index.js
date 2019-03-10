@@ -48,8 +48,17 @@ const showSuccessMessage = (command, createdAtPath) => {
   console.log(message);
 };
 
+const displayAvailableCommands = commands => {
+  Object.entries(commands)
+    .filter(([command]) => command[0] !== '.')
+    .forEach(([command, location]) => {
+      console.log(`${boldGreen(command)} : ${path(location)}`);
+    });
+};
+
 module.exports = {
   generateKeyValues,
   showSuccessMessage,
   handleError,
+  displayAvailableCommands,
 };
