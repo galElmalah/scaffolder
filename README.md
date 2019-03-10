@@ -34,7 +34,7 @@ npm i -g ctf-cli
 The commands folder should be named **ctf** and it should contain a folder with each folder representing a different command and inside of that folder, there is the template you wish to create.  
 The commands available are the commands defined in the **ctf** folder.  
 If you have more ctf folders in the current file system hierarchy then all of them will be included with precedence to the nearest **ctf** folder.  
-**For example:**
+**For example:**  
 In our current project root
 
 ```bash
@@ -139,4 +139,4 @@ Horray!! :sparkles: :fireworks: :sparkler: :sparkles:
 ## TODO
 
 1. Support global settings. DONE
-2. Consider default templates.
+2. Support templates packages so there would be abillity to install templates via npm.
