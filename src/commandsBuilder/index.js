@@ -6,31 +6,45 @@ const isFolder = basePath => filePath =>
 
 const TEMPLATE_FOLDER_NAME = 'ctf';
 
-const templatePathFinder = currentPath => {
-  if (currentPath === '/' || currentPath === '' || currentPath === './') {
-    throw new NoCtfFolder();
-  }
-  const currentDir = fs.readdirSync(currentPath);
+const endOfPath = path => path === '/' || path === '' || path === './';
 
-  const isCtfFolderInThisLevel = currentDir.find(
-    f => f === TEMPLATE_FOLDER_NAME
-  );
+const templatePathsFinder = currentPath => {
+  const pathsQueue = [];
+  const findTemplate = currentPath => {
+    if (endOfPath(currentPath) && pathsQueue.length === 0) {
+      throw new NoCtfFolder();
+    }
+    if (endOfPath(currentPath)) {
+      return pathsQueue;
+    }
+    const currentDir = fs.readdirSync(currentPath);
 
-  if (isCtfFolderInThisLevel && isFolder(currentPath)(TEMPLATE_FOLDER_NAME)) {
-    return path.join(currentPath, TEMPLATE_FOLDER_NAME);
-  }
+    const isCtfFolderInThisLevel = currentDir.find(
+      f => f === TEMPLATE_FOLDER_NAME
+    );
 
-  return templatePathFinder(path.join(currentPath, '../'));
+    if (isCtfFolderInThisLevel && isFolder(currentPath)(TEMPLATE_FOLDER_NAME)) {
+      pathsQueue.push(path.join(currentPath, TEMPLATE_FOLDER_NAME));
+    }
+
+    return findTemplate(path.join(currentPath, '../'));
+  };
+  return findTemplate(currentPath);
 };
 
 const commandsBuilder = currentPath => {
-  const ctfPath = templatePathFinder(currentPath);
-  const commands = fs.readdirSync(ctfPath);
-  const commandsToPath = commands.reduce(
-    (accm, cmd) => ({ ...accm, [cmd]: path.join(ctfPath, cmd) }),
-    {}
-  );
-  return commandsToPath;
+  const ctfPaths = templatePathsFinder(currentPath);
+  let allCommands = {};
+  for (const ctfPath of ctfPaths) {
+    const commands = fs.readdirSync(ctfPath);
+    console.log(commands);
+    let commandsToPath = commands.reduce(
+      (accm, cmd) => ({ ...accm, [cmd]: path.join(ctfPath, cmd) }),
+      {}
+    );
+    allCommands = { ...commandsToPath, ...allCommands };
+  }
+  return allCommands;
 };
 
-module.exports = { commandsBuilder, templatePathFinder };
+module.exports = { commandsBuilder, templatePathsFinder };
