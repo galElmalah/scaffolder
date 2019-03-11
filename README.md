@@ -1,6 +1,6 @@
 # ctf - Create Template Folder
 
-**ctf** lets you create dynamic templates to increase your project velocity. :shipit: :shipit:
+**ctf** lets you create dynamic templates and increase your project velocity. :shipit: :shipit:
 
 ## API
 
