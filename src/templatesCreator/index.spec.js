@@ -1,7 +1,7 @@
 const { injector } = require('./index');
 const { MissingKeyValuePairs } = require('../../Errors');
 
-describe('templatesCreator', () => {
+describe('templatesCreator -> injector', () => {
   it('should replace all keys matching the folllwing format {{ key }}', () => {
     const keys = {
       key1: 'React',

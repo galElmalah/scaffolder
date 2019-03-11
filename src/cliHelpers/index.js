@@ -47,11 +47,28 @@ const showSuccessMessage = (command, createdAtPath) => {
   console.log(message);
 };
 
+const getLongestCommand = commands => {
+  return Math.max(
+    ...Object.keys(commands)
+      .filter(c => c[0] !== '.')
+      .map(c => c.length)
+  );
+};
+
 const displayAvailableCommands = commands => {
+  const longestCommandLength = getLongestCommand(commands);
+  console.log(
+    chalk.bold(`${'Command'.padEnd(longestCommandLength, ' ')} | Location`)
+  );
+
   Object.entries(commands)
     .filter(([command]) => command[0] !== '.')
     .forEach(([command, location]) => {
-      console.log(`${boldGreen(command)} : ${path(location)}`);
+      console.log(
+        `${boldGreen(command.padEnd(longestCommandLength + 1, ' '))}| ${path(
+          location
+        )}`
+      );
     });
 };
 
