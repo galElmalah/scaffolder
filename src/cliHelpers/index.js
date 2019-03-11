@@ -10,8 +10,7 @@ const handleError = err => {
 
 const generateKeyValues = cmd =>
   cmd.parent.rawArgs
-    .slice(4)
-    .filter(keyValuePair => keyValuePair.includes('='))
+    .filter(arg => arg.includes('='))
     .map(keyValuePair => keyValuePair.split('='))
     .reduce(
       (accm, [key, value]) => ({
