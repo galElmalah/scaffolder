@@ -1,4 +1,4 @@
-const { injector } = require('./index');
+const { injector, extractKey } = require('./index');
 const { MissingKeyValuePairs } = require('../../Errors');
 
 describe('templatesCreator -> injector', () => {
@@ -97,5 +97,17 @@ describe('templatesCreator -> injector', () => {
       
       `
     );
+  });
+
+  it('Extracts the key as expected', () => {
+    const keysBeforeExtraction = [
+      '{{ test }}',
+      '{{ test}}',
+      '{{test }}',
+      '{{test}}',
+    ];
+    keysBeforeExtraction.forEach(key => {
+      expect(extractKey(key)).toBe('test');
+    });
   });
 });

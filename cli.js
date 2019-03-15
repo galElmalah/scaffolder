@@ -12,6 +12,7 @@ const {
   handleError,
   showSuccessMessage,
   displayAvailableCommands,
+  displaySpecifcCommandTemplate,
 } = require('./src/cliHelpers');
 
 const getTransformedTemplates = (command, cmd) => {
@@ -57,6 +58,17 @@ cli
   .action(() => {
     const commands = commandsBuilder(process.cwd());
     displayAvailableCommands(commands);
+  });
+
+cli
+  .command('show <commandName>')
+  .alias('s')
+  .description('Show specific command corresponding template files')
+  .option('-w, --showContent')
+  .action((command, cmd) => {
+    const commandsLocations = commandsBuilder(process.cwd());
+    const currentCommandTemplate = templateReader(commandsLocations)(command);
+    displaySpecifcCommandTemplate(currentCommandTemplate, cmd.showContent);
   });
 
 cli.parse(process.argv);

@@ -21,6 +21,7 @@ const generateKeyValues = cmd =>
     );
 
 const boldGreen = chalk.green.bold;
+const bold = chalk.bold;
 const path = chalk.blue.underline.bold;
 const multiColor = word => {
   const colors = [
@@ -72,9 +73,25 @@ const displayAvailableCommands = commands => {
     });
 };
 
+const boxFileName = name => {
+  console.log(bold(''.padEnd(name.length + 4, '-')));
+  console.log(`| ${boldGreen(name)} |`);
+  console.log(bold(''.padEnd(name.length + 4, '-')));
+};
+
+const displaySpecifcCommandTemplate = (templates, shouldShowContent) => {
+  templates.forEach(({ name, content }) => {
+    boxFileName(name);
+    if (shouldShowContent) {
+      console.log((content || bold('EMPTY FILE')) + '\n');
+    }
+  });
+};
+
 module.exports = {
   generateKeyValues,
   showSuccessMessage,
   handleError,
   displayAvailableCommands,
+  displaySpecifcCommandTemplate,
 };

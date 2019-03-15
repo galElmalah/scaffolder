@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const { NoMatchingTemplate, MissingKeyValuePairs } = require('../../Errors');
+
 const join = (...args) => path.join(...args);
 
 const extractKey = k => k.replace(/({|})/g, '').trim();
