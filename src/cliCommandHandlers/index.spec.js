@@ -13,7 +13,7 @@ const readdirSyncSetup = () => {
 };
 
 describe('createCommandHandler tests -> e2e', () => {
-  it('creates the the specified template', async () => {
+  it('creates the the specified template', () => {
     const templateCommand = 'templateCommand';
     fs.writeFile = jest.fn();
     process.cwd = () => 'gal/test';
