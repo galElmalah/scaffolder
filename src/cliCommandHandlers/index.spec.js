@@ -7,8 +7,6 @@ const readdirSyncSetup = () => {
     .fn()
     .mockReturnValueOnce(['gal', 'ctf'])
     .mockReturnValueOnce([])
-    .mockReturnValueOnce([])
-    .mockReturnValueOnce([])
     .mockReturnValueOnce(['templateCommand', 'someTemplateTwo'])
     .mockReturnValueOnce(['templateCommand', 'someTemplateTwo'])
     .mockReturnValueOnce(['someFile', 'someFileTwo']);
@@ -18,6 +16,7 @@ describe('createCommandHandler tests -> e2e', () => {
   it('creates the the specified template', async () => {
     const templateCommand = 'templateCommand';
     fs.writeFile = jest.fn();
+    process.cwd = () => 'gal/test';
     readdirSyncSetup();
     fs.readFileSync = jest.fn().mockReturnValue('file template {{someKey}}');
     fs.lstatSync = () => ({ isDirectory: () => true });
@@ -32,7 +31,7 @@ describe('createCommandHandler tests -> e2e', () => {
 
     expect(fs.writeFile).toHaveBeenCalledTimes(2);
     expect(fs.writeFile).toHaveBeenCalledWith(
-      expect.stringContaining('/'),
+      'gal/test/someTemplateTwo',
       'file template gal',
       expect.anything()
     );
