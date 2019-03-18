@@ -1,32 +1,6 @@
 #!/usr/bin/env node
 const cli = require('commander');
-const {
-  templateReader,
-  templateTransformer,
-  injector: _injector,
-} = require('./src/templatesCreator');
-const { commandsBuilder } = require('./src/commandsBuilder');
-const TemplatesBuilder = require('./src/TemplatesBuilder');
-const {
-  generateKeyValues,
-  handleError,
-  showSuccessMessage,
-  displayAvailableCommands,
-  displaySpecifcCommandTemplate,
-} = require('./src/cliHelpers');
-
-const getTransformedTemplates = (command, cmd) => {
-  const commandsLocations = commandsBuilder(process.cwd());
-  const currentCommandTemplate = templateReader(commandsLocations)(command);
-  const keyValuePairs = generateKeyValues(cmd);
-  const injector = _injector(keyValuePairs);
-  const transformedTemplate = templateTransformer(
-    currentCommandTemplate,
-    injector
-  );
-  return transformedTemplate;
-};
-
+const {createCommandHandler, listCommandHandler, showCommandHandler} = require('./src/cliCommandHandlers')
 cli
   .command('create <commandName>')
   .option(
@@ -35,40 +9,19 @@ cli
   )
   .alias('c')
   .description('Create template folder structure')
-  .action((command, cmd) => {
-    try {
-      const templates = getTransformedTemplates(command, cmd);
-      const templatesBuilder = new TemplatesBuilder(templates, command);
-      const folder = cmd.folder;
-      if (folder) {
-        templatesBuilder.inAFolder(folder);
-      }
-      Promise.all(templatesBuilder.create()).then(() => {
-        showSuccessMessage(command, templatesBuilder.getFullPath());
-      });
-    } catch (err) {
-      handleError(err);
-    }
-  });
+  .action(createCommandHandler);
 
 cli
   .command('list')
   .alias('ls')
   .description('Show all available commands and their paths')
-  .action(() => {
-    const commands = commandsBuilder(process.cwd());
-    displayAvailableCommands(commands);
-  });
+  .action(listCommandHandler);
 
 cli
   .command('show <commandName>')
   .alias('s')
   .description('Show specific command corresponding template files')
   .option('-w, --showContent')
-  .action((command, cmd) => {
-    const commandsLocations = commandsBuilder(process.cwd());
-    const currentCommandTemplate = templateReader(commandsLocations)(command);
-    displaySpecifcCommandTemplate(currentCommandTemplate, cmd.showContent);
-  });
+  .action(showCommandHandler);
 
 cli.parse(process.argv);

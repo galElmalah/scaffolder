@@ -38,6 +38,7 @@ const commandsBuilder = currentPath => {
   let allCommands = {};
   for (const ctfPath of ctfPaths) {
     const commands = fs.readdirSync(ctfPath);
+
     let commandsToPath = commands.reduce(
       (accm, cmd) => ({ ...accm, [cmd]: path.join(ctfPath, cmd) }),
       {}

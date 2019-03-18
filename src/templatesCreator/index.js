@@ -19,7 +19,9 @@ const templateReader = commands => cmd => {
   if (!commands[cmd]) {
     throw new NoMatchingTemplate(cmd);
   }
+
   const files = fs.readdirSync(commands[cmd]);
+
   const fileObjects = files.map(file => ({
     name: file,
     content: fs.readFileSync(join(commands[cmd], file)).toString(),
