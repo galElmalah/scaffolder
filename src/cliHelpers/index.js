@@ -79,7 +79,7 @@ const boxFileName = name => {
   console.log(bold(''.padEnd(name.length + 4, '-')));
 };
 
-const displaySpecifcCommandTemplate = (templates, shouldShowContent) => {
+const displaySpecificCommandTemplate = (templates, shouldShowContent) => {
   templates.forEach(({ name, content }) => {
     boxFileName(name);
     if (shouldShowContent) {
@@ -93,5 +93,5 @@ module.exports = {
   showSuccessMessage,
   handleError,
   displayAvailableCommands,
-  displaySpecifcCommandTemplate,
+  displaySpecificCommandTemplate,
 };

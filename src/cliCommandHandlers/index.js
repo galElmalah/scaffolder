@@ -50,7 +50,7 @@ const listCommandHandler = () => {
 const showCommandHandler = (command, cmd) => {
   const commandsLocations = commandsBuilder(process.cwd());
   const currentCommandTemplate = templateReader(commandsLocations)(command);
-  displaySpecifcCommandTemplate(currentCommandTemplate, cmd.showContent);
+  displaySpecificCommandTemplate(currentCommandTemplate, cmd.showContent);
 };
 
 module.exports = {
