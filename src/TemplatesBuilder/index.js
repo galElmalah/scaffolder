@@ -11,12 +11,18 @@ const writeFilePromise = (path, content) =>
       resolve();
     });
   });
+  
 
 class TemplatesBuilder {
   constructor(templates, cmd) {
     this.templates = templates;
     this.folder = '';
     this.cmd = cmd;
+    this.entryPoint = process.cwd()
+  }
+
+  withCustomEntryPoint(entryPoint) {
+    this.entryPoint = entryPoint;
   }
 
   inAFolder(folderName) {
@@ -37,14 +43,14 @@ class TemplatesBuilder {
   create() {
     const promises = [];
     this.templates.forEach(({ name, content }) => {
-      const path = join(process.cwd(), this.folder, name);
+      const path = join(this.entryPoint, this.folder, name);
       promises.push(writeFilePromise(path, content));
     });
     return promises;
   }
 
   getFullPath() {
-    return join(process.cwd(), this.folder);
+    return join(this.entryPoint, this.folder);
   }
 }
 

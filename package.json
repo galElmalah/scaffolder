@@ -8,12 +8,14 @@
   "main": "index.js",
   "scripts": {
     "preversion": "npm test",
-    "test": "jest"
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "author": "Gal ELmalah",
   "license": "ISC",
   "devDependencies": {
     "jest": "^24.1.0",
+    "rimraf": "^2.6.3",
     "webpack": "^4.29.6"
   },
   "dependencies": {

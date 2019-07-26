@@ -1,11 +1,15 @@
 #!/usr/bin/env node
 const cli = require('commander');
-const {createCommandHandler, listCommandHandler, showCommandHandler} = require('./src/cliCommandHandlers')
+const { createCommandHandler, listCommandHandler, showCommandHandler } = require('./src/cliCommandHandlers')
 cli
   .command('create <commandName>')
   .option(
     '-f, --folder [value]',
     'Folder name that the template will be generated into'
+  )
+  .option(
+    '--entry-point [value]',
+    'The entry point to be used instead of the current working directory'
   )
   .alias('c')
   .description('Create template folder structure')
