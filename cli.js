@@ -4,11 +4,11 @@ const { createCommandHandler, listCommandHandler, showCommandHandler } = require
 cli
   .command('create <commandName>')
   .option(
-    '-f, --folder [value]',
-    'Folder name that the template will be generated into'
+    '-f, --folder <folder>',
+    'Folder name that the template will be generated into', ''
   )
   .option(
-    '--entry-point [value]',
+    '--entry-point <value>',
     'The entry point to be used instead of the current working directory'
   )
   .alias('c')

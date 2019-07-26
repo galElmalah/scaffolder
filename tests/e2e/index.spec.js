@@ -9,7 +9,7 @@ const isFileContainsText = (path, content) => readFileSync(path, 'utf-8').includ
 const hasFileWithName = (path, fileName) => readdirSync(path).some(name => name.includes(fileName))
 describe('e2e', () => {
   it('should create the template with the right values as keys', () => {
-    execOnTestDir('ctf create not-nested key1=awesome --folder not-nested --entry-point 123')
+    execOnTestDir('ctf create not-nested key1=awesome --folder not-nested')
     expect(isFolderExists('not-nested')).toBeTruthy()
     expect(isFileContainsText(`${__dirname}/not-nested/awesome.js`, 'awesome')).toBeTruthy()
     expect(hasFileWithName(`${__dirname}/not-nested`, 'awesome.js')).toBeTruthy()

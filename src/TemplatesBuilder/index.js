@@ -11,7 +11,7 @@ const writeFilePromise = (path, content) =>
       resolve();
     });
   });
-  
+
 
 class TemplatesBuilder {
   constructor(templates, cmd) {
@@ -23,24 +23,31 @@ class TemplatesBuilder {
 
   withCustomEntryPoint(entryPoint) {
     this.entryPoint = entryPoint;
+    return this;
   }
 
   inAFolder(folderName) {
     this.folder = folderName;
-    const newFolderPath = this.getFullPath();
-
-    if (fs.existsSync(newFolderPath)) {
-      throw new FolderAlreadyExists({
-        cmd: this.cmd,
-        folder: this.folder,
-        path: newFolderPath,
-      });
-    }
-    fs.mkdirSync(newFolderPath);
     return this;
+
+  }
+
+  createFolderIfNeeded() {
+    if (this.folder) {
+      const newFolderPath = this.getFullPath();
+      if (fs.existsSync(newFolderPath)) {
+        throw new FolderAlreadyExists({
+          cmd: this.cmd,
+          folder: this.folder,
+          path: newFolderPath,
+        });
+      }
+      fs.mkdirSync(newFolderPath);
+    }
   }
 
   create() {
+    this.createFolderIfNeeded()
     const promises = [];
     this.templates.forEach(({ name, content }) => {
       const path = join(this.entryPoint, this.folder, name);

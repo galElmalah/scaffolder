@@ -30,7 +30,7 @@ const createCommandHandler = (command, cmd) => {
   try {
     const templates = getTransformedTemplates(command, cmd);
     const templatesBuilder = new TemplatesBuilder(templates, command);
-    cmd.folder && templatesBuilder.inAFolder(folder);
+    cmd.folder && templatesBuilder.inAFolder(cmd.folder);
     cmd.entryPoint && templatesBuilder.withCustomEntryPoint(cmd.entryPoint)
 
     return Promise.all(templatesBuilder.create()).then(() => {
