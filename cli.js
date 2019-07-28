@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 const cli = require('commander');
-const { createCommandHandler, listCommandHandler, showCommandHandler } = require('./src/cliCommandHandlers')
+const { createCommandHandler, listCommandHandler, showCommandHandler, interactiveCreateCommandHandler } = require('./src/cliCommandHandlers')
 cli
   .command('create <commandName>')
   .option(
@@ -14,6 +14,17 @@ cli
   .alias('c')
   .description('Create template folder structure')
   .action(createCommandHandler);
+
+
+cli
+  .command('interactive-create', 'The same as create but in interactive mod')
+  .option(
+    '--entry-point <value>',
+    'The entry point to be used instead of the current working directory'
+  )
+  .alias('i')
+  .description('Create template folder structure')
+  .action(interactiveCreateCommandHandler);
 
 cli
   .command('list')

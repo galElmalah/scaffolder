@@ -39,7 +39,6 @@ const templateTransformer = (templateDescriptor, injector) =>
 const injector = keyValuePairs => text => {
   const keyPattern = /{{\s*\w+\s*}}/g;
   const replacer = replaceKeyWithValue(keyValuePairs);
-
   const transformedText = text.replace(keyPattern, replacer);
   return transformedText;
 };

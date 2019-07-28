@@ -28,7 +28,7 @@ describe('TemplatesBuilder', () => {
     expect(fs.mkdirSync).not.toHaveBeenCalled();
   });
 
-  it('iwhen invoking create an array of promises is returned', () => {
+  it('when invoking create an array of promises is returned', () => {
     const templates = [
       { name: 'gal', content: 'what' },
       { name: 'gal1', content: 'what1' },

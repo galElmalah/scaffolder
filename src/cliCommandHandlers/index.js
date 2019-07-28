@@ -1,3 +1,4 @@
+const inquirer = require('inquirer')
 const {
   templateReader,
   templateTransformer,
@@ -12,6 +13,7 @@ const {
   displayAvailableCommands,
   displaySpecificCommandTemplate,
 } = require('../cliHelpers');
+const { interactiveCreateCommandHandler } = require('./interactiveCreateHandler');
 
 const getTransformedTemplates = (command, cmd) => {
   const commandsLocations = commandsBuilder(process.cwd());
@@ -28,6 +30,9 @@ const getTransformedTemplates = (command, cmd) => {
 
 const createCommandHandler = (command, cmd) => {
   try {
+    if (cmd.interactive) {
+      console.log('sup');
+    }
     const templates = getTransformedTemplates(command, cmd);
     const templatesBuilder = new TemplatesBuilder(templates, command);
     cmd.folder && templatesBuilder.inAFolder(cmd.folder);
@@ -52,8 +57,11 @@ const showCommandHandler = (command, cmd) => {
   displaySpecificCommandTemplate(currentCommandTemplate, cmd.showContent);
 };
 
+
+
 module.exports = {
   createCommandHandler,
   listCommandHandler,
   showCommandHandler,
+  interactiveCreateCommandHandler
 };
