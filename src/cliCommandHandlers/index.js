@@ -10,7 +10,7 @@ const {
   handleError,
   showSuccessMessage,
   displayAvailableCommands,
-  displaySpecifcCommandTemplate,
+  displaySpecificCommandTemplate,
 } = require('../cliHelpers');
 
 const getTransformedTemplates = (command, cmd) => {
