@@ -1,7 +1,5 @@
-const chalk = require('chalk');
+const { error, boldGreen } = require('../src/cliHelpers/colors')
 
-const error = chalk.bold.red;
-const boldGreen = chalk.green.bold;
 
 const extractKey = k => k.replace(/({|})/g, '');
 

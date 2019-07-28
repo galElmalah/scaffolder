@@ -1,8 +1,4 @@
-const chalk = require('chalk');
-const error = chalk.bold.red;
-const boldGreen = chalk.green.bold;
-const path = chalk.blue.underline.bold;
-
+const { error, boldGreen, path } = require('../src/cliHelpers/colors')
 class FolderAlreadyExists extends Error {
   constructor({ cmd, folder, path }) {
     super();

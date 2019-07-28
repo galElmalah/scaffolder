@@ -1,4 +1,5 @@
 const chalk = require('chalk');
+const { bold, boldGreen, path, multiColors } = require('./colors')
 
 const handleError = err => {
   if (err.getDisplayErrorMessage) {
@@ -20,23 +21,8 @@ const generateKeyValues = cmd =>
       {}
     );
 
-const boldGreen = chalk.green.bold;
-const bold = chalk.bold;
-const path = chalk.blue.underline.bold;
-const multiColor = word => {
-  const colors = [
-    chalk.greenBright,
-    chalk.yellowBright,
-    chalk.redBright,
-    chalk.magentaBright,
-    chalk.cyanBright,
-  ];
-  const colorful = word
-    .split('')
-    .reduce((accm, char, i) => accm + colors[i % 5](char), '');
 
-  return colorful;
-};
+
 
 const showSuccessMessage = (command, createdAtPath) => {
   const message = `${multiColor(

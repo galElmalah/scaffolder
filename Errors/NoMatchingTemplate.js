@@ -1,7 +1,4 @@
-const chalk = require('chalk');
-const error = chalk.bold.red;
-const boldGreen = chalk.green.bold;
-const path = chalk.blue.underline.bold;
+const { error, boldGreen } = require('../src/cliHelpers/colors')
 
 class NoMatchingTemplate extends Error {
   constructor(cmd) {

@@ -1,7 +1,4 @@
-const chalk = require('chalk');
-
-const error = chalk.bold.red;
-const path = chalk.blue.underline.bold;
+const { error, path } = require('../src/cliHelpers/colors')
 
 class NoCtfFolder extends Error {
   constructor() {
