@@ -11,6 +11,10 @@ cli
     '--entry-point <value>',
     'The entry point to be used instead of the current working directory'
   )
+  .option(
+    '--load-from <value>',
+    'A path to a ctf folder from which to load the templates.'
+  )
   .alias('c')
   .description('Create template folder structure')
   .action(createCommandHandler);

@@ -25,7 +25,7 @@ const generateKeyValues = cmd =>
 
 
 const showSuccessMessage = (command, createdAtPath) => {
-  const message = `${multiColor(
+  const message = `${multiColors(
     'Hooray!!'
   )}\nSuccessfuly created the ${boldGreen(command)} template at ${path(
     createdAtPath

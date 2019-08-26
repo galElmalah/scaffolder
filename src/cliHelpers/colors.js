@@ -4,7 +4,7 @@ module.exports.boldGreen = chalk.green.bold;
 module.exports.path = chalk.blue.underline.bold;
 module.exports.bold = chalk.bold;
 
-module.exports.multiColor = word => {
+module.exports.multiColors = word => {
   const colors = [
     chalk.greenBright,
     chalk.yellowBright,

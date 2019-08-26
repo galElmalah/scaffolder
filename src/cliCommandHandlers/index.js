@@ -16,7 +16,7 @@ const {
 const { interactiveCreateCommandHandler } = require('./interactiveCreateHandler');
 
 const getTransformedTemplates = (command, cmd) => {
-  const commandsLocations = commandsBuilder(process.cwd());
+  const commandsLocations = commandsBuilder(cmd.loadFrom || process.cwd());
 
   const currentCommandTemplate = templateReader(commandsLocations)(command);
   const keyValuePairs = generateKeyValues(cmd);
