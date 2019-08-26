@@ -10,7 +10,7 @@
 ---
 
 <p align="center"> 
-  CTF lets you create dynamic templates and increase your project velocity. :shipit:.  
+  CTF lets you create dynamic templates and increase your project velocity. :shipit:.    
   With CTF you can define custom file structre template and link them to specifc commands which then can be used to create them in a few easy steps!
   <br> 
 </p>
