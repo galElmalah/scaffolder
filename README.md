@@ -19,21 +19,29 @@
 
 ### Commands
 
-- create _\<commandName>_  
+- **create** _\<commandName>_  
   _\<commandName>_: One of the commands defined in the **ctf** folder.  <br/>**options:**
-  - *--load-from* Load the templates from a specific location _\<absolutePath>_ .
-  - *--entry-point* Generate the template to a specified location _\<absolutePath>_.
-  - --folder, -f _\<folderName>_  
+  - *--load-from*   
+    Load the templates from a specific location _\<absolutePath>_.
+  - *--entry-point*   
+    Generate the template to a specified location _\<absolutePath>_.
+  - --folder, -f _\<folderName>_   
  _\<folderName>_: The name of the folder you want the template to be generated into. If none is supplied the template will be generated to the current working directory.
   - _\<key>=\<value>_  
     _\<key>_: One of the keys for a specific template  
     _\<value>_: The value you want the key to be replaced with.  
-- list, ls
+- **list**, **ls**  
   Show the available commands from the current working directory.
+- **show** _\<commandName>_   
+  Show a specific command template files  
+  **options:**
+  - *--show-content*  
+    Also show the full content of the template files.
+
 
 ## Getting started
 
-### install ctf globaly
+### install ctf globally
 
 ```npm
 npm i -g ctf-cli

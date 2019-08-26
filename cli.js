@@ -40,7 +40,7 @@ cli
   .command('show <commandName>')
   .alias('s')
   .description('Show specific command corresponding template files')
-  .option('-w, --showContent')
+  .option('-c, --show-content')
   .action(showCommandHandler);
 
 cli.parse(process.argv);
