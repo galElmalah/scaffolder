@@ -36,7 +36,7 @@ const createCommandHandler = (command, cmd) => {
     const templates = getTransformedTemplates(command, cmd);
     const templatesBuilder = new TemplatesBuilder(templates, command);
     cmd.folder && templatesBuilder.inAFolder(cmd.folder);
-    cmd.entryPoint && templatesBuilder.withCustomEntryPoint(cmd.entryPoint)
+    cmd.createAt && templatesBuilder.withCustomEntryPoint(cmd.entryPoint)
 
     return Promise.all(templatesBuilder.create()).then(() => {
       showSuccessMessage(command, templatesBuilder.getFullPath());

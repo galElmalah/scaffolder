@@ -9,7 +9,7 @@ cli
   )
   .option(
     '--entry-point <value>',
-    'The entry point to be used instead of the current working directory'
+    'The entry point to generate the template into (Absolute path)'
   )
   .option(
     '--load-from <value>',
