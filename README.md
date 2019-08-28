@@ -116,7 +116,7 @@ Now let's run the following command somewhere in our project
 ctf create component componentName=CoolAFComponent --folder MyCoolComp
 ```
 
-A new folder will be created under our currently working folder, let's look at what we got.
+A new folder will be created under our current working directory, let's look at what we got.
 
 ```bash
 MyCoolComp
@@ -154,7 +154,3 @@ How cool is this, right?
 As you can see our params got injected to the right places and we created our template with little effort.  
 Horray!! :sparkles: :fireworks: :sparkler: :sparkles:
 
-## TODO
-
-1. Support global settings. DONE
-2. Support templates packages so there would be abillity to install templates via npm.
