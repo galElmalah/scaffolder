@@ -1,9 +1,8 @@
-
 <h3 align="center">CTF - Create Template Folder</h3>
 
 <div align="center">
 
-   [![npm version](https://badge.fury.io/js/ctf-cli.svg)](https://badge.fury.io/js/ctf-cli)
+[![npm version](https://badge.fury.io/js/ctf-cli.svg)](https://badge.fury.io/js/ctf-cli)
 
 </div>
 
@@ -19,25 +18,27 @@
 
 ### Commands
 
+- **interactive, i**: run the tool in interactive mod, meaning, it will prompt the user to choose a template and a value for each key and in the end will ask if the template should be generated in a folder.  
+  this command is the most recommended one as it simplified the process for the user a lot.
+
 - **create** _\<commandName>_  
-  _\<commandName>_: One of the commands defined in the **ctf** folder.  <br/>**options:**
-  - *--load-from*   
+   _\<commandName>_: One of the commands defined in the **ctf** folder. <br/>**options:**
+  - _--load-from_  
     Load the templates from a specific location _\<absolutePath>_.
-  - *--entry-point*   
+  - _--entry-point_  
     Generate the template to a specified location _\<absolutePath>_.
-  - --folder, -f _\<folderName>_   
- _\<folderName>_: The name of the folder you want the template to be generated into. If none is supplied the template will be generated to the current working directory.
+  - --folder, -f _\<folderName>_  
+    _\<folderName>_: The name of the folder you want the template to be generated into. If none is supplied the template will be generated to the current working directory.
   - _\<key>=\<value>_  
     _\<key>_: One of the keys for a specific template  
-    _\<value>_: The value you want the key to be replaced with.  
+    _\<value>_: The value you want the key to be replaced with.
 - **list**, **ls**  
   Show the available commands from the current working directory.
-- **show** _\<commandName>_   
+- **show** _\<commandName>_  
   Show a specific command template files  
   **options:**
-  - *--show-content*  
+  - _--show-content_  
     Also show the full content of the template files.
-
 
 ## Getting started
 
@@ -153,4 +154,3 @@ describe('CoolAFComponent', () => {
 How cool is this, right?  
 As you can see our params got injected to the right places and we created our template with little effort.  
 Horray!! :sparkles: :fireworks: :sparkler: :sparkles:
-
