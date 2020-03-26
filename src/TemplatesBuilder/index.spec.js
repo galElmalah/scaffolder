@@ -1,7 +1,7 @@
 const fs = require('fs');
 const TemplatesBuilder = require('./index');
 const { join } = require('../templatesCreator');
-const { FolderAlreadyExists } = require('../../Errors');
+const { FolderAlreadyExists } = require('../Errors');
 jest.mock('fs');
 
 describe('TemplatesBuilder', () => {

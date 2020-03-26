@@ -2,7 +2,7 @@
   "name": "ctf-cli",
   "version": "1.7.1",
   "bin": {
-    "ctf": "./cli.js"
+    "ctf": "./src/cli.js"
   },
   "description": "Dynamically create predefined templates",
   "main": "index.js",
@@ -15,8 +15,7 @@
   "license": "ISC",
   "devDependencies": {
     "jest": "^24.1.0",
-    "rimraf": "^2.6.3",
-    "webpack": "^4.29.6"
+    "rimraf": "^2.6.3"
   },
   "dependencies": {
     "chalk": "^2.4.2",

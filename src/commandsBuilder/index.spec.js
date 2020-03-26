@@ -1,6 +1,6 @@
 const fs = require('fs');
 const { templatePathsFinder, commandsBuilder } = require('./index');
-const { NoCtfFolder } = require('../../Errors');
+const { NoCtfFolder } = require('../Errors');
 jest.mock('fs');
 const path = 'g/d/a/s/d/f';
 
