@@ -21,11 +21,7 @@ cli
 
 
 cli
-  .command('interactive-create', 'The same as create but in interactive mod')
-  .option(
-    '--entry-point <value>',
-    'The entry point to be used instead of the current working directory'
-  )
+  .command('interactive')
   .alias('i')
   .description('Create template folder structure')
   .action(interactiveCreateCommandHandler);

@@ -30,9 +30,7 @@ const getTransformedTemplates = (command, cmd) => {
 
 const createCommandHandler = (command, cmd) => {
   try {
-    if (cmd.interactive) {
-      console.log('sup');
-    }
+
     const templates = getTransformedTemplates(command, cmd);
     const templatesBuilder = new TemplatesBuilder(templates, command);
     cmd.folder && templatesBuilder.inAFolder(cmd.folder);

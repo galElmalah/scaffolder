@@ -1,37 +1,46 @@
-const chooseTemplate = () => {
-  const choices = Object.keys(commandsBuilder(process.cwd()));
-  return inquirer.prompt([{
-    type: "list",
-    name: "TEMPLATES",
-    message: "Choose the template you want to create.",
-    choices,
-  }])
-}
+const {
+  templateReader,
+  templateTransformer,
+  injector: _injector,
+} = require('../templatesCreator');
+const { commandsBuilder } = require('../commandsBuilder');
+const TemplatesBuilder = require('../TemplatesBuilder');
+const {
+  handleError,
+  showSuccessMessage,
+} = require('../cliHelpers');
 
-const fillKeys = (templateName) => {
-  const templates = commandsBuilder(process.cwd());
-  const currentCommandTemplate = templateReader(templates)(templateName);
-  return inquirer.prompt([{
-    type: "list",
-    name: "TEMPLATES",
-    message: "Choose the template you want to create.",
-    choices,
-  }])
-}
+const {
+getKeysValues,
+getFolderName,
+chooseTemplate,
+shouldCreateAFolder,
+shouldGenerateTemplateInAFolder
+} = require('./questions')
 
-const interactiveCreateCommandHandler = async (command, cmd) => {
+
+const interactiveCreateCommandHandler = async (command) => {
   try {
+    const availableTemplateCommands = commandsBuilder(process.cwd());
+    const {chosenTemplate} = await chooseTemplate(availableTemplateCommands)
 
+    const currentCommandTemplate = templateReader(availableTemplateCommands)(chosenTemplate);
+    const keys = await getKeysValues(currentCommandTemplate)
 
-    const commandName = await chooseTemplate();
-    const keys = await fillKeys(commandName['TEMPLATES'])
-    const templates = getTransformedTemplates(command, cmd);
-    const templatesBuilder = new TemplatesBuilder(templates, command);
-    cmd.folder && templatesBuilder.inAFolder(cmd.folder);
-    cmd.entryPoint && templatesBuilder.withCustomEntryPoint(cmd.entryPoint)
+    const templates = templateTransformer(currentCommandTemplate, _injector(keys));
+    const templatesBuilder = new TemplatesBuilder(templates, chosenTemplate);
+
+    const {inAFolder} = await shouldGenerateTemplateInAFolder()
+    if(shouldCreateAFolder(inAFolder)) {
+      const {folderName} = await getFolderName();
+      templatesBuilder.inAFolder(folderName);
+    }
+
+    // cmd.folder && templatesBuilder.inAFolder(cmd.folder);
+    // cmd.entryPoint && templatesBuilder.withCustomEntryPoint(cmd.entryPoint)
 
     return Promise.all(templatesBuilder.create()).then(() => {
-      showSuccessMessage(command, templatesBuilder.getFullPath());
+      showSuccessMessage(chosenTemplate, templatesBuilder.getFullPath());
     });
   } catch (err) {
     handleError(err);
@@ -41,3 +50,4 @@ const interactiveCreateCommandHandler = async (command, cmd) => {
 module.exports = {
   interactiveCreateCommandHandler
 }
+
