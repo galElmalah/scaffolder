@@ -1,5 +1,5 @@
 const chalk = require('chalk');
-const { bold, boldGreen, path, multiColors } = require('./colors')
+const { bold, boldGreen, path, multiColors } = require('./colors');
 
 const handleError = err => {
   if (err.getDisplayErrorMessage) {
@@ -18,17 +18,14 @@ const generateKeyValues = cmd =>
         ...accm,
         [key.trim()]: value.trim(),
       }),
-      {}
+      {},
     );
-
-
-
 
 const showSuccessMessage = (command, createdAtPath) => {
   const message = `${multiColors(
-    'Hooray!!'
+    'Hooray!!',
   )}\nSuccessfuly created the ${boldGreen(command)} template at ${path(
-    createdAtPath
+    createdAtPath,
   )}
     `;
   console.log(message);
@@ -38,14 +35,14 @@ const getLongestCommand = commands => {
   return Math.max(
     ...Object.keys(commands)
       .filter(c => c[0] !== '.')
-      .map(c => c.length)
+      .map(c => c.length),
   );
 };
 
 const displayAvailableCommands = commands => {
   const longestCommandLength = getLongestCommand(commands);
   console.log(
-    chalk.bold(`${'Command'.padEnd(longestCommandLength, ' ')} | Location`)
+    chalk.bold(`${'Command'.padEnd(longestCommandLength, ' ')} | Location`),
   );
 
   Object.entries(commands)
@@ -53,8 +50,8 @@ const displayAvailableCommands = commands => {
     .forEach(([command, location]) => {
       console.log(
         `${boldGreen(command.padEnd(longestCommandLength + 1, ' '))}| ${path(
-          location
-        )}`
+          location,
+        )}`,
       );
     });
 };

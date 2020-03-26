@@ -95,7 +95,7 @@ describe('templatesCreator -> injector', () => {
             {}
           );
       
-      `
+      `,
     );
   });
 

@@ -15,7 +15,6 @@ describe('TemplatesBuilder', () => {
     const templateBuilder = new TemplatesBuilder([]);
     templateBuilder.inAFolder(folder).create();
     expect(fs.mkdirSync).toBeCalledWith(join(process.cwd(), folder));
-
   });
 
   it('if a folder with the same name exists in the path then a FolderAlreadyExists error is thrown', () => {
@@ -23,7 +22,7 @@ describe('TemplatesBuilder', () => {
     fs.existsSync.mockReturnValue(true);
     const templateBuilder = new TemplatesBuilder();
     expect(() => templateBuilder.inAFolder(folder).create()).toThrow(
-      FolderAlreadyExists
+      FolderAlreadyExists,
     );
     expect(fs.mkdirSync).not.toHaveBeenCalled();
   });

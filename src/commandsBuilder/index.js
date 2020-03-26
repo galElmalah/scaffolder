@@ -21,7 +21,7 @@ const templatePathsFinder = currentPath => {
     const currentDir = fs.readdirSync(currentPath);
 
     const isCtfFolderInThisLevel = currentDir.find(
-      f => f === TEMPLATE_FOLDER_NAME
+      f => f === TEMPLATE_FOLDER_NAME,
     );
 
     if (isCtfFolderInThisLevel && isFolder(currentPath)(TEMPLATE_FOLDER_NAME)) {
@@ -41,7 +41,7 @@ const commandsBuilder = currentPath => {
 
     let commandsToPath = commands.reduce(
       (accm, cmd) => ({ ...accm, [cmd]: path.join(ctfPath, cmd) }),
-      {}
+      {},
     );
     allCommands = { ...commandsToPath, ...allCommands };
   }

@@ -33,7 +33,7 @@ describe('createCommandHandler tests -> e2e', () => {
     expect(fs.writeFile).toHaveBeenCalledWith(
       'gal/test/someTemplateTwo',
       'file template gal',
-      expect.anything()
+      expect.anything(),
     );
   });
 });

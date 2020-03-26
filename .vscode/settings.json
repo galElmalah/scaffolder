@@ -14,5 +14,8 @@
     "statusBarItem.hoverBackground": "#2f887f",
     "statusBar.foreground": "#15202b"
   },
-  "peacock.color": "#3caea3"
+  "peacock.color": "#3caea3",
+  "files.autoSave": "afterDelay",
+  "eslint.alwaysShowStatus": true,
+  "eslint.format.enable": true
 }
