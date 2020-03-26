@@ -5,7 +5,7 @@ const {
   listCommandHandler,
   showCommandHandler,
   interactiveCreateCommandHandler,
-} = require('./cliCommandHandlers');
+} = require('./src/cliCommandHandlers');
 cli
   .command('create <commandName>')
   .option(

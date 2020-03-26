@@ -2,7 +2,7 @@
   "name": "ctf-cli",
   "version": "1.7.1",
   "bin": {
-    "ctf": "./src/cli.js"
+    "ctf": ".cli.js"
   },
   "description": "Dynamically create predefined templates",
   "main": "index.js",
