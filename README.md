@@ -151,6 +151,9 @@ describe('CoolAFComponent', () => {
 });
 ```
 
+This could also be achived using the interactive mode! 
+![](ctf-comp.gif)
+
 How cool is this, right?  
 As you can see our params got injected to the right places and we created our template with little effort.  
 Horray!! :sparkles: :fireworks: :sparkler: :sparkles:
