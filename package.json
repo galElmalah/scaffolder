@@ -1,8 +1,8 @@
 {
-  "name": "ctf-cli",
-  "version": "1.8.1",
+  "name": "scaffolder-cli",
+  "version": "1.0.0",
   "bin": {
-    "ctf": "./cli.js"
+    "scf": "./cli.js"
   },
   "description": "Dynamically create predefined templates",
   "main": "index.js",
@@ -28,11 +28,11 @@
     "templates"
   ],
   "bugs": {
-    "url": "https://github.com/galElmalah/ctf/issues"
+    "url": "https://github.com/galElmalah/scaffolder/issues"
   },
-  "homepage": "https://github.com/galElmalah/ctf",
+  "homepage": "https://github.com/galElmalah/scaffolder",
   "repository": {
     "type": "git",
-    "url": "https://github.com/galElmalah/ctf"
+    "url": "https://github.com/galElmalah/scaffolder"
   }
 }

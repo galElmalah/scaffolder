@@ -1,4 +1,4 @@
-<h3 align="center">CTF - Create Template Folder</h3>
+<h3 align="center">Scaffolder - Creating Template Folder</h3>
 
 <div align="center">
 
@@ -9,8 +9,8 @@
 ---
 
 <p align="center"> 
-  CTF lets you create dynamic templates and increase your project velocity. :shipit:.        <br/>
-  With CTF you can define custom file structre template and link them to specifc commands which then can be used to create them in a few easy steps!
+  Scaffolder lets you create dynamic templates and increase your project velocity. :shipit:.        <br/>
+  With Scaffolder you can define custom file structre template and link them to specifc commands which then can be used to create them in a few easy steps!
   <br> 
 </p>
 
@@ -22,7 +22,7 @@
   this command is the most recommended one as it simplified the process for the user a lot.
 
 - **create** _\<commandName>_  
-   _\<commandName>_: One of the commands defined in the **ctf** folder. <br/>**options:**
+   _\<commandName>_: One of the commands defined in the **scaffolder** folder. <br/>**options:**
   - _--load-from_  
     Load the templates from a specific location _\<absolutePath>_.
   - _--entry-point_  
@@ -42,22 +42,22 @@
 
 ## Getting started
 
-### install ctf globally
+### install scaffolder globally
 
 ```npm
-npm i -g ctf-cli
+npm i -g scaffolder-cli
 ```
 
 ### Create a commands folder in your project root directory
 
-The commands folder should be named **ctf** and it should contain a folder with each folder representing a different command and inside of that folder, there is the template you wish to create.  
-The commands available are the commands defined in the **ctf** folder.  
-If you have more ctf folders in the current file system hierarchy then all of them will be included with precedence to the nearest **ctf** folder.  
+The commands folder should be named **scaffolder** and it should contain a folder with each folder representing a different command and inside of that folder, there is the template you wish to create.  
+The commands available are the commands defined in the **scaffolder** folder.  
+If you have more scaffolder folders in the current file system hierarchy then all of them will be included with precedence to the nearest **scaffolder** folder.  
 **For example:**  
 In our current project root
 
 ```bash
-ctf
+scaffolder
 ├── component
 │   ├── index.js
 │   ├── {{componentName}}.js
@@ -69,7 +69,7 @@ ctf
 In our desktop
 
 ```bash
-ctf
+scaffolder
 ├── component
 │   ├── index.js
 │   ├── {{lol}}.js
@@ -78,9 +78,9 @@ ctf
     └── coolFile.sh
 ```
 
-From the above structure, we will have three commands **component** (from the project ctf), **index** (from the project ctf) and **coolFile** (from the desktop ctf).  
+From the above structure, we will have three commands **component** (from the project scaffolder), **index** (from the project scaffolder) and **coolFile** (from the desktop scaffolder).  
 Lets look at the content of **{{componentName}}.js** and **{{componentName}}.spec.js**.
-**{{componentName}}.js** from the current project **ctf** folder.
+**{{componentName}}.js** from the current project **scaffolder** folder.
 
 ```javascript
 import React from 'react'
@@ -114,7 +114,7 @@ describe('{{componentName}}', () => {
 Now let's run the following command somewhere in our project
 
 ```bash
-ctf create component componentName=CoolAFComponent --folder MyCoolComp
+scaffolder create component componentName=CoolAFComponent --folder MyCoolComp
 ```
 
 A new folder will be created under our current working directory, let's look at what we got.
@@ -129,9 +129,9 @@ MyCoolComp
 **CoolAFComponent.js**
 
 ```javascript
-import React from 'react';
+import React from "react";
 
-export const CoolAFComponent = props => {
+export const CoolAFComponent = (props) => {
   return <div>Such a cool component</div>;
 };
 ```
@@ -139,19 +139,19 @@ export const CoolAFComponent = props => {
 **CoolAFComponent.spec.js**
 
 ```javascript
-import React from 'react';
-import { mount } from 'enzyme';
-import { CoolAFComponent } from './CoolAFComponent';
+import React from "react";
+import { mount } from "enzyme";
+import { CoolAFComponent } from "./CoolAFComponent";
 
-describe('CoolAFComponent', () => {
-  it('should have a div', () => {
+describe("CoolAFComponent", () => {
+  it("should have a div", () => {
     const wrapper = mount(<CoolAFComponent />);
-    expect(wrapper.find('div').exists()).toBeTruthy();
+    expect(wrapper.find("div").exists()).toBeTruthy();
   });
 });
 ```
 
-This could also be achived using the interactive mode! 
+This could also be achived using the interactive mode!
 ![](ctf-comp.gif)
 
 How cool is this, right?  

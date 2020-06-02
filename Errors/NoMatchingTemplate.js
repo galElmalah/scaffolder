@@ -12,7 +12,7 @@ class NoMatchingTemplate extends Error {
     )}\nThere is no template matching the ${boldGreen(
       this.cmd
     )} command.\nYou can see the available commands by typing ${boldGreen(
-      'ctf list'
+      'scaffolder list'
     )} in the terminal.`;
     return message;
   }

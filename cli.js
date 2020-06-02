@@ -19,7 +19,7 @@ cli
   )
   .option(
     "--load-from <value>",
-    "A path to a ctf folder from which to load the templates."
+    "A path to a scaffolder folder from which to load the templates."
   )
   .alias("c")
   .description("Create template folder structure")
