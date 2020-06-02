@@ -3,13 +3,13 @@
   "displayName": "ctf-vscode",
   "description": "enabling ctf capabilities via vscode extension",
   "version": "0.0.1",
+  "publisher": "ctf-vscode",
   "engines": {
     "vscode": "^1.45.0"
   },
   "categories": [
     "Other"
   ],
-  
   "activationEvents": [
     "onCommand:ctf-vscode.createTemplateInFolder",
     "onCommand:ctf-vscode.createTemplateInFile"
