@@ -7,6 +7,10 @@
   "engines": {
     "vscode": "^1.45.0"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/galElmalah/ctf-vscode"
+  },
   "categories": [
     "Other"
   ],
