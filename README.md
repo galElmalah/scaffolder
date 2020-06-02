@@ -2,7 +2,7 @@
 
 <div align="center">
 
-[![npm version](https://badge.fury.io/js/ctf-cli.svg)](https://badge.fury.io/js/ctf-cli)
+[![npm version](https://badge.fury.io/js/ctf-cli.svg)](https://badge.fury.io/js/scaffolder-cli)
 
 </div>
 
