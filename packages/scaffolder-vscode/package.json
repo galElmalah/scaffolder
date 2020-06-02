@@ -2,7 +2,7 @@
   "name": "scaffolder-vscode",
   "displayName": "scaffolder-vscode",
   "description": "enabling ctf capabilities via vscode extension",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "publisher": "ctf-vscode",
   "engines": {
     "vscode": "^1.45.0"
