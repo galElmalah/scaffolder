@@ -2,35 +2,39 @@ const {
   templateReader,
   templateTransformer,
   injector: _injector,
-} = require('../templatesCreator');
-const { commandsBuilder } = require('../commandsBuilder');
-const TemplatesBuilder = require('../TemplatesBuilder');
-const { handleError, showSuccessMessage } = require('../cliHelpers');
-
+} = require("../templatesCreator");
+const { commandsBuilder } = require("../commandsBuilder");
+const TemplatesBuilder = require("../TemplatesBuilder");
+const { handleError, showSuccessMessage } = require("../cliHelpers");
+const path = require("path");
 const {
   getKeysValues,
   getFolderName,
   chooseTemplate,
   shouldCreateAFolder,
   shouldGenerateTemplateInAFolder,
-} = require('./questions');
+} = require("./questions");
 
-const interactiveCreateCommandHandler = async command => {
+const interactiveCreateCommandHandler = async (command, cmd) => {
   try {
     const availableTemplateCommands = commandsBuilder(process.cwd());
     const { chosenTemplate } = await chooseTemplate(availableTemplateCommands);
 
     const currentCommandTemplate = templateReader(availableTemplateCommands)(
-      chosenTemplate,
+      chosenTemplate
     );
 
     const keys = await getKeysValues(currentCommandTemplate);
 
     const templates = templateTransformer(
       currentCommandTemplate,
-      _injector(keys),
+      _injector(keys)
     );
     const templatesBuilder = new TemplatesBuilder(templates, chosenTemplate);
+
+    if (command.entryPoint) {
+      templatesBuilder.withCustomEntryPoint(command.entryPoint);
+    }
 
     const { inAFolder } = await shouldGenerateTemplateInAFolder();
     if (shouldCreateAFolder(inAFolder)) {
