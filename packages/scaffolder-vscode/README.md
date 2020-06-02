@@ -1,16 +1,16 @@
-# ctf-vscode README
+# scaffolder-vscode README
 
 **This extension relay upon the fact that you got ctf-cli installed globally.  
-Run `npm i -g ctf-cli`**
+Run `npm i -g scaffolder-cli`**
 
 ## Features
 
-![](images/ctf-vscode.gif)
+![](images/scaffolder-vscode.gif)
 
 ## Requirements
 
-**This extension relay upon the fact that you got ctf-cli installed globally.  
-Run `npm i -g ctf-cli`**
+**This extension relay upon the fact that you got scaffolder-cli installed globally.  
+Run `npm i -g scaffolder-cli`**
 
 ## Extension Settings
 

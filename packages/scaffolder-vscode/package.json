@@ -1,6 +1,6 @@
 {
-  "name": "ctf-vscode",
-  "displayName": "ctf-vscode",
+  "name": "scaffolder-vscode",
+  "displayName": "scaffolder-vscode",
   "description": "enabling ctf capabilities via vscode extension",
   "version": "0.1.0",
   "publisher": "ctf-vscode",
@@ -15,31 +15,31 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:ctf-vscode.createTemplateInFolder",
-    "onCommand:ctf-vscode.createTemplateInFile"
+    "onCommand:scaffolder-vscode.createTemplateInFolder",
+    "onCommand:scaffolder-vscode.createTemplateInFile"
   ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "ctf-vscode.createTemplateInFolder",
+        "command": "scaffolder-vscode.createTemplateInFolder",
         "title": "Create Template"
       },
       {
-        "command": "ctf-vscode.createTemplateInFile",
+        "command": "scaffolder-vscode.createTemplateInFile",
         "title": "Create Template"
       }
     ],
     "menus": {
       "explorer/context": [
         {
-          "command": "ctf-vscode.createTemplateInFolder",
-          "group": "ctf-vscode",
+          "command": "scaffolder-vscode.createTemplateInFolder",
+          "group": "scaffolder-vscode",
           "when": "explorerResourceIsFolder"
         },
         {
-          "command": "ctf-vscode.createTemplateInFile",
-          "group": "ctf-vscode",
+          "command": "scaffolder-vscode.createTemplateInFile",
+          "group": "scaffolder-vscode",
           "when": "!explorerResourceIsFolder"
         }
       ]

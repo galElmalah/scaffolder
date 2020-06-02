@@ -2,32 +2,32 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from "vscode";
 
-function activateCtf(path: string) {
-  const ctfCreateTemplateCommand = `ctf i --entry-point ${path}`;
+function activateScaffolder(path: string) {
+  const ctfCreateTemplateCommand = `scf i --entry-point ${path}`;
   if (vscode.window.activeTerminal) {
     vscode.window.activeTerminal.sendText(ctfCreateTemplateCommand);
   } else {
-    vscode.window.createTerminal("ctf").sendText("ctf i");
+    vscode.window
+      .createTerminal("scaffolder")
+      .sendText(`scf i --entry-point ${path}`);
   }
 }
 
 export function activate(context: vscode.ExtensionContext) {
-  console.log('Congratulations, your extension "ctf-vscode" is now active!');
-
   const whenClickingOnFolderCommand = vscode.commands.registerCommand(
-    "ctf-vscode.createTemplateInFolder",
+    "scaffolder-vscode.createTemplateInFolder",
     (uri: vscode.Uri) => {
-      activateCtf(uri.fsPath);
+      activateScaffolder(uri.fsPath);
     }
   );
 
   const whenClickingOnFileCommand = vscode.commands.registerCommand(
-    "ctf-vscode.createTemplateInFile",
+    "scaffolder-vscode.createTemplateInFile",
     (uri: vscode.Uri) => {
       let directoryPath = uri.fsPath.split("/");
       directoryPath.pop();
       (directoryPath as any) = directoryPath.join("/");
-      activateCtf(directoryPath as any);
+      activateScaffolder(directoryPath as any);
     }
   );
 
