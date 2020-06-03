@@ -1,7 +1,7 @@
 # scaffolder-vscode README
 
-**This extension relay upon the fact that you got ctf-cli installed globally.  
-Run `npm i -g scaffolder`**
+**This extension relay upon the fact that you got easy-scaffolder installed globally.  
+Run `npm i -g easy-scaffolder`**
 
 Right click any folder or file and choose the "Create Template" option from the menu to create a template.
 
@@ -11,8 +11,8 @@ Right click any folder or file and choose the "Create Template" option from the 
 
 ## Requirements
 
-**This extension relay upon the fact that you got scaffolder-cli installed globally.  
-Run `npm i -g scaffolder`**
+**This extension relay upon the fact that you got easy-scaffolder installed globally.  
+Run `npm i -g easy-scaffolder`**
 
 ## Extension Settings
 
