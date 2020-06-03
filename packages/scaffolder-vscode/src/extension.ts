@@ -3,13 +3,13 @@
 import * as vscode from "vscode";
 
 function activateScaffolder(path: string) {
-  const ctfCreateTemplateCommand = `scf i --entry-point ${path}`;
+  const ctfCreateTemplateCommand = `scaff i --entry-point ${path}`;
   if (vscode.window.activeTerminal) {
     vscode.window.activeTerminal.sendText(ctfCreateTemplateCommand);
   } else {
     vscode.window
       .createTerminal("scaffolder")
-      .sendText(`scf i --entry-point ${path}`);
+      .sendText(`scaff i --entry-point ${path}`);
   }
 }
 
