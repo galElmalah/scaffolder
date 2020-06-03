@@ -1,5 +1,5 @@
 {
-  "name": "scaffolder-cli",
+  "name": "easy-scaffolder",
   "version": "1.0.0",
   "bin": {
     "scaff": "./cli.js"
