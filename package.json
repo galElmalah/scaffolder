@@ -1,8 +1,8 @@
 {
-  "name": "scaffolder",
+  "name": "scaffolder-cli",
   "version": "1.0.0",
   "bin": {
-    "scf": "./cli.js"
+    "scaff": "./cli.js"
   },
   "description": "Dynamically create predefined templates",
   "main": "index.js",
