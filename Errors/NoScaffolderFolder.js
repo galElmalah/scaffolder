@@ -6,7 +6,7 @@ class NoScaffolderFolder extends Error {
   }
 
   getDisplayErrorMessage() {
-    const githubLink = "https://github.com/galElmalah/ctf";
+    const githubLink = "https://github.com/galElmalah/scaffolder";
     const message = `${error(
       "Error there is no scaffolder folder."
     )}\nPlease create a scaffolder folder.\nFor more info checkout: ${path(
