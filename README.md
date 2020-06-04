@@ -2,7 +2,7 @@
 
 <div align="center">
 
-[![npm version](https://badge.fury.io/js/ctf-cli.svg)](https://badge.fury.io/js/easy-scaffolder)
+[![npm version](https://badge.fury.io/js/ctf-cli.svg)](https://badge.fury.io/js/scaffolder-cli)
 
 </div>
 
@@ -45,7 +45,7 @@
 ### install scaffolder globally
 
 ```npm
-npm i -g easy-scaffolder
+npm i -g scaffolder-cli
 ```
 
 ### Create a commands folder in your project root directory
