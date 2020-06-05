@@ -7,9 +7,9 @@ function activateScaffolder(path: string) {
   if (vscode.window.activeTerminal) {
     vscode.window.activeTerminal.sendText(ctfCreateTemplateCommand);
   } else {
-    vscode.window
-      .createTerminal("scaffolder")
-      .sendText(`scaff i --entry-point ${path}`);
+    const terminal = vscode.window.createTerminal("scaffolder");
+    terminal.show();
+    terminal.sendText(`scaff i --entry-point ${path}`);
   }
 }
 
