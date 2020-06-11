@@ -1,21 +1,21 @@
-const inquirer = require('inquirer');
+const inquirer = require("inquirer");
 const {
   templateReader,
   templateTransformer,
   injector: _injector,
-} = require('../templatesCreator');
-const { commandsBuilder } = require('../commandsBuilder');
-const TemplatesBuilder = require('../TemplatesBuilder');
+} = require("../templatesCreator");
+const { commandsBuilder } = require("../commandsBuilder");
+const TemplatesBuilder = require("../TemplatesBuilder");
 const {
   generateKeyValues,
   handleError,
   showSuccessMessage,
   displayAvailableCommands,
   displaySpecificCommandTemplate,
-} = require('../cliHelpers');
+} = require("../cliHelpers");
 const {
   interactiveCreateCommandHandler,
-} = require('./interactiveCreateHandler');
+} = require("./interactiveCreateHandler");
 
 const getTransformedTemplates = (command, cmd) => {
   const commandsLocations = commandsBuilder(cmd.loadFrom || process.cwd());
@@ -25,7 +25,7 @@ const getTransformedTemplates = (command, cmd) => {
   const injector = _injector(keyValuePairs);
   const transformedTemplate = templateTransformer(
     currentCommandTemplate,
-    injector,
+    injector
   );
   return transformedTemplate;
 };
@@ -35,7 +35,7 @@ const createCommandHandler = (command, cmd) => {
     const templates = getTransformedTemplates(command, cmd);
     const templatesBuilder = new TemplatesBuilder(templates, command);
     cmd.folder && templatesBuilder.inAFolder(cmd.folder);
-    cmd.createAt && templatesBuilder.withCustomEntryPoint(cmd.entryPoint);
+    cmd.entryPoint && templatesBuilder.withCustomEntryPoint(cmd.entryPoint);
 
     return Promise.all(templatesBuilder.create()).then(() => {
       showSuccessMessage(command, templatesBuilder.getFullPath());

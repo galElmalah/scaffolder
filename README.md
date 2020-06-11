@@ -2,7 +2,7 @@
 
 <div align="center">
 
-[![npm version](https://badge.fury.io/js/ctf-cli.svg)](https://badge.fury.io/js/scaffolder-cli)
+[![npm version](https://badge.fury.io/js/scaffolder-cli.svg)](https://badge.fury.io/js/scaffolder-cli)
 
 </div>
 
@@ -152,7 +152,7 @@ describe("CoolAFComponent", () => {
 ```
 
 This could also be achived using the interactive mode!
-![](ctf-comp.gif)
+![](scaffolder.gif)
 
 How cool is this, right?  
 As you can see our params got injected to the right places and we created our template with little effort.  
