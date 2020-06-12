@@ -16,22 +16,31 @@
   ],
   "activationEvents": [
     "onCommand:scaffolder-vscode.createTemplateInFolder",
-    "onCommand:scaffolder-vscode.createTemplateInFile"
+    "onCommand:scaffolder-vscode.createTemplateInFile",
+    "onCommand:scaffolder-vscode.listTemplates"
   ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
+        "command": "scaffolder-vscode.listTemplates",
+        "title": "Scaffolder: List Templates"
+      },
+      {
         "command": "scaffolder-vscode.createTemplateInFolder",
-        "title": "Create Template"
+        "title": "Scaffolder: Create Template"
       },
       {
         "command": "scaffolder-vscode.createTemplateInFile",
-        "title": "Create Template"
+        "title": "Scaffolder: Create Template"
       }
     ],
     "menus": {
       "explorer/context": [
+        {
+          "command": "scaffolder-vscode.listTemplates",
+          "group": "scaffolder-vscode"
+        },
         {
           "command": "scaffolder-vscode.createTemplateInFolder",
           "group": "scaffolder-vscode",

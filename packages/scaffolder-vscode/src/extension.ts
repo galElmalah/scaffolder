@@ -2,15 +2,18 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from "vscode";
 
+function execuateTerminalCommand(command: string) {
+  if (vscode.window.activeTerminal?.name === "scaffolder") {
+    vscode.window.activeTerminal.sendText(command);
+    return;
+  }
+  const terminal = vscode.window.createTerminal("scaffolder");
+  terminal.show();
+  terminal.sendText(command);
+}
 function activateScaffolder(path: string) {
   const ctfCreateTemplateCommand = `scaff i --entry-point ${path}`;
-  if (vscode.window.activeTerminal) {
-    vscode.window.activeTerminal.sendText(ctfCreateTemplateCommand);
-  } else {
-    const terminal = vscode.window.createTerminal("scaffolder");
-    terminal.show();
-    terminal.sendText(`scaff i --entry-point ${path}`);
-  }
+  execuateTerminalCommand(ctfCreateTemplateCommand);
 }
 
 export function activate(context: vscode.ExtensionContext) {
@@ -28,6 +31,13 @@ export function activate(context: vscode.ExtensionContext) {
       directoryPath.pop();
       (directoryPath as any) = directoryPath.join("/");
       activateScaffolder(directoryPath as any);
+    }
+  );
+
+  const listTemplates = vscode.commands.registerCommand(
+    "scaffolder-vscode.listTemplates",
+    (uri: vscode.Uri) => {
+      execuateTerminalCommand(`scaff ls`);
     }
   );
 
