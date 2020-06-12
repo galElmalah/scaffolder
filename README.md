@@ -14,7 +14,9 @@
   <br> 
 </p>
 ---
-For a brief introduction and motivation forthis tool, (read this)[https://dev.to/galelmalah/what-is-scaffolder-and-how-you-can-use-it-to-increase-your-team-dev-velocity-558l].
+
+For a brief introduction and motivation forthis tool, [read this](https://dev.to/galelmalah/what-is-scaffolder-and-how-you-can-use-it-to-increase-your-team-dev-velocity-558l).
+
 ---
 
 ## API
