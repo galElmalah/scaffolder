@@ -13,6 +13,7 @@
   With Scaffolder you can define custom file structre template and link them to specifc commands which then can be used to create them in a few easy steps!
   <br> 
 </p>
+
 ---
 
 For a brief introduction and motivation forthis tool, [read this](https://dev.to/galelmalah/what-is-scaffolder-and-how-you-can-use-it-to-increase-your-team-dev-velocity-558l).
