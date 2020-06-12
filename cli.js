@@ -40,6 +40,10 @@ cli
 cli
   .command("list")
   .alias("ls")
+  .option(
+    "--entry-point <value>",
+    "The entry point from which you want to see all available templates (Absolute path)"
+  )
   .description("Show all available commands and their paths")
   .action(listCommandHandler);
 

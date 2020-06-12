@@ -20,12 +20,12 @@ const templatePathsFinder = (currentPath) => {
     }
     const currentDir = fs.readdirSync(currentPath);
 
-    const isscaffolderFolderInThisLevel = currentDir.find(
+    const isScaffolderFolderInThisLevel = currentDir.find(
       (f) => f === TEMPLATE_FOLDER_NAME
     );
 
     if (
-      isscaffolderFolderInThisLevel &&
+      isScaffolderFolderInThisLevel &&
       isFolder(currentPath)(TEMPLATE_FOLDER_NAME)
     ) {
       pathsQueue.push(path.join(currentPath, TEMPLATE_FOLDER_NAME));

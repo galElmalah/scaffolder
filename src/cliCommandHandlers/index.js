@@ -45,8 +45,9 @@ const createCommandHandler = (command, cmd) => {
   }
 };
 
-const listCommandHandler = () => {
-  const commands = commandsBuilder(process.cwd());
+const listCommandHandler = (command, cmd) => {
+  const entryPoint = command.entryPoint || process.cwd();
+  const commands = commandsBuilder(entryPoint);
   displayAvailableCommands(commands);
 };
 
