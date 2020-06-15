@@ -37,13 +37,14 @@ export function activate(context: vscode.ExtensionContext) {
   const listTemplates = vscode.commands.registerCommand(
     "scaffolder-vscode.listTemplates",
     (uri: vscode.Uri) => {
-      execuateTerminalCommand(`scaff ls`);
+      execuateTerminalCommand(`scaff ls --entry-point ${uri.fsPath}`);
     }
   );
 
   context.subscriptions.push(
     whenClickingOnFolderCommand,
-    whenClickingOnFileCommand
+    whenClickingOnFileCommand,
+    listTemplates
   );
 }
 

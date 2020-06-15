@@ -18,14 +18,6 @@ Run `npm i -g scaffolder-cli`**
 
 ## Release Notes
 
-### 1.0.0
+### 0.6.2
 
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
+Add support for listing all templates available from a directory by pressing on the "scaffolder: list templates"
