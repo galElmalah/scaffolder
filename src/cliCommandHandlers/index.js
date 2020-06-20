@@ -27,7 +27,6 @@ const getTransformedTemplates = (command, cmd) => {
     currentCommandTemplate,
     injector
   );
-  transformedTemplate.forEach((t) => console.log(t));
 
   return transformedTemplate;
 };
