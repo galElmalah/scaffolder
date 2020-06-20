@@ -18,6 +18,8 @@
 
 For a brief introduction and motivation for this tool, [read this](https://dev.to/galelmalah/what-is-scaffolder-and-how-you-can-use-it-to-increase-your-team-dev-velocity-558l).
 
+**check out the [vscode extension](https://github.com/galElmalah/scaffolder-vscode)**
+
 ---
 
 ## API
