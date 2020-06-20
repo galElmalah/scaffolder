@@ -1,52 +1,52 @@
-const { injector, extractKey } = require('./index');
-const { MissingKeyValuePairs } = require('../../Errors');
+const { injector, extractKey } = require("./index");
+const { MissingKeyValuePairs } = require("../../Errors");
 
-describe('templatesCreator -> injector', () => {
-  it('should replace all keys matching the folllwing format {{ key }}', () => {
+describe("templatesCreator -> injector", () => {
+  it("should replace all keys matching the folllwing format {{ key }}", () => {
     const keys = {
-      key1: 'React',
-      key2: 'react',
+      key1: "React",
+      key2: "react",
     };
     const testTemplate = 'import {{key1}} from "{{key2}}"';
     const keysInjector = injector(keys);
     expect(keysInjector(testTemplate)).toBe('import React from "react"');
   });
 
-  it('should ignore outer {} so this is also valid { {{}} }', () => {
+  it("should ignore outer {} so this is also valid { {{}} }", () => {
     const keys = {
-      key1: 'The',
-      key2: 'Fuck',
+      key1: "The",
+      key2: "Fuck",
     };
-    const testTemplate = 'What {{{ key1 }}} {{{key2}}}';
+    const testTemplate = "What {{{ key1 }}} {{{key2}}}";
     const keysInjector = injector(keys);
-    expect(keysInjector(testTemplate)).toBe('What {The} {Fuck}');
+    expect(keysInjector(testTemplate)).toBe("What {The} {Fuck}");
   });
 
-  it('should throw MissingKeyValuePairs if there is no key matching one of the keys in the template', () => {
+  it("should throw MissingKeyValuePairs if there is no key matching one of the keys in the template", () => {
     const keys = {
-      key1: 'The',
-      key2: 'Fuck',
+      key1: "The",
+      key2: "Fuck",
     };
-    const testTemplate = 'What {{{key1}}} {{{key2}}} {{key3}}';
-    const keysInjector = injector(keys);
-    expect(() => keysInjector(testTemplate)).toThrow(MissingKeyValuePairs);
-  });
-
-  it('should ignore white spaces around the keys', () => {
-    const keys = {
-      key1: 'The',
-      key2: 'Fuck',
-    };
-    const testTemplate = 'What {{{key1 }}} {{{  key2  }}} {{  key3 }}';
+    const testTemplate = "What {{{key1}}} {{{key2}}} {{key3}}";
     const keysInjector = injector(keys);
     expect(() => keysInjector(testTemplate)).toThrow(MissingKeyValuePairs);
   });
 
-  it('should handle a full template', () => {
+  it("should ignore white spaces around the keys", () => {
     const keys = {
-      key1: 'yeah',
-      key2: 'whats',
-      key3: 'up',
+      key1: "The",
+      key2: "Fuck",
+    };
+    const testTemplate = "What {{{key1 }}} {{{  key2  }}} {{  key3 }}";
+    const keysInjector = injector(keys);
+    expect(() => keysInjector(testTemplate)).toThrow(MissingKeyValuePairs);
+  });
+
+  it("should handle a full template", () => {
+    const keys = {
+      key1: "yeah",
+      key2: "whats",
+      key3: "up",
     };
     const testTemplate = `
       {{key1}}{{key2}}{{key3}}
@@ -95,19 +95,19 @@ describe('templatesCreator -> injector', () => {
             {}
           );
       
-      `,
+      `
     );
   });
 
-  it('Extracts the key as expected', () => {
+  it("Extracts the key as expected", () => {
     const keysBeforeExtraction = [
-      '{{ test }}',
-      '{{ test}}',
-      '{{test }}',
-      '{{test}}',
+      "{{ test }}",
+      "{{ test}}",
+      "{{test }}",
+      "{{test}}",
     ];
-    keysBeforeExtraction.forEach(key => {
-      expect(extractKey(key)).toBe('test');
+    keysBeforeExtraction.forEach((key) => {
+      expect(extractKey(key)).toBe("test");
     });
   });
 });

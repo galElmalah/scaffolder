@@ -1,5 +1,5 @@
 const inquirer = require('inquirer');
-const { extractKey } = require('../templatesCreator');
+const { extractKey } = require('../createTemplateStructure');
 
 const QUESTIONS = {
   TEMPLATES: {

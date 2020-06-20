@@ -4,6 +4,11 @@
   "bin": {
     "scaff": "./cli.js"
   },
+  "jest": {
+    "testPathIgnorePatterns": [
+      "results/*/*"
+    ]
+  },
   "description": "Dynamically create predefined templates",
   "main": "index.js",
   "scripts": {
@@ -20,6 +25,7 @@
   "dependencies": {
     "chalk": "^2.4.2",
     "commander": "^2.19.0",
+    "fs-extra": "^9.0.1",
     "inquirer": "^6.5.0"
   },
   "keywords": [

@@ -1,9 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const { NoScaffolderFolder } = require("../../Errors");
-
-const isFolder = (basePath) => (filePath) =>
-  fs.lstatSync(path.resolve(basePath, filePath)).isDirectory();
+const { isFolder } = require("../filesUtils");
 
 const TEMPLATE_FOLDER_NAME = "scaffolder";
 
@@ -26,7 +24,7 @@ const templatePathsFinder = (currentPath) => {
 
     if (
       isScaffolderFolderInThisLevel &&
-      isFolder(currentPath)(TEMPLATE_FOLDER_NAME)
+      isFolder(currentPath, TEMPLATE_FOLDER_NAME)
     ) {
       pathsQueue.push(path.join(currentPath, TEMPLATE_FOLDER_NAME));
     }
@@ -42,10 +40,12 @@ const commandsBuilder = (currentPath) => {
   for (const scaffolderPath of scaffolderPaths) {
     const commands = fs.readdirSync(scaffolderPath);
 
-    let commandsToPath = commands.reduce(
-      (accm, cmd) => ({ ...accm, [cmd]: path.join(scaffolderPath, cmd) }),
-      {}
-    );
+    let commandsToPath = commands
+      .filter((p) => p[0] !== ".")
+      .reduce(
+        (accm, cmd) => ({ ...accm, [cmd]: path.join(scaffolderPath, cmd) }),
+        {}
+      );
     allCommands = { ...commandsToPath, ...allCommands };
   }
   return allCommands;

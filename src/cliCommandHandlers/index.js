@@ -3,7 +3,7 @@ const {
   templateReader,
   templateTransformer,
   injector: _injector,
-} = require("../templatesCreator");
+} = require("../createTemplateStructure");
 const { commandsBuilder } = require("../commandsBuilder");
 const TemplatesBuilder = require("../TemplatesBuilder");
 const {
@@ -19,14 +19,16 @@ const {
 
 const getTransformedTemplates = (command, cmd) => {
   const commandsLocations = commandsBuilder(cmd.loadFrom || process.cwd());
-
   const currentCommandTemplate = templateReader(commandsLocations)(command);
+
   const keyValuePairs = generateKeyValues(cmd);
   const injector = _injector(keyValuePairs);
   const transformedTemplate = templateTransformer(
     currentCommandTemplate,
     injector
   );
+  transformedTemplate.forEach((t) => console.log(t));
+
   return transformedTemplate;
 };
 
@@ -37,7 +39,7 @@ const createCommandHandler = (command, cmd) => {
     cmd.folder && templatesBuilder.inAFolder(cmd.folder);
     cmd.entryPoint && templatesBuilder.withCustomEntryPoint(cmd.entryPoint);
 
-    return Promise.all(templatesBuilder.create()).then(() => {
+    return Promise.all(templatesBuilder.build()).then(() => {
       showSuccessMessage(command, templatesBuilder.getFullPath());
     });
   } catch (err) {

@@ -1,10 +1,11 @@
-const fs = require('fs');
-const { join } = require('../templatesCreator');
-const { FolderAlreadyExists } = require('../../Errors');
+const fs = require("fs");
+const { mkdir } = require("fs-extra");
+const { FolderAlreadyExists } = require("../../Errors");
+const { join } = require("../filesUtils");
 
 const writeFilePromise = (path, content) =>
   new Promise((resolve, reject) => {
-    fs.writeFile(path, content, err => {
+    fs.writeFile(path, content, (err) => {
       if (err) {
         reject(err);
       }
@@ -15,7 +16,7 @@ const writeFilePromise = (path, content) =>
 class TemplatesBuilder {
   constructor(templates, cmd) {
     this.templates = templates;
-    this.folder = '';
+    this.folder = "";
     this.cmd = cmd;
     this.entryPoint = process.cwd();
   }
@@ -44,12 +45,42 @@ class TemplatesBuilder {
     }
   }
 
-  create() {
+  createTemplateFolder(folderDescriptor, root) {
+    return mkdir(join(root, folderDescriptor.name)).then(() => {
+      return folderDescriptor.content.map((descriptor) => {
+        try {
+          if (descriptor.type === "FOLDER") {
+            return this.createTemplateFolder(
+              descriptor,
+              join(root, folderDescriptor.name)
+            );
+          }
+          return writeFilePromise(
+            join(root, folderDescriptor.name, descriptor.name),
+            descriptor.content
+          );
+        } catch (e) {
+          console.log("Error::createTemplateFolder::", e);
+        }
+      });
+    });
+  }
+
+  build() {
     this.createFolderIfNeeded();
     const promises = [];
-    this.templates.forEach(({ name, content }) => {
-      const path = join(this.entryPoint, this.folder, name);
-      promises.push(writeFilePromise(path, content));
+    this.templates.forEach((template) => {
+      const path = join(this.entryPoint, this.folder, template.name);
+      if (template.type) {
+        promises.push(
+          this.createTemplateFolder(
+            template,
+            join(this.entryPoint, this.folder)
+          )
+        );
+        return;
+      }
+      promises.push(writeFilePromise(path, template.content));
     });
     return promises;
   }

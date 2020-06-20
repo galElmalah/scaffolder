@@ -2,7 +2,7 @@ const {
   templateReader,
   templateTransformer,
   injector: _injector,
-} = require("../templatesCreator");
+} = require("../createTemplateStructure");
 const { commandsBuilder } = require("../commandsBuilder");
 const TemplatesBuilder = require("../TemplatesBuilder");
 const { handleError, showSuccessMessage } = require("../cliHelpers");
@@ -17,7 +17,7 @@ const {
 
 const interactiveCreateCommandHandler = async (command, cmd) => {
   try {
-    const availableTemplateCommands = commandsBuilder(process.cwd());
+    const availableTemplateCommands = await commandsBuilder(process.cwd());
     const { chosenTemplate } = await chooseTemplate(availableTemplateCommands);
 
     const currentCommandTemplate = templateReader(availableTemplateCommands)(
@@ -45,7 +45,7 @@ const interactiveCreateCommandHandler = async (command, cmd) => {
     // cmd.folder && templatesBuilder.inAFolder(cmd.folder);
     // cmd.entryPoint && templatesBuilder.withCustomEntryPoint(cmd.entryPoint)
 
-    return Promise.all(templatesBuilder.create()).then(() => {
+    return Promise.all(templatesBuilder.build()).then(() => {
       showSuccessMessage(chosenTemplate, templatesBuilder.getFullPath());
     });
   } catch (err) {

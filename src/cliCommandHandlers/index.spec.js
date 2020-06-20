@@ -19,7 +19,10 @@ describe("createCommandHandler tests -> e2e", () => {
     process.cwd = () => "gal/test";
     readdirSyncSetup();
     fs.readFileSync = jest.fn().mockReturnValue("file template {{someKey}}");
-    fs.lstatSync = () => ({ isDirectory: () => true });
+    fs.lstatSync
+      .mockReturnValueOnce({ isDirectory: () => true })
+      .mockReturnValueOnce({ isDirectory: () => false })
+      .mockReturnValueOnce({ isDirectory: () => false });
     const cmd = {
       folder: false,
       parent: {
