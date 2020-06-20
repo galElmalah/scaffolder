@@ -1,3 +1,4 @@
 tests
 *.spec.js
 scaffolder.gif
+.vscode
