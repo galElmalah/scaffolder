@@ -6,4 +6,6 @@ module.exports.isFolder = (basePath, filePath) =>
 
 module.exports.join = (...args) => path.join(...args);
 
-module.exports.TYPES = {};
+module.exports.TYPES = {
+  FOLDER: "FOLDER",
+};

@@ -1,8 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const { NoMatchingTemplate, MissingKeyValuePairs } = require("../../Errors");
-const { isFolder, join } = require("../filesUtils");
-const FOLDER_TYPE = "FOLDER";
+const { isFolder, join, TYPES } = require("../filesUtils");
 
 const extractKey = (k) => k.replace(/({|})/g, "").trim();
 
@@ -21,7 +20,7 @@ const createTemplateStructure = (folderPath) => {
   return folderContent.map((file) => {
     if (isFolder(folderPath, file)) {
       return {
-        type: FOLDER_TYPE,
+        type: TYPES.FOLDER,
         name: file,
         content: createTemplateStructure(join(folderPath, file)),
       };
@@ -42,7 +41,7 @@ const templateReader = (commands) => (cmd) => {
 
 const templateTransformer = (templateDescriptor, injector) =>
   templateDescriptor.map((descriptor) => {
-    if (descriptor.type === FOLDER_TYPE) {
+    if (descriptor.type === TYPES.FOLDER) {
       return {
         type: descriptor.type,
         name: injector(descriptor.name),

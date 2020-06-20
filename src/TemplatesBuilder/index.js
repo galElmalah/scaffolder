@@ -1,7 +1,7 @@
 const fs = require("fs");
 const { mkdir } = require("fs-extra");
 const { FolderAlreadyExists } = require("../../Errors");
-const { join } = require("../filesUtils");
+const { join, TYPES } = require("../filesUtils");
 
 const writeFilePromise = (path, content) =>
   new Promise((resolve, reject) => {
@@ -49,7 +49,7 @@ class TemplatesBuilder {
     return mkdir(join(root, folderDescriptor.name)).then(() => {
       return folderDescriptor.content.map((descriptor) => {
         try {
-          if (descriptor.type === "FOLDER") {
+          if (descriptor.type === TYPES.FOLDER) {
             return this.createTemplateFolder(
               descriptor,
               join(root, folderDescriptor.name)
