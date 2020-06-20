@@ -12,7 +12,6 @@ const QUESTIONS = {
 
 const keyPattern = /{{\s*\w+\s*}}/gi;
 const getAllKeys = (templates, set) => {
-  console.log({ set });
   templates.forEach(({ name, content, type }) => {
     if (type === TYPES.FOLDER) {
       const nameKeys = name.match(keyPattern) || [];
