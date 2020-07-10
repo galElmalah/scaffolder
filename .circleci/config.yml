@@ -18,7 +18,7 @@ jobs:
       - checkout
       - node/with-cache:
           steps:
-            - run: echo _auth=$NPM_PUBLISH_KEY >> .npmrc
+            - run: echo _auth=$NPM_PUBLISH_TOKEN >> .npmrc
             - run: npm version patch
             - run: npm publish
 workflows:
