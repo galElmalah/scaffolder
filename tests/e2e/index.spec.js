@@ -16,7 +16,14 @@ const execOnTestDir = (cmd, withEntryPoint = true) =>
 
 const cleanUp = (folder) => rimraf.sync(`${__dirname}/results/${folder}`);
 
-const isFolderExists = (folder) => existsSync(`${__dirname}/results/${folder}`);
+const isFolderExists = (folder) => {
+  try {
+    return existsSync(`${__dirname}/results/${folder}`);
+  } catch (e) {
+    console.log("ERROR::", e);
+    return false;
+  }
+};
 
 const isFileContainsText = (path, content) =>
   readFileSync(path, "utf-8").includes(content);
