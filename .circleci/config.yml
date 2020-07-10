@@ -1,0 +1,28 @@
+version: 2.1
+orbs:
+  node: circleci/node@1.1.6
+jobs:
+  build-and-test:
+    executor:
+      name: node/default
+    steps:
+      - checkout
+      - node/with-cache:
+          steps:
+            - run: npm install
+            - run: npm test
+  publish:
+    executor:
+      name: node/default
+    steps:
+      - checkout
+      - node/with-cache:
+          steps:
+            - run: echo _auth=$NPM_PUBLISH_KEY >> .npmrc
+            - run: npm version patch
+            - run: npm publish
+workflows:
+    build-test-deploy:
+      jobs:
+        - build-and-test
+        - deploy
