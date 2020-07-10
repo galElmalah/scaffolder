@@ -9,20 +9,8 @@ jobs:
       - checkout
       - node/with-cache:
           steps:
-          
-             - restore_cache:
-                keys:
-                  - v1-dependencies-{{ checksum "package.json" }}
-                  - v1-dependencies-
-
             - run: npm install
-            - run: npm test
-            
-            - save_cache:
-                paths:
-                  - node_modules
-                key: v1-dependencies-{{ checksum "package.json" }}
-                            
+            - run: npm test         
   publish:
     executor:
       name: node/default
@@ -38,7 +26,7 @@ workflows:
     build-test-deploy:
       jobs:
         - build-and-test
-        - publish:
-            requires:
-              - build-and-test
+#         - publish:
+#             requires:
+#               - build-and-test
         
