@@ -19,6 +19,7 @@ jobs:
       - node/with-cache:
           steps:
             - run: echo _auth=$NPM_PUBLISH_TOKEN >> .npmrc
+            - run: git config user.name $CIRCLE_USERNAME
             - run: npm version patch
             - run: npm publish
 workflows:
