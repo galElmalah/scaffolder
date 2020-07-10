@@ -4,11 +4,12 @@ var rimraf = require("rimraf");
 
 const execOnTestDir = (cmd, withEntryPoint = true) =>
   execSync(
-    `node ../../cli.js ${cmd} ${
+    `node ${process.cwd()}/cli.js ${cmd} ${
       withEntryPoint ? `--entry-point ${__dirname}/results` : ""
     }`,
     {
       stdio: "inherit",
+      stderr: "inherit",
       cwd: __dirname,
     }
   );
