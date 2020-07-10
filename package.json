@@ -12,7 +12,6 @@
   "description": "Dynamically create predefined templates",
   "main": "index.js",
   "scripts": {
-    "preversion": "npm test",
     "test": "jest",
     "test:watch": "jest --watch"
   },
