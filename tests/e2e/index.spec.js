@@ -5,9 +5,7 @@ var rimraf = require("rimraf");
 const execOnTestDir = (cmd, withEntryPoint = true) =>
   execSync(
     `node ../../cli.js ${cmd} ${
-      withEntryPoint
-        ? "--entry-point /Users/gale/Desktop/projects/scaffolder/tests/e2e/results"
-        : ""
+      withEntryPoint ? `--entry-point ${__dirname}/results` : ""
     }`,
     {
       stdio: "inherit",
