@@ -32,7 +32,7 @@ const hasFileWithName = (path, fileName) =>
   readdirSync(path).some((name) => name.includes(fileName));
 
 describe("e2e", () => {
-  it.only("should create the template with the right values as keys", () => {
+  it("should create the template with the right values as keys", () => {
     execOnTestDir("create not-nested key1=awesome --folder not-nested");
     expect(isFolderExists("not-nested")).toBeTruthy();
 
