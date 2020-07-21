@@ -1,28 +1,12 @@
+const { SSL_OP_ALL } = require("constants");
 const fs = require("fs");
-const {
-  NoMatchingTemplate,
-  MissingKeyValuePairs,
-  MissingTransformerImplementation,
-} = require("../../Errors");
+const { NoMatchingTemplate, MissingKeyValuePairs } = require("../../Errors");
 const { isFolder, join, TYPES } = require("../filesUtils");
+const { applyTransformers } = require("./applyTransformers");
 
 const defaultConfig = () => ({ transformers: {} });
 
 const extractKey = (k) => k.replace(/({|})/g, "").trim();
-
-const applyTranformers = (initialValue, transformersMap, transformersKeys) => {
-  return transformersKeys
-    .map((t) => t.trim())
-    .reduce((currValue, nextTranformerKey) => {
-      const transformerFunction = transformersMap[nextTranformerKey];
-      if (!transformerFunction) {
-        throw new MissingTransformerImplementation({
-          transformationKey: nextTranformerKey,
-        });
-      }
-      return transformerFunction(currValue);
-    }, initialValue);
-};
 
 const getKeyAndTranformers = (initialKey) =>
   extractKey(initialKey)
@@ -30,7 +14,7 @@ const getKeyAndTranformers = (initialKey) =>
     .map((_) => _.trim());
 
 const replaceKeyWithValue = (keyValuePairs, transformersMap) => (match) => {
-  const [key, ...tranformersKeys] = getKeyAndTranformers(match);
+  const [key, ...transformersKeys] = getKeyAndTranformers(match);
 
   if (!keyValuePairs.hasOwnProperty(key)) {
     throw new MissingKeyValuePairs(match);
@@ -38,8 +22,8 @@ const replaceKeyWithValue = (keyValuePairs, transformersMap) => (match) => {
 
   const keyInitialValue = keyValuePairs[key];
 
-  return tranformersKeys
-    ? applyTranformers(keyInitialValue, transformersMap, tranformersKeys)
+  return transformersKeys
+    ? applyTransformers(keyInitialValue, transformersMap, transformersKeys)
     : keyInitialValue;
 };
 

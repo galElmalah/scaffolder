@@ -122,7 +122,7 @@ describe("templatesCreator -> injector", () => {
         key3: "up",
       };
       const testTemplate = `
-        {{key1}}{{key2}}{{key3}}
+        {{key1}}{{key2|capitalize}}{{key3}}
         const handleError = {{ key1 | toLowerCase | repeat }} => {
           if ({{ key1 }}.getDisplayErrorMessage) {
             console.log({{ key1 }}.getDisplayErrorMessage());
@@ -159,7 +159,7 @@ describe("templatesCreator -> injector", () => {
 
       expect(result).toBe(
         `
-        ${keys.key1}${keys.key2}${keys.key3}
+        ${keys.key1}Whats${keys.key3}
         const handleError = ${
           keys.key1.toLowerCase() + keys.key1.toLowerCase()
         } => {
