@@ -1,17 +1,37 @@
 const fs = require("fs");
-const path = require("path");
 const { NoMatchingTemplate, MissingKeyValuePairs } = require("../../Errors");
 const { isFolder, join, TYPES } = require("../filesUtils");
 
 const extractKey = (k) => k.replace(/({|})/g, "").trim();
 
-replaceKeyWithValue = (keyValuePairs) => (match) => {
-  const key = extractKey(match);
-  if (!keyValuePairs[key]) {
+const applyTranformers = (initialValue, transformersMap, transformersKeys) => {
+  return transformersKeys
+    .map((t) => t.trim())
+    .reduce((currValue, nextTranformerKey) => {
+      const transformerFunction = transformersMap[nextTranformerKey];
+      if (!transformerFunction) {
+        throw new Error(`missing transformer ${nextTranformer}`);
+      }
+      return transformerFunction(currValue);
+    }, initialValue);
+};
+
+const getKeyAndTranformers = (initialKey) =>
+  extractKey(initialKey)
+    .split("|")
+    .map((_) => _.trim());
+
+const replaceKeyWithValue = (keyValuePairs, transformersMap) => (match) => {
+  const [key, ...tranformersKeys] = getKeyAndTranformers(match);
+
+  if (!keyValuePairs.hasOwnProperty(key)) {
     throw new MissingKeyValuePairs(match);
   }
 
-  return keyValuePairs[key];
+  const keyInitialValue = keyValuePairs[key];
+  return tranformersKeys
+    ? applyTranformers(keyInitialValue, transformersMap, tranformersKeys)
+    : keyInitialValue;
 };
 
 const createTemplateStructure = (folderPath) => {
@@ -55,9 +75,12 @@ const templateTransformer = (templateDescriptor, injector) =>
     };
   });
 
-const injector = (keyValuePairs) => (text) => {
-  const keyPattern = /{{\s*\w+\s*}}/g;
-  const replacer = replaceKeyWithValue(keyValuePairs);
+//@ts-ignore
+const keyPatternString = "{{s*[a-zA-Z_|0-9- ]+s*}}";
+
+const injector = (keyValuePairs, tranformersMap) => (text) => {
+  const keyPattern = new RegExp(keyPatternString, "g");
+  const replacer = replaceKeyWithValue(keyValuePairs, tranformersMap);
   const transformedText = text.replace(keyPattern, replacer);
   return transformedText;
 };
@@ -67,5 +90,6 @@ module.exports = {
   templateTransformer,
   injector,
   join,
+  keyPatternString,
   extractKey,
 };

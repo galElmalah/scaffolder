@@ -110,4 +110,77 @@ describe("templatesCreator -> injector", () => {
       expect(extractKey(key)).toBe("test");
     });
   });
+
+  describe("applyTranformers", () => {
+    it("should handle a full template and apply all transforamtions", () => {
+      const keys = {
+        key1: "YEAH",
+        key2: "whats",
+        key3: "up",
+      };
+      const testTemplate = `
+        {{key1}}{{key2}}{{key3}}
+        const handleError = {{ key1 | toLowerCase | repeat }} => {
+          if ({{ key1 }}.getDisplayErrorMessage) {
+            console.log({{ key1 }}.getDisplayErrorMessage());
+          } else {
+            console.error({{ key2 }});
+          }
+        };
+        
+        const generate{{key2}}Values = cmd =>
+          cmd.parent.rawArgs
+            .filter(arg => arg.includes('='))
+            .map(keyValuePair => keyValuePair.split('='))
+            .reduce(
+              (accm, [{{key2}}, value]) => ({
+                ...accm,
+                [{{key2}}.trim()]: value.trim(),
+              }),
+              {}
+            );
+        
+        `;
+
+      const transformersMap = {
+        toLowerCase: jest.fn().mockImplementation((key) => key.toLowerCase()),
+        repeat: jest.fn().mockImplementation((key) => `${key}${key}`),
+      };
+
+      const keysInjector = injector(keys, transformersMap);
+
+      const result = keysInjector(testTemplate);
+
+      expect(transformersMap.toLowerCase).toHaveBeenCalledWith("YEAH");
+      expect(transformersMap.repeat).toHaveBeenCalledWith("yeah");
+
+      expect(result).toBe(
+        `
+        ${keys.key1}${keys.key2}${keys.key3}
+        const handleError = ${
+          keys.key1.toLowerCase() + keys.key1.toLowerCase()
+        } => {
+          if (${keys.key1}.getDisplayErrorMessage) {
+            console.log(${keys.key1}.getDisplayErrorMessage());
+          } else {
+            console.error(${keys.key2});
+          }
+        };
+        
+        const generate${keys.key2}Values = cmd =>
+          cmd.parent.rawArgs
+            .filter(arg => arg.includes('='))
+            .map(keyValuePair => keyValuePair.split('='))
+            .reduce(
+              (accm, [${keys.key2}, value]) => ({
+                ...accm,
+                [${keys.key2}.trim()]: value.trim(),
+              }),
+              {}
+            );
+        
+        `
+      );
+    });
+  });
 });
