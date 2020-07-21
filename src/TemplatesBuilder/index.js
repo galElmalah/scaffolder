@@ -16,6 +16,7 @@ const writeFilePromise = (path, content) =>
 class TemplatesBuilder {
   constructor(templates, cmd) {
     this.templates = templates;
+
     this.folder = "";
     this.cmd = cmd;
     this.entryPoint = process.cwd();

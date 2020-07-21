@@ -1,6 +1,12 @@
 const fs = require("fs");
-const { NoMatchingTemplate, MissingKeyValuePairs } = require("../../Errors");
+const {
+  NoMatchingTemplate,
+  MissingKeyValuePairs,
+  MissingTransformerImplementation,
+} = require("../../Errors");
 const { isFolder, join, TYPES } = require("../filesUtils");
+
+const defaultConfig = () => ({ transformers: {} });
 
 const extractKey = (k) => k.replace(/({|})/g, "").trim();
 
@@ -10,7 +16,9 @@ const applyTranformers = (initialValue, transformersMap, transformersKeys) => {
     .reduce((currValue, nextTranformerKey) => {
       const transformerFunction = transformersMap[nextTranformerKey];
       if (!transformerFunction) {
-        throw new Error(`missing transformer ${nextTranformer}`);
+        throw new MissingTransformerImplementation({
+          transformationKey: nextTranformerKey,
+        });
       }
       return transformerFunction(currValue);
     }, initialValue);
@@ -29,6 +37,7 @@ const replaceKeyWithValue = (keyValuePairs, transformersMap) => (match) => {
   }
 
   const keyInitialValue = keyValuePairs[key];
+
   return tranformersKeys
     ? applyTranformers(keyInitialValue, transformersMap, tranformersKeys)
     : keyInitialValue;
@@ -36,7 +45,6 @@ const replaceKeyWithValue = (keyValuePairs, transformersMap) => (match) => {
 
 const createTemplateStructure = (folderPath) => {
   const folderContent = fs.readdirSync(folderPath);
-
   return folderContent.map((file) => {
     if (isFolder(folderPath, file)) {
       return {
@@ -51,16 +59,27 @@ const createTemplateStructure = (folderPath) => {
     };
   });
 };
+const getConfigPath = (path) =>
+  path.split("/").slice(0, -1).join("/") + "/scaffolder.config.js";
 
 const templateReader = (commands) => (cmd) => {
+  let config = defaultConfig();
   if (!commands[cmd]) {
     throw new NoMatchingTemplate(cmd);
   }
-  return createTemplateStructure(commands[cmd]);
+
+  if (fs.existsSync(getConfigPath(commands[cmd]))) {
+    config = require(getConfigPath(commands[cmd]));
+  }
+
+  return {
+    config,
+    currentCommandTemplate: createTemplateStructure(commands[cmd]),
+  };
 };
 
-const templateTransformer = (templateDescriptor, injector) =>
-  templateDescriptor.map((descriptor) => {
+const templateTransformer = (templateDescriptor, injector) => {
+  return templateDescriptor.map((descriptor) => {
     if (descriptor.type === TYPES.FOLDER) {
       return {
         type: descriptor.type,
@@ -74,6 +93,7 @@ const templateTransformer = (templateDescriptor, injector) =>
       content: injector(descriptor.content),
     };
   });
+};
 
 //@ts-ignore
 const keyPatternString = "{{s*[a-zA-Z_|0-9- ]+s*}}";

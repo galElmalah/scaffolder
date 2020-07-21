@@ -1,5 +1,8 @@
 const { injector, extractKey } = require("./index");
-const { MissingKeyValuePairs } = require("../../Errors");
+const {
+  MissingKeyValuePairs,
+  MissingTransformerImplementation,
+} = require("../../Errors");
 
 describe("templatesCreator -> injector", () => {
   it("should replace all keys matching the folllwing format {{ key }}", () => {
@@ -180,6 +183,25 @@ describe("templatesCreator -> injector", () => {
             );
         
         `
+      );
+    });
+
+    it("should throw a 'MissingTransformerImplementation' error when there is no transformer defined for a specifc tranformer key", () => {
+      const keys = {
+        key1: "YEAH",
+      };
+      const testTemplate = `
+        const handleError = {{ key1 | toLowerCase | repeat }} => {
+        `;
+
+      const transformersMap = {
+        someTranformer: () => {},
+      };
+
+      const keysInjector = injector(keys, transformersMap);
+
+      expect(() => keysInjector(testTemplate)).toThrowError(
+        MissingTransformerImplementation
       );
     });
   });

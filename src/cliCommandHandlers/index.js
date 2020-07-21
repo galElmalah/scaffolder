@@ -19,10 +19,13 @@ const {
 
 const getTransformedTemplates = (command, cmd) => {
   const commandsLocations = commandsBuilder(cmd.loadFrom || process.cwd());
-  const currentCommandTemplate = templateReader(commandsLocations)(command);
+  const { config, currentCommandTemplate } = templateReader(commandsLocations)(
+    command
+  );
 
   const keyValuePairs = generateKeyValues(cmd);
-  const injector = _injector(keyValuePairs);
+  
+  const injector = _injector(keyValuePairs, config.transformers);
   const transformedTemplate = templateTransformer(
     currentCommandTemplate,
     injector
@@ -34,6 +37,7 @@ const getTransformedTemplates = (command, cmd) => {
 const createCommandHandler = (command, cmd) => {
   try {
     const templates = getTransformedTemplates(command, cmd);
+
     const templatesBuilder = new TemplatesBuilder(templates, command);
     cmd.folder && templatesBuilder.inAFolder(cmd.folder);
     cmd.entryPoint && templatesBuilder.withCustomEntryPoint(cmd.entryPoint);
@@ -54,7 +58,9 @@ const listCommandHandler = (command, cmd) => {
 
 const showCommandHandler = (command, cmd) => {
   const commandsLocations = commandsBuilder(process.cwd());
-  const currentCommandTemplate = templateReader(commandsLocations)(command);
+  const { config, currentCommandTemplate } = templateReader(commandsLocations)(
+    command
+  );
   displaySpecificCommandTemplate(currentCommandTemplate, cmd.showContent);
 };
 

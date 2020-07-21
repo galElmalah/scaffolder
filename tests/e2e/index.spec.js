@@ -32,19 +32,21 @@ const hasFileWithName = (path, fileName) =>
   readdirSync(path).some((name) => name.includes(fileName));
 
 describe("e2e", () => {
-  it("should create the template with the right values as keys", () => {
+  it.only("should create the template with the right values as keys", () => {
     execOnTestDir("create not-nested key1=awesome --folder not-nested");
     expect(isFolderExists("not-nested")).toBeTruthy();
+
     expect(
-      isFileContainsText(
-        `${__dirname}/results/not-nested/awesome.js`,
-        "awesome"
-      )
+      hasFileWithName(`${__dirname}/results/not-nested`, "AWESOME.js")
     ).toBeTruthy();
 
     expect(
-      hasFileWithName(`${__dirname}/results/not-nested`, "awesome.js")
+      isFileContainsText(
+        `${__dirname}/results/not-nested/AWESOME.js`,
+        "AWESOME"
+      )
     ).toBeTruthy();
+
     cleanUp("not-nested");
   });
 
@@ -62,7 +64,7 @@ describe("e2e", () => {
     ).toBeTruthy();
     expect(
       isFileContainsText(
-        `${__dirname}/results/nested/f2/just-some-file.txt`,
+        `${__dirname}/results/nested/F2/just-some-file.txt`,
         "lol"
       )
     ).toBeTruthy();
