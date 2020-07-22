@@ -8,4 +8,7 @@ module.exports.join = (...args) => path.join(...args);
 
 module.exports.TYPES = {
   FOLDER: "FOLDER",
+  FILE: "FILE",
+  FILE_NAME: "FILE_NAME",
+  FILE_CONTENT: "FILE_CONTENT",
 };

@@ -152,12 +152,13 @@ describe("templatesCreator -> injector", () => {
 
       const globalCtx = {
         templateName: "what",
+        templateRoot: "yay",
         keyValuePairs: { ...keys },
       };
 
       const localCtx = {
         type: "FILE",
-        creatingAt: "here/the/file/is/created",
+        targetRoot: "here/the/file/is/created",
       };
 
       const keysInjector = injector(keys, transformersMap, globalCtx);

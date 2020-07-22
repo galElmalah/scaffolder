@@ -23,11 +23,17 @@ const interactiveCreateCommandHandler = async (command, cmd) => {
       availableTemplateCommands
     )(chosenTemplate);
 
-    const keys = await getKeysValues(currentCommandTemplate);
+    const keyValuePairs = await getKeysValues(currentCommandTemplate);
+
+    const globalCtx = {
+      keyValuePairs,
+      templateName: chosenTemplate,
+      templateRoot: availableTemplateCommands[chosenTemplate],
+    };
 
     const templates = templateTransformer(
       currentCommandTemplate,
-      _injector(keys, config.transformers)
+      _injector(keyValuePairs, config.transformers, globalCtx)
     );
     const templatesBuilder = new TemplatesBuilder(templates, chosenTemplate);
 

@@ -36,13 +36,13 @@ const createTemplateStructure = (folderPath) => {
         type: TYPES.FOLDER,
         name: file,
         content: createTemplateStructure(join(folderPath, file)),
-        creatingAt: folderPath,
+        targetRoot: folderPath,
       };
     }
     return {
       name: file,
       content: fs.readFileSync(join(folderPath, file)).toString(),
-      creatingAt: folderPath,
+      targetRoot: folderPath,
     };
   });
 };
@@ -79,8 +79,14 @@ const templateTransformer = (templateDescriptor, injector) => {
       };
     }
     return {
-      name: injector(descriptor.name, createLocalCtx(descriptor)),
-      content: injector(descriptor.content, createLocalCtx(descriptor)),
+      name: injector(
+        descriptor.name,
+        createLocalCtx({ ...descriptor, type: TYPES.FILE_NAME })
+      ),
+      content: injector(
+        descriptor.content,
+        createLocalCtx({ ...descriptor, type: TYPES.FILE_CONTENT })
+      ),
     };
   });
 };
