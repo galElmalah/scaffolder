@@ -12,7 +12,7 @@ const readdirSyncSetup = () => {
     .mockReturnValueOnce(["someFile", "someFileTwo"]);
 };
 
-describe("createCommandHandler tests -> e2e", () => {
+describe.only("createCommandHandler tests -> e2e", () => {
   it("creates the the specified template", () => {
     const templateCommand = "templateCommand";
     fs.writeFile = jest.fn();
@@ -21,6 +21,10 @@ describe("createCommandHandler tests -> e2e", () => {
     fs.readFileSync = jest.fn().mockReturnValue("file template {{someKey}}");
     fs.lstatSync
       .mockReturnValueOnce({ isDirectory: () => true })
+      .mockReturnValueOnce({ isDirectory: () => true })
+      .mockReturnValueOnce({ isDirectory: () => true })
+      .mockReturnValueOnce({ isDirectory: () => false })
+      .mockReturnValueOnce({ isDirectory: () => false })
       .mockReturnValueOnce({ isDirectory: () => false })
       .mockReturnValueOnce({ isDirectory: () => false });
     const cmd = {

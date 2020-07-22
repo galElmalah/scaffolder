@@ -66,9 +66,9 @@ const templateReader = (commands) => (cmd) => {
 };
 
 const templateTransformer = (templateDescriptor, injector) => {
-  const createLocalCtx = ({ type = "FILE", creatingAt }) => ({
+  const createLocalCtx = ({ type = "FILE", targetRoot }) => ({
     type,
-    creatingAt,
+    targetRoot,
   });
   return templateDescriptor.map((descriptor) => {
     if (descriptor.type === TYPES.FOLDER) {

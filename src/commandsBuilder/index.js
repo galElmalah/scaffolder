@@ -42,6 +42,7 @@ const commandsBuilder = (currentPath) => {
 
     let commandsToPath = commands
       .filter((p) => p[0] !== ".")
+      .filter((p) => isFolder(scaffolderPath, p))
       .reduce(
         (accm, cmd) => ({ ...accm, [cmd]: path.join(scaffolderPath, cmd) }),
         {}

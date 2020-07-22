@@ -31,9 +31,16 @@ const isFileContainsText = (path, content) =>
 const hasFileWithName = (path, fileName) =>
   readdirSync(path).some((name) => name.includes(fileName));
 
+const assertThatTheContextIsPassedCorrectly = (from, expctedContext) => {
+  const context = require(from);
+  expect(context).toEqual(expctedContext);
+};
+
 describe("e2e", () => {
   it("should create the template with the right values as keys", () => {
-    execOnTestDir("create not-nested key1=awesome --folder not-nested");
+    execOnTestDir(
+      "create not-nested key1=awesome key5=awesome --folder not-nested"
+    );
     expect(isFolderExists("not-nested")).toBeTruthy();
 
     expect(
@@ -47,6 +54,18 @@ describe("e2e", () => {
       )
     ).toBeTruthy();
 
+    assertThatTheContextIsPassedCorrectly(
+      `${__dirname}/results/not-nested/context.js`,
+      {
+        keyValuePairs: { key1: "awesome", key5: "awesome" },
+        templateName: "not-nested",
+        targetRoot:
+          "/Users/gale/Desktop/projects/scaffolder/tests/scaffolder/not-nested",
+        templateRoot:
+          "/Users/gale/Desktop/projects/scaffolder/tests/scaffolder/not-nested",
+        type: "FILE_CONTENT",
+      }
+    );
     cleanUp("not-nested");
   });
 
@@ -75,6 +94,19 @@ describe("e2e", () => {
         "whattttt the awesome"
       )
     ).toBeTruthy();
+
+    assertThatTheContextIsPassedCorrectly(
+      `${__dirname}/results/nested/nest/d/e/eep/context.js`,
+      {
+        targetRoot:
+          "/Users/gale/Desktop/projects/scaffolder/tests/scaffolder/nested/nest/d/e/eep",
+        templateName: "nested",
+        templateRoot:
+          "/Users/gale/Desktop/projects/scaffolder/tests/scaffolder/nested",
+        keyValuePairs: { key: "awesome", keyF: "f2" },
+        type: "FILE_CONTENT",
+      }
+    );
 
     expect(
       hasFileWithName(`${__dirname}/results/nested`, "awesome.js")
