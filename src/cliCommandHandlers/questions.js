@@ -20,7 +20,7 @@ const getAllKeys = (templates, set) => {
     const keyRegex = new RegExp(keyPatternString, "gi");
     if (type === TYPES.FOLDER) {
       const nameKeys = name.match(keyRegex) || [];
-      nameKeys.forEach((k) => set.add(k));
+      nameKeys.map(removeTransformationsFromKey).forEach((k) => set.add(k));
       getAllKeys(content, set).forEach((k) => set.add(k));
       return;
     }
