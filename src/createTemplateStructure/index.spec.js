@@ -114,7 +114,7 @@ describe("templatesCreator -> injector", () => {
     });
   });
 
-  describe("applyTranformers", () => {
+  describe("injector with applyTranformers", () => {
     it("should handle a full template and apply all transforamtions", () => {
       const keys = {
         key1: "YEAH",
@@ -150,12 +150,28 @@ describe("templatesCreator -> injector", () => {
         repeat: jest.fn().mockImplementation((key) => `${key}${key}`),
       };
 
-      const keysInjector = injector(keys, transformersMap);
+      const globalCtx = {
+        templateName: "what",
+        keyValuePairs: { ...keys },
+      };
 
-      const result = keysInjector(testTemplate);
+      const localCtx = {
+        type: "FILE",
+        creatingAt: "here/the/file/is/created",
+      };
 
-      expect(transformersMap.toLowerCase).toHaveBeenCalledWith("YEAH");
-      expect(transformersMap.repeat).toHaveBeenCalledWith("yeah");
+      const keysInjector = injector(keys, transformersMap, globalCtx);
+
+      const result = keysInjector(testTemplate, localCtx);
+
+      expect(transformersMap.toLowerCase).toHaveBeenCalledWith("YEAH", {
+        ...globalCtx,
+        ...localCtx,
+      });
+      expect(transformersMap.repeat).toHaveBeenCalledWith("yeah", {
+        ...globalCtx,
+        ...localCtx,
+      });
 
       expect(result).toBe(
         `

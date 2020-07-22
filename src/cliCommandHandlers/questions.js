@@ -1,5 +1,8 @@
 const inquirer = require("inquirer");
-const { extractKey } = require("../createTemplateStructure");
+const { extractKey, keyPatternString } = require("../createTemplateStructure");
+const {
+  removeTransformationsFromKey,
+} = require("../createTemplateStructure/applyTransformers");
 const { TYPES } = require("../filesUtils");
 
 const QUESTIONS = {
@@ -11,17 +14,21 @@ const QUESTIONS = {
 };
 
 const keyPattern = /{{\s*\w+\s*}}/gi;
+
 const getAllKeys = (templates, set) => {
   templates.forEach(({ name, content, type }) => {
+    const keyRegex = new RegExp(keyPatternString, "gi");
     if (type === TYPES.FOLDER) {
-      const nameKeys = name.match(keyPattern) || [];
+      const nameKeys = name.match(keyRegex) || [];
       nameKeys.forEach((k) => set.add(k));
       getAllKeys(content, set).forEach((k) => set.add(k));
       return;
     }
-    const nameKeys = name.match(keyPattern) || [];
-    const contentKeys = content.match(keyPattern) || [];
-    [...nameKeys, ...contentKeys].forEach((k) => set.add(k));
+    const nameKeys = name.match(keyRegex) || [];
+    const contentKeys = content.match(keyRegex) || [];
+    [...nameKeys, ...contentKeys]
+      .map(removeTransformationsFromKey)
+      .forEach((k) => set.add(k));
   });
   return Array.from(set.keys());
 };

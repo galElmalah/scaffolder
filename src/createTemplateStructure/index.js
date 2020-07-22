@@ -13,9 +13,10 @@ const getKeyAndTranformers = (initialKey) =>
     .split("|")
     .map((_) => _.trim());
 
-const replaceKeyWithValue = (keyValuePairs, transformersMap) => (match) => {
+const replaceKeyWithValue = (keyValuePairs, transformersMap, ctx) => (
+  match
+) => {
   const [key, ...transformersKeys] = getKeyAndTranformers(match);
-
   if (!keyValuePairs.hasOwnProperty(key)) {
     throw new MissingKeyValuePairs(match);
   }
@@ -23,7 +24,7 @@ const replaceKeyWithValue = (keyValuePairs, transformersMap) => (match) => {
   const keyInitialValue = keyValuePairs[key];
 
   return transformersKeys
-    ? applyTransformers(keyInitialValue, transformersMap, transformersKeys)
+    ? applyTransformers(keyInitialValue, transformersMap, transformersKeys, ctx)
     : keyInitialValue;
 };
 
@@ -35,11 +36,13 @@ const createTemplateStructure = (folderPath) => {
         type: TYPES.FOLDER,
         name: file,
         content: createTemplateStructure(join(folderPath, file)),
+        creatingAt: folderPath,
       };
     }
     return {
       name: file,
       content: fs.readFileSync(join(folderPath, file)).toString(),
+      creatingAt: folderPath,
     };
   });
 };
@@ -63,18 +66,21 @@ const templateReader = (commands) => (cmd) => {
 };
 
 const templateTransformer = (templateDescriptor, injector) => {
+  const createLocalCtx = ({ type = "FILE", creatingAt }) => ({
+    type,
+    creatingAt,
+  });
   return templateDescriptor.map((descriptor) => {
     if (descriptor.type === TYPES.FOLDER) {
       return {
         type: descriptor.type,
-        name: injector(descriptor.name),
-
+        name: injector(descriptor.name, createLocalCtx(descriptor)),
         content: templateTransformer(descriptor.content, injector),
       };
     }
     return {
-      name: injector(descriptor.name),
-      content: injector(descriptor.content),
+      name: injector(descriptor.name, createLocalCtx(descriptor)),
+      content: injector(descriptor.content, createLocalCtx(descriptor)),
     };
   });
 };
@@ -82,9 +88,13 @@ const templateTransformer = (templateDescriptor, injector) => {
 //@ts-ignore
 const keyPatternString = "{{s*[a-zA-Z_|0-9- ]+s*}}";
 
-const injector = (keyValuePairs, tranformersMap) => (text) => {
+const injector = (keyValuePairs, tranformersMap, globalCtx) => (
+  text,
+  localCtx
+) => {
+  const ctx = { ...globalCtx, ...localCtx };
   const keyPattern = new RegExp(keyPatternString, "g");
-  const replacer = replaceKeyWithValue(keyValuePairs, tranformersMap);
+  const replacer = replaceKeyWithValue(keyValuePairs, tranformersMap, ctx);
   const transformedText = text.replace(keyPattern, replacer);
   return transformedText;
 };

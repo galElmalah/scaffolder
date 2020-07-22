@@ -1,7 +1,16 @@
 const { MissingTransformerImplementation } = require("../../Errors");
 const { defaultTransformers } = require("./defaultTransformers");
 
-const applyTransformers = (initialValue, transformersMap, transformersKeys) => {
+const removeTransformationsFromKey = (key = "") => {
+  return key.replace(/\|.*/g, "}}").replace(/\s*/g, "");
+};
+
+const applyTransformers = (
+  initialValue,
+  transformersMap,
+  transformersKeys,
+  ctx
+) => {
   return transformersKeys
     .map((t) => t.trim())
     .reduce((currValue, nextTranformerKey) => {
@@ -13,10 +22,11 @@ const applyTransformers = (initialValue, transformersMap, transformersKeys) => {
           transformationKey: nextTranformerKey,
         });
       }
-      return transformerFunction(currValue);
+      return transformerFunction(currValue, ctx);
     }, initialValue);
 };
 
 module.exports = {
   applyTransformers,
+  removeTransformationsFromKey,
 };

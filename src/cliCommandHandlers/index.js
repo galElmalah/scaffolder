@@ -24,11 +24,18 @@ const getTransformedTemplates = (command, cmd) => {
   );
 
   const keyValuePairs = generateKeyValues(cmd);
-  
-  const injector = _injector(keyValuePairs, config.transformers);
+
+  const ctx = {
+    templateName: command,
+    templateRoot: commandsLocations[command],
+    keyValuePairs,
+  };
+
+  const injector = _injector(keyValuePairs, config.transformers, ctx);
   const transformedTemplate = templateTransformer(
     currentCommandTemplate,
-    injector
+    injector,
+    ctx
   );
 
   return transformedTemplate;

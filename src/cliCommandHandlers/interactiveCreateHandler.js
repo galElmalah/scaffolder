@@ -6,7 +6,6 @@ const {
 const { commandsBuilder } = require("../commandsBuilder");
 const TemplatesBuilder = require("../TemplatesBuilder");
 const { handleError, showSuccessMessage } = require("../cliHelpers");
-const path = require("path");
 const {
   getKeysValues,
   getFolderName,
