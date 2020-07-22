@@ -1,6 +1,6 @@
 # scaffolder-vscode README
 
-**This extension relay upon the fact that you got scaffolder-cli installed globally.  
+**This extension relies on the fact that you got scaffolder-cli installed globally. 
 Run `npm i -g scaffolder-cli`**
 
 Right click any folder or file and choose the "Create Template" option from the menu to create a template.
