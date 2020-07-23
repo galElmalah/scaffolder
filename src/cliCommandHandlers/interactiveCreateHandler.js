@@ -41,15 +41,6 @@ const interactiveCreateCommandHandler = async (command, cmd) => {
       templatesBuilder.withCustomEntryPoint(command.entryPoint);
     }
 
-    const { inAFolder } = await shouldGenerateTemplateInAFolder();
-    if (shouldCreateAFolder(inAFolder)) {
-      const { folderName } = await getFolderName();
-      templatesBuilder.inAFolder(folderName);
-    }
-
-    // cmd.folder && templatesBuilder.inAFolder(cmd.folder);
-    // cmd.entryPoint && templatesBuilder.withCustomEntryPoint(cmd.entryPoint)
-
     return Promise.all(templatesBuilder.build()).then(() => {
       showSuccessMessage(chosenTemplate, templatesBuilder.getFullPath());
     });
