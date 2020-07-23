@@ -3,7 +3,6 @@ const fs = require("fs");
 const {
   NoMatchingTemplate,
   MissingKeyValuePairs,
-  MissingTransformerImplementation,
   MissingFunctionImplementation,
 } = require("../../Errors");
 const { isFolder, join, TYPES } = require("../filesUtils");
@@ -13,7 +12,7 @@ const defaultConfig = () => ({ transformers: {}, functions: {} });
 
 const extractKey = (k) => k.replace(/({|})/g, "").trim();
 
-const isAFunctionCall = (key) => /.+\(\)/.test(key);
+const isAFunctionKey = (key) => /.+\(\)/.test(key);
 
 const getKeyAndTranformers = (initialKey) =>
   extractKey(initialKey)
@@ -26,7 +25,7 @@ const replaceKeyWithValue = (
   functionsMap,
   ctx
 ) => (match) => {
-  if (isAFunctionCall(match)) {
+  if (isAFunctionKey(match)) {
     const functionKey = extractKey(match).replace(/\(|\)/g, "");
     if (!functionsMap.hasOwnProperty(functionKey)) {
       throw new MissingFunctionImplementation({ functionKey });
@@ -153,4 +152,5 @@ module.exports = {
   join,
   keyPatternString,
   extractKey,
+  isAFunctionKey,
 };

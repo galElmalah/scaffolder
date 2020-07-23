@@ -4,6 +4,7 @@ const {
   removeTransformationsFromKey,
 } = require("../createTemplateStructure/applyTransformers");
 const { TYPES } = require("../filesUtils");
+const { isAFunctionKey } = require("../createTemplateStructure/");
 
 const QUESTIONS = {
   TEMPLATES: {
@@ -13,21 +14,25 @@ const QUESTIONS = {
   },
 };
 
+const fillSetWithKeys = (keys, set) => {
+  keys
+    .filter((k) => !isAFunctionKey(k))
+    .map(removeTransformationsFromKey)
+    .forEach((k) => set.add(k));
+};
 
 const getAllKeys = (templates, set) => {
   templates.forEach(({ name, content, type }) => {
     const keyRegex = new RegExp(keyPatternString, "gi");
     if (type === TYPES.FOLDER) {
       const nameKeys = name.match(keyRegex) || [];
-      nameKeys.map(removeTransformationsFromKey).forEach((k) => set.add(k));
+      fillSetWithKeys(nameKeys, set);
       getAllKeys(content, set).forEach((k) => set.add(k));
       return;
     }
     const nameKeys = name.match(keyRegex) || [];
     const contentKeys = content.match(keyRegex) || [];
-    [...nameKeys, ...contentKeys]
-      .map(removeTransformationsFromKey)
-      .forEach((k) => set.add(k));
+    fillSetWithKeys([...nameKeys, ...contentKeys], set);
   });
   return Array.from(set.keys());
 };
