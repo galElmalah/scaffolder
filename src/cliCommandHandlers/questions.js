@@ -13,7 +13,6 @@ const QUESTIONS = {
   },
 };
 
-const keyPattern = /{{\s*\w+\s*}}/gi;
 
 const getAllKeys = (templates, set) => {
   templates.forEach(({ name, content, type }) => {

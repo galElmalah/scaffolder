@@ -94,6 +94,20 @@ const templateTransformer = (templateDescriptor, injector) => {
 //@ts-ignore
 const keyPatternString = "{{s*[a-zA-Z_|0-9- ]+s*}}";
 
+/**
+ * Global context
+ * @typedef {Object} GlobalContext
+ * @property {Object.<string, string|number>} keyValuePairs Contain the the values for each of the user keys.
+ * @property {string} templateRoot - The template that being created location.
+ * @property {string} type - Can  be either "FILE_NAME", "FILE_CONTENT" or "FOLDER".
+ */
+
+/**
+ * @param {Object.<string, string|number>} keyValuePairs contain the the values for each of the user keys
+ * @param {Object.<string, transformer>} tranformersMap
+ * @param {GlobalContext} globalCtx
+
+ */
 const injector = (keyValuePairs, tranformersMap, globalCtx) => (
   text,
   localCtx
