@@ -1,22 +1,41 @@
 const { SSL_OP_ALL } = require("constants");
 const fs = require("fs");
-const { NoMatchingTemplate, MissingKeyValuePairs } = require("../../Errors");
+const {
+  NoMatchingTemplate,
+  MissingKeyValuePairs,
+  MissingTransformerImplementation,
+  MissingFunctionImplementation,
+} = require("../../Errors");
 const { isFolder, join, TYPES } = require("../filesUtils");
 const { applyTransformers } = require("./applyTransformers");
 
-const defaultConfig = () => ({ transformers: {} });
+const defaultConfig = () => ({ transformers: {}, functions: {} });
 
 const extractKey = (k) => k.replace(/({|})/g, "").trim();
+
+const isAFunctionCall = (key) => /.+\(\)/.test(key);
 
 const getKeyAndTranformers = (initialKey) =>
   extractKey(initialKey)
     .split("|")
     .map((_) => _.trim());
 
-const replaceKeyWithValue = (keyValuePairs, transformersMap, ctx) => (
-  match
-) => {
+const replaceKeyWithValue = (
+  keyValuePairs,
+  transformersMap,
+  functionsMap,
+  ctx
+) => (match) => {
+  if (isAFunctionCall(match)) {
+    const functionKey = extractKey(match).replace(/\(|\)/g, "");
+    if (!functionsMap.hasOwnProperty(functionKey)) {
+      throw new MissingFunctionImplementation({ functionKey });
+    }
+    return functionsMap[functionKey](ctx);
+  }
+
   const [key, ...transformersKeys] = getKeyAndTranformers(match);
+
   if (!keyValuePairs.hasOwnProperty(key)) {
     throw new MissingKeyValuePairs(match);
   }
@@ -66,7 +85,8 @@ const templateReader = (commands) => (cmd) => {
 };
 
 const templateTransformer = (templateDescriptor, injector) => {
-  const createLocalCtx = ({ type = "FILE", targetRoot }) => ({
+  const createLocalCtx = ({ type = "FILE", targetRoot, name }) => ({
+    name,
     type,
     targetRoot,
   });
@@ -92,7 +112,7 @@ const templateTransformer = (templateDescriptor, injector) => {
 };
 
 //@ts-ignore
-const keyPatternString = "{{s*[a-zA-Z_|0-9- ]+s*}}";
+const keyPatternString = "{{s*[a-zA-Z_|0-9- ()]+s*}}";
 
 /**
  * Global context
@@ -104,17 +124,24 @@ const keyPatternString = "{{s*[a-zA-Z_|0-9- ]+s*}}";
 
 /**
  * @param {Object.<string, string|number>} keyValuePairs contain the the values for each of the user keys
- * @param {Object.<string, transformer>} tranformersMap
+ * @param {Object.<string, any>} config
  * @param {GlobalContext} globalCtx
 
  */
-const injector = (keyValuePairs, tranformersMap, globalCtx) => (
-  text,
-  localCtx
-) => {
+
+const injector = (
+  keyValuePairs,
+  { transformers = {}, functions = {} } = {},
+  globalCtx
+) => (text, localCtx) => {
   const ctx = { ...globalCtx, ...localCtx };
   const keyPattern = new RegExp(keyPatternString, "g");
-  const replacer = replaceKeyWithValue(keyValuePairs, tranformersMap, ctx);
+  const replacer = replaceKeyWithValue(
+    keyValuePairs,
+    transformers,
+    functions,
+    ctx
+  );
   const transformedText = text.replace(keyPattern, replacer);
   return transformedText;
 };

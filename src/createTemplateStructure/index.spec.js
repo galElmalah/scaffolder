@@ -130,7 +130,7 @@ describe("templatesCreator -> injector", () => {
             console.error({{ key2 }});
           }
         };
-        
+        {{date()}}
         const generate{{key2}}Values = cmd =>
           cmd.parent.rawArgs
             .filter(arg => arg.includes('='))
@@ -145,9 +145,13 @@ describe("templatesCreator -> injector", () => {
         
         `;
 
-      const transformersMap = {
+      const transformers = {
         toLowerCase: jest.fn().mockImplementation((key) => key.toLowerCase()),
         repeat: jest.fn().mockImplementation((key) => `${key}${key}`),
+      };
+
+      const functions = {
+        date: jest.fn().mockImplementation((ctx) => new Date().getDate()),
       };
 
       const globalCtx = {
@@ -161,15 +165,24 @@ describe("templatesCreator -> injector", () => {
         targetRoot: "here/the/file/is/created",
       };
 
-      const keysInjector = injector(keys, transformersMap, globalCtx);
+      const keysInjector = injector(
+        keys,
+        { transformers, functions },
+        globalCtx
+      );
 
       const result = keysInjector(testTemplate, localCtx);
 
-      expect(transformersMap.toLowerCase).toHaveBeenCalledWith("YEAH", {
+      expect(transformers.toLowerCase).toHaveBeenCalledWith("YEAH", {
         ...globalCtx,
         ...localCtx,
       });
-      expect(transformersMap.repeat).toHaveBeenCalledWith("yeah", {
+      expect(transformers.repeat).toHaveBeenCalledWith("yeah", {
+        ...globalCtx,
+        ...localCtx,
+      });
+
+      expect(functions.date).toHaveBeenCalledWith({
         ...globalCtx,
         ...localCtx,
       });
@@ -186,7 +199,7 @@ describe("templatesCreator -> injector", () => {
             console.error(${keys.key2});
           }
         };
-        
+        ${new Date().getDate()}
         const generate${keys.key2}Values = cmd =>
           cmd.parent.rawArgs
             .filter(arg => arg.includes('='))
@@ -203,6 +216,32 @@ describe("templatesCreator -> injector", () => {
       );
     });
 
+    it("should apply functions given a key with ()", () => {
+      const testTemplate = `{{date()}}`;
+
+      const functions = {
+        date: jest.fn().mockImplementation((ctx) => new Date().getDate()),
+      };
+
+      const globalCtx = {
+        templateName: "what",
+        templateRoot: "yay",
+        keyValuePairs: {},
+      };
+
+      const localCtx = {
+        type: "FILE",
+        targetRoot: "here/the/file/is/created",
+      };
+
+      const transformers = {};
+      const keysInjector = injector({}, { transformers, functions }, globalCtx);
+
+      const result = keysInjector(testTemplate, localCtx);
+
+      expect(result).toEqual(`${new Date().getDate()}`);
+    });
+
     it("should throw a 'MissingTransformerImplementation' error when there is no transformer defined for a specifc tranformer key", () => {
       const keys = {
         key1: "YEAH",
@@ -211,11 +250,11 @@ describe("templatesCreator -> injector", () => {
         const handleError = {{ key1 | toLowerCase | repeat }} => {
         `;
 
-      const transformersMap = {
+      const transformers = {
         someTranformer: () => {},
       };
 
-      const keysInjector = injector(keys, transformersMap);
+      const keysInjector = injector(keys, { transformers });
 
       expect(() => keysInjector(testTemplate)).toThrowError(
         MissingTransformerImplementation

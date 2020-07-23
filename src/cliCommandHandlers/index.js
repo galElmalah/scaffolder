@@ -31,7 +31,7 @@ const getTransformedTemplates = (command, cmd) => {
     keyValuePairs,
   };
 
-  const injector = _injector(keyValuePairs, config.transformers, ctx);
+  const injector = _injector(keyValuePairs, config, ctx);
   const transformedTemplate = templateTransformer(
     currentCommandTemplate,
     injector,

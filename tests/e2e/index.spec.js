@@ -54,11 +54,19 @@ describe("e2e", () => {
       )
     ).toBeTruthy();
 
+    expect(
+      isFileContainsText(
+        `${__dirname}/results/not-nested/AWESOME.js`,
+        `date:${new Date().getDate()}`
+      )
+    ).toBeTruthy();
+
     assertThatTheContextIsPassedCorrectly(
       `${__dirname}/results/not-nested/context.js`,
       {
         keyValuePairs: { key1: "awesome", key5: "awesome" },
         templateName: "not-nested",
+        name: "context.js",
         targetRoot:
           "/Users/gale/Desktop/projects/scaffolder/tests/scaffolder/not-nested",
         templateRoot:
@@ -98,6 +106,8 @@ describe("e2e", () => {
     assertThatTheContextIsPassedCorrectly(
       `${__dirname}/results/nested/nest/d/e/eep/context.js`,
       {
+        name: "context.js",
+
         targetRoot:
           "/Users/gale/Desktop/projects/scaffolder/tests/scaffolder/nested/nest/d/e/eep",
         templateName: "nested",

@@ -33,7 +33,7 @@ const interactiveCreateCommandHandler = async (command, cmd) => {
 
     const templates = templateTransformer(
       currentCommandTemplate,
-      _injector(keyValuePairs, config.transformers, globalCtx)
+      _injector(keyValuePairs, config, globalCtx)
     );
     const templatesBuilder = new TemplatesBuilder(templates, chosenTemplate);
 

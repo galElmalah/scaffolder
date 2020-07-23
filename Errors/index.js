@@ -3,8 +3,10 @@ const FolderAlreadyExists = require("./FolderAlreadyExists");
 const MissingKeyValuePairs = require("./MissingKeyValuePairs");
 const NoScaffolderFolder = require("./NoScaffolderFolder");
 const MissingTransformerImplementation = require("./MissingTransformerImplementation");
+const MissingFunctionImplementation = require("./MissingFunctionImplementation");
 module.exports = {
   MissingTransformerImplementation,
+  MissingFunctionImplementation,
   NoMatchingTemplate,
   FolderAlreadyExists,
   MissingKeyValuePairs,
