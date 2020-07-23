@@ -8,7 +8,11 @@ const {
 const { isFolder, join, TYPES } = require("../filesUtils");
 const { applyTransformers } = require("./applyTransformers");
 
-const defaultConfig = () => ({ transformers: {}, functions: {} });
+const defaultConfig = () => ({
+  transformers: {},
+  functions: {},
+  keysToQuestions: {},
+});
 
 const extractKey = (k) => k.replace(/({|})/g, "").trim();
 
@@ -74,7 +78,7 @@ const templateReader = (commands) => (cmd) => {
   }
 
   if (fs.existsSync(getConfigPath(commands[cmd]))) {
-    config = require(getConfigPath(commands[cmd]));
+    config = { ...defaultConfig, ...require(getConfigPath(commands[cmd])) };
   }
 
   return {
