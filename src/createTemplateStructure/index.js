@@ -86,7 +86,7 @@ const templateReader = (commands) => (cmd) => {
 
 const templateTransformer = (templateDescriptor, injector) => {
   const createLocalCtx = ({ type = "FILE", targetRoot, name }) => ({
-    name,
+    fileName: name,
     type,
     targetRoot,
   });
