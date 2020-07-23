@@ -1,4 +1,3 @@
-const { SSL_OP_ALL } = require("constants");
 const fs = require("fs");
 const {
   NoMatchingTemplate,
