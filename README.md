@@ -93,7 +93,7 @@ For example, you can write the following:
 and the value that will be injected in your template will be the value after all of the transformations.
 
 - Transformers can be chained together.
-- Transformers are invoked with the value supplied for that key as the first argument and the [context](./context-object) object as the second argument.
+- Transformers are invoked with the value supplied for that key as the first argument and the [context](#context-object) object as the second argument.
 
 ### functions
 
