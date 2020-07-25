@@ -112,7 +112,7 @@ and the value that will be injected in your template will be the value after all
 
 ### functions
 
-functions are very similiar to tranformations, but they are unary, meaning, they are invoked without any key value supplied to them.  
+functions are very similiar to transformations, but they are unary, meaning, they are invoked without any key value supplied to them.  
 For example, you can write the following:
 `{{date()}}` and the value returned from are date function (defined in our config file) will be injected to the template.
 
