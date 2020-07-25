@@ -65,7 +65,7 @@ Show a specific command template files
 Scaffolder lets you extend and define all sorts of things via a config file.  
 the config file should be placed inside the **scaffolder** folder that the template you are generating is defined in and named `scaffolder.config.js`.
 
-Through the `scaffolder.config.js` file you can extend and customize scaffolder in several ways.
+Through the `scaffolder.config.js` file you can extend and customize scaffolder in several ways.  
 Example config file
 
 ```javascript
