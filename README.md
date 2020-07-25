@@ -57,7 +57,9 @@ Show a specific command template files
 
 - _--show-content_  
   Also show the full content of the template files.
+
 ---
+
 ## Scaffolder config file
 
 Scaffolder lets you extend and define all sorts of things via a config file.  
@@ -73,7 +75,14 @@ module.exports = {
   },
   functions: {
     date: (context) => Date.now(),
-  }
+  },
+  keysOptions: {
+    someKey: {
+      question:
+        "this text will be showen to the user in the interactive mode when he will be asked to enter the value for 'someKey'",
+    },
+  },
+};
 ```
 
 ### transformers
@@ -88,9 +97,23 @@ and the value that will be injected in your template will be the value after all
 
 ### functions
 
-functions are very similiar to tranformations but they are unary, meaning, they are invoked without any key value supplied to them.  
+functions are very similiar to tranformations, but they are unary, meaning, they are invoked without any key value supplied to them.  
 For example, you can write the following:
 `{{date()}}` and the value returned from are date function (defined in our config file) will be injected to the template.
+
+### keysOptions
+
+keysOptions is a map from keys to their options.  
+For example, lets say we have a key named myReactComponetName and we want to show a custom question to the user when he is asked to enter a value for that key, we can add the following to our config file:
+
+````javascript
+{
+  ...
+  ...
+  keysOptions: {
+    myReactComponetName: {question: "Enter a name for your react component:"}
+  }
+}
 
 ### context object
 
@@ -109,7 +132,7 @@ For example, you can write the following:
 
 ```npm
 npm i -g scaffolder-cli
-```
+````
 
 ### Create a commands folder in your project root directory
 
