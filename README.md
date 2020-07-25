@@ -106,7 +106,7 @@ For example, you can write the following:
 keysOptions is a map from keys to their options.  
 For example, lets say we have a key named myReactComponetName and we want to show a custom question to the user when he is asked to enter a value for that key, we can add the following to our config file:
 
-````javascript
+```javascript
 {
   ...
   ...
@@ -133,7 +133,7 @@ For example, lets say we have a key named myReactComponetName and we want to sho
 
 ```npm
 npm i -g scaffolder-cli
-````
+```
 
 ### Create a commands folder in your project root directory
 
