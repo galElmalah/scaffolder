@@ -25,14 +25,12 @@
 
 ## API
 
-### Commands
-
-#### **interactive, i**
+### **interactive, i**
 
 Run the scaffolder in an interactive mode, meaning, it will prompt the user to choose a template and a value for each key.
 This command is the most recommended one as it simplifies the process for the user a lot.
 
-#### **create** _\<commandName>_
+### **create** _\<commandName>_
 
 _\<commandName>_: One of the commands defined in the **scaffolder** folder. <br/>
 
@@ -48,18 +46,18 @@ _\<commandName>_: One of the commands defined in the **scaffolder** folder. <br/
   _\<key>_: One of the keys for a specific template  
   _\<value>_: The value you want the key to be replaced with.
 
-#### **list**, **ls**
+### **list**, **ls**
 
 Show the available commands from the current working directory.
 
-#### **show** _\<commandName>_
+### **show** _\<commandName>_
 
 Show a specific command template files  
  **options:**
 
 - _--show-content_  
   Also show the full content of the template files.
-
+---
 ## Scaffolder config file
 
 Scaffolder lets you extend and define all sorts of things via a config file.  
@@ -75,15 +73,8 @@ module.exports = {
   },
   functions: {
     date: (context) => Date.now(),
-  },
-  keysToQuestions: {
-    someKey:
-      "this is the question that will be showen when the user will be prompt abput 'someKey'",
-  },
-};
+  }
 ```
-
-** _keysToQuestions_ is still in the experimentation phase and the API might change without backward support**
 
 ### transformers
 
