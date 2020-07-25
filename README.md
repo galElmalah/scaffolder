@@ -10,8 +10,8 @@
 ---
 
 <p align="center"> 
-  Scaffolder lets you create dynamic templates and increase your project velocity. :shipit:.        <br/>
-  With Scaffolder you can define custom file structre template and link them to specifc commands which then can be used to create them in a few easy steps!
+  Scaffolder lets you create dynamic templates and increase your development velocity. :shipit:.        <br/>
+  With Scaffolder you can define custom file structre template and link them to specifc commands which can then be used to create them in a few easy steps!
   <br> 
 </p>
 
