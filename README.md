@@ -4,7 +4,7 @@
 
 [![npm version](https://badge.fury.io/js/scaffolder-cli.svg)](https://badge.fury.io/js/scaffolder-cli)
 [![GalElmalah](https://circleci.com/gh/galElmalah/scaffolder.svg?style=svg)](https://app.circleci.com/pipelines/github/galElmalah/scaffolder)
-  
+
 </div>
 
 ---
@@ -27,27 +27,37 @@
 
 ### Commands
 
-- **interactive, i**: run the tool in interactive mod, meaning, it will prompt the user to choose a template and a value for each key and in the end will ask if the template should be generated in a folder.  
-  this command is the most recommended one as it simplified the process for the user a lot.
+#### **interactive, i**
 
-- **create** _\<commandName>_  
-   _\<commandName>_: One of the commands defined in the **scaffolder** folder. <br/>**options:**
-  - _--load-from_  
-    Load the templates from a specific location _\<absolutePath>_.
-  - _--entry-point_  
-    Generate the template to a specified location _\<absolutePath>_.
-  - --folder, -f _\<folderName>_  
-    _\<folderName>_: The name of the folder you want the template to be generated into. If none is supplied the template will be generated to the current working directory.
-  - _\<key>=\<value>_  
-    _\<key>_: One of the keys for a specific template  
-    _\<value>_: The value you want the key to be replaced with.
-- **list**, **ls**  
-  Show the available commands from the current working directory.
-- **show** _\<commandName>_  
-  Show a specific command template files  
-  **options:**
-  - _--show-content_  
-    Also show the full content of the template files.
+Run the scaffolder in an interactive mode, meaning, it will prompt the user to choose a template and a value for each key.
+This command is the most recommended one as it simplifies the process for the user a lot.
+
+#### **create** _\<commandName>_
+
+_\<commandName>_: One of the commands defined in the **scaffolder** folder. <br/>
+
+**options:**
+- _--load-from_  _\<absolutePath>_  
+  Load the templates from a specific location.
+- _--entry-point_  _\<absolutePath>_  
+  Generate the template to a specified location.
+- --folder, -f _\<folderName>_  
+  _\<folderName>_: The name of the folder you want the template to be generated into. If none is supplied the template will be generated to the current working directory.
+- _\<key>=\<value>_  
+  _\<key>_: One of the keys for a specific template  
+  _\<value>_: The value you want the key to be replaced with.
+
+#### **list**, **ls**
+
+Show the available commands from the current working directory.
+
+#### **show** _\<commandName>_
+
+Show a specific command template files  
+ **options:**
+
+- _--show-content_  
+  Also show the full content of the template files.
 
 ## Getting started
 
