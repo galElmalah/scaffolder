@@ -114,6 +114,7 @@ For example, lets say we have a key named myReactComponetName and we want to sho
     myReactComponetName: {question: "Enter a name for your react component:"}
   }
 }
+```
 
 ### context object
 
