@@ -23,6 +23,21 @@
 
 ---
 
+### TOC
+- [API](#api)
+  - [interactive, i](#--interactive--i--)
+  - [create _\<commandName>_](#--create------commandname--)
+  - [list, ls](#--list------ls--)
+  - [show _\<commandName>_](#--show------commandname--)
+- [Scaffolder config file](#scaffolder-config-file)
+  - [transformers](#transformers)
+  - [functions](#functions)
+  - [keysOptions](#keysoptions)
+  - [context object](#context-object)
+- [Getting started](#getting-started)
+  - [install scaffolder globally](#install-scaffolder-globally)
+  - [Create a commands folder in your project root directory](#create-a-commands-folder-in-your-project-root-directory)
+
 ## API
 
 ### **interactive, i**
