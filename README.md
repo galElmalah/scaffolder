@@ -37,9 +37,10 @@ This command is the most recommended one as it simplifies the process for the us
 _\<commandName>_: One of the commands defined in the **scaffolder** folder. <br/>
 
 **options:**
-- _--load-from_  _\<absolutePath>_  
+
+- _--load-from_ _\<absolutePath>_  
   Load the templates from a specific location.
-- _--entry-point_  _\<absolutePath>_  
+- _--entry-point_ _\<absolutePath>_  
   Generate the template to a specified location.
 - --folder, -f _\<folderName>_  
   _\<folderName>_: The name of the folder you want the template to be generated into. If none is supplied the template will be generated to the current working directory.
@@ -58,6 +59,58 @@ Show a specific command template files
 
 - _--show-content_  
   Also show the full content of the template files.
+
+## Scaffolder config file
+
+Scaffolder lets you extend and define all sorts of things via a config file.  
+the config file should be placed inside the **scaffolder** folder that the template you are generating is defined in and named `scaffolder.config.js`.
+
+Through the `scaffolder.config.js` file you can extend and customize scaffolder in several ways.
+Example config file
+
+```javascript
+module.exports = {
+  transformers: {
+    toLowerCase: (keyValue, context) => keyValue.toLowerCase(),
+  },
+  functions: {
+    date: (context) => Date.now(),
+  },
+  keysToQuestions: {
+    someKey:
+      "this is the question that will be showen when the user will be prompt abput 'someKey'",
+  },
+};
+```
+
+** _keysToQuestions_ is still in the experimentation phase and the API might change without backward support**
+
+### transformers
+
+Transformers can be used to transform the key value.  
+For example, you can write the following:
+`{{ someKey | toLowerCase | someOtherTransformer }}`
+and the value that will be injected in your template will be the value after all of the transformations.
+
+- Transformers can be chained together.
+- Transformers are invoked with the value supplied for that key as the first argument and the [context](./context-object) object as the second argument.
+
+### functions
+
+functions are very similiar to tranformations but they are unary, meaning, they are invoked without any key value supplied to them.  
+For example, you can write the following:
+`{{date()}}` and the value returned from are date function (defined in our config file) will be injected to the template.
+
+### context object
+
+| property      | type                                                        | description                                                                                            |
+| :------------ | :---------------------------------------------------------- | :----------------------------------------------------------------------------------------------------- |
+| keyValuePairs | Object<string, string>                                      | Description of optionalBool.                                                                           |
+| templateName  | string                                                      | The name of the template being generated.                                                              |
+| templateRoot  | string                                                      | Absolute path to the template being generated.                                                         |
+| targetRoot    | string                                                      | Absolute path to the location the template is being generated into.                                    |
+| type          | string, one of: `"FILE_NAME"`, `"FILE_CONTENT"`, `"FOLDER"` | The current type being operated upon - file/folder/content.                                            |
+| fileName      | string                                                      | The name of the file being operated upon. Available only if the type is "FILE_NAME" or "FILE_CONTENT". |
 
 ## Getting started
 
