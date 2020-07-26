@@ -10,7 +10,7 @@ const { applyTransformers } = require("./applyTransformers");
 const defaultConfig = () => ({
   transformers: {},
   functions: {},
-  keysOptions: {},
+  parametersOptions: {},
 });
 
 const extractKey = (k) => k.replace(/({|})/g, "").trim();

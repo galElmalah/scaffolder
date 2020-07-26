@@ -28,7 +28,7 @@ const getTransformedTemplates = (command, cmd) => {
   const globalCtx = {
     templateName: command,
     templateRoot: commandsLocations[command],
-    keyValuePairs,
+    parametersValues: keyValuePairs,
     targetRoot: cmd.entryPoint || process.cwd(),
   };
 

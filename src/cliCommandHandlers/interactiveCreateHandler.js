@@ -25,11 +25,11 @@ const interactiveCreateCommandHandler = async (command, cmd) => {
 
     const keyValuePairs = await getKeysValues(
       currentCommandTemplate,
-      config.keysOptions
+      config.parametersOptions
     );
 
     const globalCtx = {
-      keyValuePairs,
+      parametersValues: keyValuePairs,
       templateName: chosenTemplate,
       templateRoot: availableTemplateCommands[chosenTemplate],
       targetRoot: command.entryPoint || process.cwd(),

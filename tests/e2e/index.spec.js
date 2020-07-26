@@ -34,7 +34,7 @@ const hasFileWithName = (path, fileName) =>
 const assertThatTheContextIsPassedCorrectly = (from, expctedContext) => {
   const context = require(from);
   const contextProperties = [
-    "keyValuePairs",
+    "parametersValues",
     "templateName",
     "targetRoot",
     "templateRoot",

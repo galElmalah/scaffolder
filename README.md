@@ -33,7 +33,7 @@
 - [Scaffolder config file](#scaffolder-config-file)
   - [transformers](#transformers)
   - [functions](#functions)
-  - [keysOptions](#keysoptions)
+  - [parametersOptions](#parametersoptions)
   - [context object](#context-object)
 - [Getting started](#getting-started)
   - [install scaffolder globally](#install-scaffolder-globally)
@@ -92,7 +92,7 @@ module.exports = {
   functions: {
     date: (context) => Date.now(),
   },
-  keysOptions: {
+  parametersOptions: {
     someKey: {
       question:
         "this text will be showen to the user in the interactive mode when he will be asked to enter the value for 'someKey'",
@@ -117,16 +117,16 @@ functions are very similiar to transformations, but they are unary, meaning, the
 For example, you can write the following:
 `{{date()}}` and the value returned from are date function (defined in our config file) will be injected to the template.
 
-### keysOptions
+### parametersOptions
 
-keysOptions is a map from keys to their options.  
+parametersOptions is a map from keys to their options.  
 For example, lets say we have a key named myReactComponetName and we want to show a custom question to the user when he is asked to enter a value for that key, we can add the following to our config file:
 
 ```javascript
 {
   ...
   ...
-  keysOptions: {
+  parametersOptions: {
     myReactComponetName: {question: "Enter a name for your react component:"}
   }
 }
@@ -134,14 +134,15 @@ For example, lets say we have a key named myReactComponetName and we want to sho
 
 ### context object
 
-| property      | type                                                        | description                                                                                            |
-| :------------ | :---------------------------------------------------------- | :----------------------------------------------------------------------------------------------------- |
-| keyValuePairs | Object<string, string>                                      | Key value pairs containing each key and his associated value in the current template.                  |
-| templateName  | string                                                      | The name of the template being generated.                                                              |
-| templateRoot  | string                                                      | Absolute path to the template being generated.                                                         |
-| targetRoot    | string                                                      | Absolute path to the location the template is being generated into.                                    |
-| type          | string, one of: `"FILE_NAME"`, `"FILE_CONTENT"`, `"FOLDER"` | The current type being operated upon - file/folder/content.                                            |
-| fileName      | string                                                      | The name of the file being operated upon. Available only if the type is "FILE_NAME" or "FILE_CONTENT". |
+| property        | type                                                        | description                                                                                            |
+| :-------------- | :---------------------------------------------------------- | :----------------------------------------------------------------------------------------------------- |
+| paramtersValues | Object<string, string>                                      | Key value pairs containing each key and his associated value in the current template.                  |
+| templateName    | string                                                      | The name of the template being generated.                                                              |
+| templateRoot    | string                                                      | Absolute path to the template being generated.                                                         |
+| targetRoot      | string                                                      | Absolute path to the location the template is being generated into.                                    |
+| currentFilePath | string                                                      | The path to the file being created.                                                                    |
+| type            | string, one of: `"FILE_NAME"`, `"FILE_CONTENT"`, `"FOLDER"` | The current type being operated upon - file/folder/content.                                            |
+| fileName        | string                                                      | The name of the file being operated upon. Available only if the type is "FILE_NAME" or "FILE_CONTENT". |
 
 ## Getting started
 

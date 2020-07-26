@@ -8,7 +8,7 @@ module.exports = {
       return `date:${new Date().getDate()}`;
     },
   },
-  keysOptions: {
+  parametersOptions: {
     key5: {
       question: "enter a value for key5",
     },

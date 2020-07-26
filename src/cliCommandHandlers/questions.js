@@ -52,14 +52,14 @@ const chooseTemplate = (commands) => {
   ]);
 };
 
-const getQuestionMessage = (keysOptions, key) => {
+const getQuestionMessage = (parametersOptions = {}, key) => {
   return (
-    (keysOptions[key] && keysOptions[key].question) ||
+    (parametersOptions[key] && parametersOptions[key].question) ||
     `Enter a value for the following key "${key}"`
   );
 };
 
-const getKeysValues = (currentCommandTemplate, keysOptions) => {
+const getKeysValues = (currentCommandTemplate, parametersOptions) => {
   const keySet = new Set();
   const keys = getAllKeys(currentCommandTemplate, keySet);
   const questions = keys.filter(Boolean).map((key) => {
@@ -67,7 +67,7 @@ const getKeysValues = (currentCommandTemplate, keysOptions) => {
     return {
       type: "input",
       name: cleanKey,
-      message: getQuestionMessage(keysOptions, cleanKey),
+      message: getQuestionMessage(parametersOptions, cleanKey),
     };
   });
   return inquirer.prompt(questions);

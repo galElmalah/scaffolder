@@ -157,7 +157,7 @@ describe("templatesCreator -> injector", () => {
       const globalCtx = {
         templateName: "what",
         templateRoot: "yay",
-        keyValuePairs: { ...keys },
+        parametersValues: { ...keys },
         executedAt: process.cwd(),
       };
 
