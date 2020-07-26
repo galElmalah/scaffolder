@@ -9,6 +9,7 @@ module.exports = {
 		'ecmaVersion': 2018
 	},
 	'rules': {
+		'no-prototype-builtins': 'off',
 		'indent': [
 			'error',
 			'tab'
