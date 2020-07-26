@@ -44,6 +44,7 @@ const assertThatTheContextIsPassedCorrectly = (from, expctedContext) => {
   contextProperties.forEach((prop) => {
     expect(context).toHaveProperty(prop);
   });
+  return context;
 };
 
 describe("e2e", () => {
@@ -103,8 +104,13 @@ describe("e2e", () => {
       )
     ).toBeTruthy();
 
-    assertThatTheContextIsPassedCorrectly(
+    const context = assertThatTheContextIsPassedCorrectly(
       `${__dirname}/results/nested/nest/d/e/eep/context.js`
+    );
+
+    expect(context.targetRoot).toBe(`${__dirname}/results`);
+    expect(context.currentFilePath).toBe(
+      `${__dirname}/results/nested/nest/d/e/eep`
     );
 
     expect(

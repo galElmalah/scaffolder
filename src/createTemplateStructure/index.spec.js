@@ -158,6 +158,7 @@ describe("templatesCreator -> injector", () => {
         templateName: "what",
         templateRoot: "yay",
         keyValuePairs: { ...keys },
+        executedAt: process.cwd(),
       };
 
       const localCtx = {

@@ -25,17 +25,18 @@ const getTransformedTemplates = (command, cmd) => {
 
   const keyValuePairs = generateKeyValues(cmd);
 
-  const ctx = {
+  const globalCtx = {
     templateName: command,
     templateRoot: commandsLocations[command],
     keyValuePairs,
+    targetRoot: cmd.entryPoint || process.cwd(),
   };
 
-  const injector = _injector(keyValuePairs, config, ctx);
+  const injector = _injector(keyValuePairs, config, globalCtx);
   const transformedTemplate = templateTransformer(
     currentCommandTemplate,
     injector,
-    ctx
+    globalCtx
   );
 
   return transformedTemplate;

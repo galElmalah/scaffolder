@@ -57,13 +57,13 @@ const createTemplateStructure = (folderPath) => {
         type: TYPES.FOLDER,
         name: file,
         content: createTemplateStructure(join(folderPath, file)),
-        targetRoot: folderPath,
+        scaffolderTargetRoot: folderPath,
       };
     }
     return {
       name: file,
       content: fs.readFileSync(join(folderPath, file)).toString(),
-      targetRoot: folderPath,
+      scaffolderTargetRoot: folderPath,
     };
   });
 };
@@ -86,18 +86,20 @@ const templateReader = (commands) => (cmd) => {
   };
 };
 
-const templateTransformer = (templateDescriptor, injector) => {
-  const createLocalCtx = ({ type = "FILE", targetRoot, name }) => ({
-    fileName: name,
-    type,
-    targetRoot,
-  });
+const templateTransformer = (templateDescriptor, injector, globalCtx) => {
+  const createLocalCtx = ({ type = "FILE", scaffolderTargetRoot, name }) => {
+    const currentFileLocationPath = scaffolderTargetRoot
+      .split("scaffolder")
+      .pop();
+    const currentFilePath = `${globalCtx.targetRoot}${currentFileLocationPath}`;
+    return { fileName: name, type, currentFilePath };
+  };
   return templateDescriptor.map((descriptor) => {
     if (descriptor.type === TYPES.FOLDER) {
       return {
         type: descriptor.type,
         name: injector(descriptor.name, createLocalCtx(descriptor)),
-        content: templateTransformer(descriptor.content, injector),
+        content: templateTransformer(descriptor.content, injector, globalCtx),
       };
     }
     return {
