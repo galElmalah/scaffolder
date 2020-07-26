@@ -13,8 +13,6 @@ const defaultConfig = () => ({
 	parametersOptions: {},
 });
 
-
-
 const extractKey = (k) => k.replace(/({|})/g, '').trim();
 
 const isAFunctionKey = (key) => /.+\(\)/.test(key);
