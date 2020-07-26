@@ -21,6 +21,7 @@
   "author": "Gal ELmalah",
   "license": "ISC",
   "devDependencies": {
+    "eslint": "^7.5.0",
     "jest": "^24.1.0",
     "rimraf": "^2.6.3"
   },
