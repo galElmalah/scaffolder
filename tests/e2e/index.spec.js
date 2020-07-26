@@ -1,121 +1,121 @@
-const { execSync } = require("child_process");
-const { existsSync, readFileSync, readdirSync } = require("fs");
-var rimraf = require("rimraf");
+const { execSync } = require('child_process');
+const { existsSync, readFileSync, readdirSync } = require('fs');
+var rimraf = require('rimraf');
 
 const execOnTestDir = (cmd, withEntryPoint = true) =>
-  execSync(
-    `node ${process.cwd()}/cli.js ${cmd} ${
-      withEntryPoint ? `--entry-point ${__dirname}/results` : ""
-    }`,
-    {
-      stdio: "inherit",
-      stderr: "inherit",
-      cwd: __dirname,
-    }
-  );
+	execSync(
+		`node ${process.cwd()}/cli.js ${cmd} ${
+			withEntryPoint ? `--entry-point ${__dirname}/results` : ''
+		}`,
+		{
+			stdio: 'inherit',
+			stderr: 'inherit',
+			cwd: __dirname,
+		}
+	);
 
 const cleanUp = (folder) => rimraf.sync(`${__dirname}/results/${folder}`);
 
 const isFolderExists = (folder) => {
-  try {
-    return existsSync(`${__dirname}/results/${folder}`);
-  } catch (e) {
-    console.log("ERROR::", e);
-    return false;
-  }
+	try {
+		return existsSync(`${__dirname}/results/${folder}`);
+	} catch (e) {
+		console.log('ERROR::', e);
+		return false;
+	}
 };
 
 const isFileContainsText = (path, content) =>
-  readFileSync(path, "utf-8").includes(content);
+	readFileSync(path, 'utf-8').includes(content);
 
 const hasFileWithName = (path, fileName) =>
-  readdirSync(path).some((name) => name.includes(fileName));
+	readdirSync(path).some((name) => name.includes(fileName));
 
-const assertThatTheContextIsPassedCorrectly = (from, expctedContext) => {
-  const context = require(from);
-  const contextProperties = [
-    "parametersValues",
-    "templateName",
-    "targetRoot",
-    "templateRoot",
-    "type",
-    "fileName",
-  ];
-  contextProperties.forEach((prop) => {
-    expect(context).toHaveProperty(prop);
-  });
-  return context;
+const assertThatTheContextIsPassedCorrectly = (from) => {
+	const context = require(from);
+	const contextProperties = [
+		'parametersValues',
+		'templateName',
+		'targetRoot',
+		'templateRoot',
+		'type',
+		'fileName',
+	];
+	contextProperties.forEach((prop) => {
+		expect(context).toHaveProperty(prop);
+	});
+	return context;
 };
 
-describe("e2e", () => {
-  it("should create the template with the right values as keys", () => {
-    execOnTestDir(
-      "create not-nested key1=awesome key5=awesome --folder not-nested"
-    );
-    expect(isFolderExists("not-nested")).toBeTruthy();
+describe('e2e', () => {
+	it('should create the template with the right values as keys', () => {
+		execOnTestDir(
+			'create not-nested key1=awesome key5=awesome --folder not-nested'
+		);
+		expect(isFolderExists('not-nested')).toBeTruthy();
 
-    expect(
-      hasFileWithName(`${__dirname}/results/not-nested`, "AWESOME.js")
-    ).toBeTruthy();
+		expect(
+			hasFileWithName(`${__dirname}/results/not-nested`, 'AWESOME.js')
+		).toBeTruthy();
 
-    expect(
-      isFileContainsText(
-        `${__dirname}/results/not-nested/AWESOME.js`,
-        "AWESOME"
-      )
-    ).toBeTruthy();
+		expect(
+			isFileContainsText(
+				`${__dirname}/results/not-nested/AWESOME.js`,
+				'AWESOME'
+			)
+		).toBeTruthy();
 
-    expect(
-      isFileContainsText(
-        `${__dirname}/results/not-nested/AWESOME.js`,
-        `date:${new Date().getDate()}`
-      )
-    ).toBeTruthy();
+		expect(
+			isFileContainsText(
+				`${__dirname}/results/not-nested/AWESOME.js`,
+				`date:${new Date().getDate()}`
+			)
+		).toBeTruthy();
 
-    assertThatTheContextIsPassedCorrectly(
-      `${__dirname}/results/not-nested/context.js`
-    );
-    cleanUp("not-nested");
-  });
+		assertThatTheContextIsPassedCorrectly(
+			`${__dirname}/results/not-nested/context.js`
+		);
+		cleanUp('not-nested');
+	});
 
-  it("runs all of the commands without throwing", () => {
-    execOnTestDir("list");
-    execOnTestDir("show not-nested", false);
-    // execOnTestDir("show nested", false);
-  });
+	it('runs all of the commands without throwing', () => {
+		execOnTestDir('list');
+		execOnTestDir('show not-nested', false);
+		// execOnTestDir("show nested", false);
+	});
 
-  it("should create a nested template", () => {
-    execOnTestDir("create nested key=awesome keyF=f2 --folder nested");
-    expect(isFolderExists("nested")).toBeTruthy();
-    expect(
-      isFileContainsText(`${__dirname}/results/nested/awesome.js`, "awesome")
-    ).toBeTruthy();
-    expect(
-      isFileContainsText(
-        `${__dirname}/results/nested/F2/just-some-file.txt`,
-        "lol"
-      )
-    ).toBeTruthy();
+	it('should create a nested template', () => {
+		execOnTestDir('create nested key=awesome keyF=f2 --folder nested');
+		expect(isFolderExists('nested')).toBeTruthy();
+		expect(
+			isFileContainsText(`${__dirname}/results/nested/awesome.js`, 'awesome')
+		).toBeTruthy();
+		expect(
+			isFileContainsText(
+				`${__dirname}/results/nested/F2/just-some-file.txt`,
+				'lol'
+			)
+		).toBeTruthy();
 
-    expect(
-      isFileContainsText(
-        `${__dirname}/results/nested/nest/d/e/eep/shit.js`,
-        "whattttt the awesome"
-      )
-    ).toBeTruthy();
+		expect(
+			isFileContainsText(
+				`${__dirname}/results/nested/nest/d/e/eep/shit.js`,
+				'whattttt the awesome'
+			)
+		).toBeTruthy();
 
-    const context = assertThatTheContextIsPassedCorrectly(
-      `${__dirname}/results/nested/nest/d/e/eep/context.js`
-    );
+		const context = assertThatTheContextIsPassedCorrectly(
+			`${__dirname}/results/nested/nest/d/e/eep/context.js`
+		);
 
-    expect(context.targetRoot).toBe(`${__dirname}/results`);
-    expect(context.currentFilePath).toBe(
-      `${__dirname}/results/nested/nest/d/e/eep`
-    );
+		expect(context.targetRoot).toBe(`${__dirname}/results`);
+		expect(context.currentFilePath).toBe(
+			`${__dirname}/results/nested/nest/d/e/eep`
+		);
 
-    expect(
-      hasFileWithName(`${__dirname}/results/nested`, "awesome.js")
-    ).toBeTruthy();
-    cleanUp("nested");
-  });
+		expect(
+			hasFileWithName(`${__dirname}/results/nested`, 'awesome.js')
+		).toBeTruthy();
+		cleanUp('nested');
+	});
 });
