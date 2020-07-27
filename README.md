@@ -136,7 +136,7 @@ For example, lets say we have a key named myReactComponetName and we want to sho
 
 | property        | type                                                        | description                                                                                            |
 | :-------------- | :---------------------------------------------------------- | :----------------------------------------------------------------------------------------------------- |
-| paramtersValues | Object<string, string>                                      | Key value pairs containing each key and his associated value in the current template.                  |
+| parametersValues | Object<string, string>                                      | Key value pairs containing each key and his associated value in the current template.                  |
 | templateName    | string                                                      | The name of the template being generated.                                                              |
 | templateRoot    | string                                                      | Absolute path to the template being generated.                                                         |
 | targetRoot      | string                                                      | Absolute path to the location the template is being generated into.                                    |
