@@ -11,7 +11,7 @@ const {
 	chooseTemplate,
 } = require('./questions');
 
-const interactiveCreateCommandHandler = async (command, cmd) => {
+const interactiveCreateCommandHandler = async (command) => {
 	try {
 		const availableTemplateCommands = await commandsBuilder(process.cwd());
 		const { chosenTemplate } = await chooseTemplate(availableTemplateCommands);

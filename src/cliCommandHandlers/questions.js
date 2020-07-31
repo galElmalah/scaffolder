@@ -35,10 +35,14 @@ const getQuestionMessage = (parametersOptions = {}, key) => {
 	);
 };
 
-const getKeysValues = (currentCommandTemplate, parametersOptions) => {
+const extractAllKeysFromTemplate = (currentCommandTemplate) => {
 	const keySet = new Set();
 	const keys = getAllKeys(currentCommandTemplate, keySet);
-	const questions = keys.filter(Boolean).map((key) => {
+	return keys.filter(Boolean);
+};
+
+const getKeysValues = (currentCommandTemplate, parametersOptions) => {
+	const questions = extractAllKeysFromTemplate(currentCommandTemplate).map((key) => {
 		const cleanKey = extractKey(key);
 		return {
 			type: 'input',
@@ -71,4 +75,5 @@ module.exports = {
 	getKeysValues,
 	chooseTemplate,
 	shouldCreateAFolder,
+	extractAllKeysFromTemplate
 };

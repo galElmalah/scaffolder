@@ -42,7 +42,6 @@ const replaceKeyWithValue = (
 		throw new MissingKeyValuePairs(match);
 	}
 
-
 	const keyInitialValue = keyValuePairs[key];
 
 	return transformersKeys
@@ -78,7 +77,7 @@ const templateReader = (commands) => (cmd) => {
 	}
 
 	if (fs.existsSync(getConfigPath(commands[cmd]))) {
-		config = { ...defaultConfig, ...require(getConfigPath(commands[cmd])) };
+		config = { ...defaultConfig(), ...require(getConfigPath(commands[cmd])) };
 	}
 
 	return {

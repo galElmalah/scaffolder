@@ -40,6 +40,7 @@ const templatePathsFinder = (currentPath) => {
  * @returns {Object.<string, string>} key value pairs where the key is the template command and the value is the path to that command
  */
 const commandsBuilder = (currentPath) => {
+
   const scaffolderPaths = templatePathsFinder(currentPath);
   let allCommands = {};
   for (const scaffolderPath of scaffolderPaths) {
