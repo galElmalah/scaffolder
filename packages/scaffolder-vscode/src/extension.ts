@@ -49,22 +49,26 @@ export function activate(context: vscode.ExtensionContext) {
               ignoreFocusOut: true,
             }
           )) || {};
+
         if (!chosenTemplate) {
           return;
         }
+
         scaffolderOut.appendLine(JSON.stringify({ chosenTemplate }, null, 2));
         const { config, currentCommandTemplate } = scaffolder.templateReader(
           availableTemplateCommands
         )(chosenTemplate);
+
         const templateKeys = scaffolder.extractAllKeysFromTemplate(
           currentCommandTemplate
         );
+
         scaffolderOut.appendLine(
           JSON.stringify({ chosenTemplate, config, templateKeys }, null, 2)
         );
 
         const paramsValues = {};
-        // get values for the keys
+
         for (let param of templateKeys) {
           const cleanKey = scaffolder.extractKey(param);
           const paramValue = await vscode.window.showInputBox({
@@ -76,28 +80,34 @@ export function activate(context: vscode.ExtensionContext) {
           // @ts-ignore
           paramsValues[scaffolder.extractKey(param)] = paramValue;
         }
+
         const globalCtx = {
           parametersValues: paramsValues,
           templateName: chosenTemplate,
           templateRoot: availableTemplateCommands[chosenTemplate],
           targetRoot: uri.fsPath,
         };
+
         const templates = scaffolder.templateTransformer(
           currentCommandTemplate,
           scaffolder.injector(paramsValues, config, globalCtx),
           globalCtx
         );
+
         const templatesBuilder = new scaffolder.TemplatesBuilder(
           templates,
           chosenTemplate
         );
+        templatesBuilder.withCustomEntryPoint(uri.fsPath);
         await Promise.all(templatesBuilder.build());
-        scaffolderOut.appendLine(JSON.stringify(paramsValues, null, 2));
         vscode.window.showInformationMessage(
-          "Scaffolder: successfully created your template"
+          `Scaffolder: Generated "${chosenTemplate}" at - ${uri.fsPath}`
         );
       } catch (e) {
         scaffolderOut.appendLine(e);
+        vscode.window.showInformationMessage(
+          `Scaffolder: Failed to generate your template - check the output console for more information`
+        );
       }
 
       // const values = await scaffolder.commandsBuilder(uri.fsPath);

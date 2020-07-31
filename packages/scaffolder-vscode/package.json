@@ -28,11 +28,11 @@
       },
       {
         "command": "scaffolder-vscode.createTemplateInFolder",
-        "title": "Scaffolder: Create Template"
+        "title": "Scaffolder: Generate Template"
       },
       {
         "command": "scaffolder-vscode.createTemplateInFile",
-        "title": "Scaffolder: Create Template"
+        "title": "Scaffolder: Generate Template"
       }
     ],
     "menus": {
