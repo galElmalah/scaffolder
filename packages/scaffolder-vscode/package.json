@@ -74,5 +74,8 @@
     "mocha": "^7.1.2",
     "typescript": "^3.8.3",
     "vscode-test": "^1.3.0"
+  },
+  "dependencies": {
+    "scaffolder-cli": "^1.4.15"
   }
 }
