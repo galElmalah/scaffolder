@@ -2,6 +2,7 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from "vscode";
 import * as scaffolder from "scaffolder-cli";
+
 //Create output channel
 let scaffolderOut = vscode.window.createOutputChannel("Scaffolder");
 scaffolderOut.appendLine("alshdkjaslhdkjash");
@@ -48,6 +49,9 @@ export function activate(context: vscode.ExtensionContext) {
               ignoreFocusOut: true,
             }
           )) || {};
+        if (!chosenTemplate) {
+          return;
+        }
         scaffolderOut.appendLine(JSON.stringify({ chosenTemplate }, null, 2));
         const { config, currentCommandTemplate } = scaffolder.templateReader(
           availableTemplateCommands
@@ -72,6 +76,22 @@ export function activate(context: vscode.ExtensionContext) {
           // @ts-ignore
           paramsValues[scaffolder.extractKey(param)] = paramValue;
         }
+        const globalCtx = {
+          parametersValues: paramsValues,
+          templateName: chosenTemplate,
+          templateRoot: availableTemplateCommands[chosenTemplate],
+          targetRoot: uri.fsPath,
+        };
+        const templates = scaffolder.templateTransformer(
+          currentCommandTemplate,
+          scaffolder.injector(paramsValues, config, globalCtx),
+          globalCtx
+        );
+        const templatesBuilder = new scaffolder.TemplatesBuilder(
+          templates,
+          chosenTemplate
+        );
+        await Promise.all(templatesBuilder.build());
         scaffolderOut.appendLine(JSON.stringify(paramsValues, null, 2));
         vscode.window.showInformationMessage(
           "Scaffolder: successfully created your template"
