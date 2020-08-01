@@ -23,10 +23,6 @@
   "contributes": {
     "commands": [
       {
-        "command": "scaffolder-vscode.listTemplates",
-        "title": "Scaffolder: List Templates"
-      },
-      {
         "command": "scaffolder-vscode.createTemplateInFolder",
         "title": "Scaffolder: Generate Template"
       },
