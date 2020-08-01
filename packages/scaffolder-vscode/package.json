@@ -2,7 +2,7 @@
   "name": "scaffolder-vscode",
   "displayName": "scaffolder-vscode",
   "description": "Enabling scaffolder capabilities via a vscode extension!",
-  "version": "0.9.0",
+  "version": "0.10.0",
   "publisher": "ctf-vscode",
   "engines": {
     "vscode": "^1.45.0"
