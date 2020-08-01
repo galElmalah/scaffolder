@@ -10,13 +10,11 @@ export const errorHandler = (
   scaffolderOut.appendLine(e);
   if (e.getDisplayErrorMessage) {
     scaffolderOut.appendLine(e.getDisplayErrorMessage());
-    vscode.window.showInformationMessage(
+    vscode.window.showErrorMessage(
       scaffolderMessage(e.getDisplayErrorMessage())
     );
   } else {
     scaffolderOut.appendLine(e.message);
-    vscode.window.showInformationMessage(
-      scaffolderMessage(genericErrorMessage)
-    );
+    vscode.window.showErrorMessage(scaffolderMessage(genericErrorMessage));
   }
 };
