@@ -74,6 +74,7 @@ module.exports = {
 	shouldGenerateTemplateInAFolder,
 	getKeysValues,
 	chooseTemplate,
+	getQuestionMessage,
 	shouldCreateAFolder,
 	extractAllKeysFromTemplate
 };
