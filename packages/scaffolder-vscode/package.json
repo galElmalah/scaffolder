@@ -1,7 +1,7 @@
 {
   "name": "scaffolder-vscode",
   "displayName": "scaffolder-vscode",
-  "description": "enabling ctf capabilities via vscode extension",
+  "description": "Enabling scaffolder capabilities via a vscode extension!",
   "version": "0.7.0",
   "publisher": "ctf-vscode",
   "engines": {
@@ -9,15 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/galElmalah/ctf-vscode"
+    "url": "https://github.com/galElmalah/scaffolder-vscode"
   },
   "categories": [
     "Other"
   ],
   "activationEvents": [
     "onCommand:scaffolder-vscode.createTemplateInFolder",
-    "onCommand:scaffolder-vscode.createTemplateInFile",
-    "onCommand:scaffolder-vscode.listTemplates"
+    "onCommand:scaffolder-vscode.createTemplateInFile"
   ],
   "main": "./out/extension.js",
   "contributes": {
@@ -33,10 +32,6 @@
     ],
     "menus": {
       "explorer/context": [
-        {
-          "command": "scaffolder-vscode.listTemplates",
-          "group": "scaffolder-vscode"
-        },
         {
           "command": "scaffolder-vscode.createTemplateInFolder",
           "group": "scaffolder-vscode",

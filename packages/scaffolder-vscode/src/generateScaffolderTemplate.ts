@@ -2,23 +2,28 @@ import { chooseTemplate } from "./chooseTemplate";
 import { errorHandler } from "./errorHandler";
 import { getParamsValuesFromUser } from "./getParamsValuesFromUser";
 import { scaffolderMessage } from "./scaffolderMessage";
-import * as scaffolder from "scaffolder-cli";
+import {
+  commandsBuilder,
+  templateReader,
+  extractAllKeysFromTemplate,
+  templateTransformer,
+  injector,
+  TemplatesBuilder,
+} from "scaffolder-cli";
 import * as vscode from "vscode";
 
 const scaffolderOut = vscode.window.createOutputChannel("Scaffolder");
 
 export const generateScaffolderTemplate = async (path: string) => {
   try {
-    const availableTemplateCommands = await scaffolder.commandsBuilder(path);
+    const availableTemplateCommands = await commandsBuilder(path);
     const chosenTemplate = await chooseTemplate(availableTemplateCommands);
 
-    const { config, currentCommandTemplate } = scaffolder.templateReader(
+    const { config, currentCommandTemplate } = templateReader(
       availableTemplateCommands
     )(chosenTemplate);
 
-    const templateKeys = scaffolder.extractAllKeysFromTemplate(
-      currentCommandTemplate
-    );
+    const templateKeys = extractAllKeysFromTemplate(currentCommandTemplate);
 
     const paramsValues = await getParamsValuesFromUser(templateKeys, config);
 
@@ -29,13 +34,13 @@ export const generateScaffolderTemplate = async (path: string) => {
       targetRoot: path,
     };
 
-    const templates = scaffolder.templateTransformer(
+    const templates = templateTransformer(
       currentCommandTemplate,
-      scaffolder.injector(paramsValues, config, globalCtx),
+      injector(paramsValues, config, globalCtx),
       globalCtx
     );
 
-    const templatesBuilder = new scaffolder.TemplatesBuilder(
+    const templatesBuilder = new TemplatesBuilder(
       templates,
       chosenTemplate
     ).withCustomEntryPoint(path);
