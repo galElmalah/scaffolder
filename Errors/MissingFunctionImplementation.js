@@ -7,12 +7,12 @@ class MissingFunctionImplementation extends Error {
 
 	getDisplayErrorMessage() {
 		const message = `${error(
-			`Error while trying to apply the following function ${boldGreen(
+			`Error while trying to apply the following function "${boldGreen(
 				this.functionKey
-			)}.`
-		)}\nYou are probably missing a definition for the ${boldGreen(
+			)}".`
+		)}\nYou are probably missing a definition for the "${boldGreen(
 			this.functionKey
-		)} function in your scaffolder.config.js file}\nFor more information about transformers check this out ${path(
+		)}" function in your scaffolder.config.js file\nFor more information about transformers check this out ${path(
 			'https://github.com/galElmalah/scaffolder#getting-started'
 		)}`;
 

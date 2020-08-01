@@ -7,12 +7,12 @@ class MissingTransformerImplementation extends Error {
 
 	getDisplayErrorMessage() {
 		const message = `${error(
-			`Error while trying to apply the following tranformation ${boldGreen(
+			`Error while trying to apply the following transformation "${boldGreen(
 				this.transformationKey
-			)}.`
-		)}\nYou are probably missing a definiton for the  ${boldGreen(
+			)}".`
+		)}\nYou are probably missing a definition for the "${boldGreen(
 			this.transformationKey
-		)} tranformer in your scaffolder.config.js file}\nFor more information about tranformers check this out ${path(
+		)}" transformer in your scaffolder.config.js file\nFor more information about transformers check this out ${path(
 			'https://github.com/galElmalah/scaffolder#getting-started'
 		)}`;
 

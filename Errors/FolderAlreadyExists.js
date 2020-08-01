@@ -9,10 +9,10 @@ class FolderAlreadyExists extends Error {
 
 	getDisplayErrorMessage() {
 		const message = `${error(
-			`Error while creating the ${boldGreen(this.cmd)} template.`
-		)}\nthere is probably a folder with the same name as ${boldGreen(
+			`Error while creating the "${boldGreen(this.cmd)}" template.`
+		)}\nThere is probably a folder with the same name as "${boldGreen(
 			this.folder
-		)}\nat the location ${path(this.path)}
+		)}"\nAt the location ${path(this.path)}
           `;
 
 		return message;

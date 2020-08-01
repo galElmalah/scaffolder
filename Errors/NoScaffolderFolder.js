@@ -9,7 +9,7 @@ class NoScaffolderFolder extends Error {
 		const githubLink = 'https://github.com/galElmalah/scaffolder';
 		const message = `${error(
 			'Error there is no scaffolder folder.'
-		)}\nPlease create a scaffolder folder.\nFor more info checkout: ${path(
+		)}\nPlease create a scaffolder folder.\nFor more info go to ${path(
 			githubLink
 		)}`;
 
