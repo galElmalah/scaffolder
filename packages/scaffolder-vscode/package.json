@@ -12,7 +12,16 @@
     "url": "https://github.com/galElmalah/scaffolder-vscode"
   },
   "categories": [
-    "Other"
+    "Other",
+    "Programming Languages",
+    "Snippets"
+  ],
+  "keywords": [
+    "boilerplate",
+    "code",
+    "velocity",
+    "automation",
+    "templates"
   ],
   "activationEvents": [
     "onCommand:scaffolder-vscode.createTemplateInFolder",
