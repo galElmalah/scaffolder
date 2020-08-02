@@ -1,26 +1,13 @@
 # scaffolder-vscode README
 
-**This extension relies on the fact that you got scaffolder-cli installed globally. 
-Run `npm i -g scaffolder-cli`**
+**Easily generate dynamic boilerplate for your project!**
 
-Right click any folder or file and choose the "Create Template" option from the menu to create a template.
+Right click any folder or file and choose the "Scaffolder: Generate Template" option from the menu to generate a template.
 
-## Installation
-Visit the extensions page in the [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=ctf-vscode.scaffolder-vscode) and follow the instructions there.
+For more information and setup instructions check out [scaffolder-cli repo](https://github.com/galElmalah/scaffolder).
 
 ## Features
 
+### Generating a template
+
 ![](images/scaffolder-vscode-example.gif)
-
-## Requirements
-
-**This extension relay upon the fact that you got scaffolder-cli installed globally.  
-Run `npm i -g scaffolder-cli`**
-
-## Extension Settings
-
-## Release Notes
-
-### 0.6.2
-
-Add support for listing all templates available from a directory by pressing on the "scaffolder: list templates"

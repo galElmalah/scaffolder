@@ -1,9 +1,8 @@
 # Change Log
 
-All notable changes to the "ctf-vscode" extension will be documented in this file.
+## v0.12.2 - 01-08-2020
 
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
-
-## [Unreleased]
-
-- Initial release
+### Added
+**Proper support for vscode!**  
+Having scaffolder-cli installed globally is no longer an hard requirement.  
+The extension now offers a native vscode experience!
