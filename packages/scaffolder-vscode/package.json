@@ -2,7 +2,7 @@
   "name": "scaffolder-vscode",
   "displayName": "scaffolder-vscode",
   "description": "Easily generate dynamic boilerplate for your project!",
-  "version": "0.12.2",
+  "version": "0.12.3",
   "publisher": "ctf-vscode",
   "engines": {
     "vscode": "^1.45.0"
