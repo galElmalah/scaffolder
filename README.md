@@ -1,4 +1,12 @@
-<h3 align="center">Scaffolder - Creating Template Folder</h3>
+
+
+<div align="center">
+
+![Scaffolder logo](scaffolder-logo.png)  
+
+</div>
+
+<h3 align="center">Scaffolder</h3>
 
 <div align="center">
 
