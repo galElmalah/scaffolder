@@ -135,10 +135,21 @@ For example, lets say we have a key named myReactComponetName and we want to sho
   ...
   ...
   parametersOptions: {
-    myReactComponetName: {question: "Enter a name for your react component:"}
+    myReactComponentName: {
+      question: "Enter a name for your react component:",
+       validation: (value) => value.length > 3 ? true : "The component name must be longer than 3 chars" 
+    }
   }
 }
 ```
+#### parameter options
+| property        | type                                                        | description                                                                                            |
+| :-------------- | :---------------------------------------------------------- | :----------------------------------------------------------------------------------------------------- |
+| question    | string                                     | The question that will be shown to the user when he will enter a value for the matching parameter             |
+| validation    | (value: string): string \| true                                                      | this function will be invoked to validate the user input.<br/>Return a string  if the value is invalid, this string will be shown to the user as an error message. Return true if the value is valid.                                                              |
+
+
+
 
 ### context object
 
