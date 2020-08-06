@@ -9,8 +9,14 @@ module.exports = {
 		},
 	},
 	parametersOptions: {
-		key5: {
-			question: 'enter a value for key5',
+		key1: {
+			question: 'enter a value for this key',
+			validation: (value) => {
+				if(value.length < 3) {
+					return 'the string must be at least 4 chars in length';
+				}
+				return true;
+			}
 		},
 	},
 };

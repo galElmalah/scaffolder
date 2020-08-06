@@ -58,7 +58,7 @@ const createCommandHandler = (command, cmd) => {
 	}
 };
 
-const listCommandHandler = (command, cmd) => {
+const listCommandHandler = (command) => {
 	const entryPoint = command.entryPoint || process.cwd();
 	const commands = commandsBuilder(entryPoint);
 	displayAvailableCommands(commands);
@@ -69,6 +69,7 @@ const showCommandHandler = (command, cmd) => {
 	const { currentCommandTemplate } = templateReader(commandsLocations)(
 		command
 	);
+	
 	displaySpecificCommandTemplate(currentCommandTemplate, cmd.showContent);
 };
 

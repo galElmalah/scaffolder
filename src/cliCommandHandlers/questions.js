@@ -35,6 +35,15 @@ const getQuestionMessage = (parametersOptions = {}, key) => {
 	);
 };
 
+const getValidationFunction = (parametersOptions = {}, key) => {
+	const validationFn = parametersOptions[key] && parametersOptions[key].validation;
+	if(!validationFn) {
+		return;
+	}
+	return validationFn;
+
+};
+
 const extractAllKeysFromTemplate = (currentCommandTemplate) => {
 	const keySet = new Set();
 	const keys = getAllKeys(currentCommandTemplate, keySet);
@@ -48,6 +57,7 @@ const getKeysValues = (currentCommandTemplate, parametersOptions) => {
 			type: 'input',
 			name: cleanKey,
 			message: getQuestionMessage(parametersOptions, cleanKey),
+			validate: getValidationFunction(parametersOptions, cleanKey)
 		};
 	});
 	return inquirer.prompt(questions);
