@@ -86,5 +86,6 @@ module.exports = {
 	chooseTemplate,
 	getQuestionMessage,
 	shouldCreateAFolder,
-	extractAllKeysFromTemplate
+	extractAllKeysFromTemplate,
+	getValidationFunction
 };
