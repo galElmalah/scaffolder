@@ -42,6 +42,7 @@
   - [transformers](#transformers)
   - [functions](#functions)
   - [parametersOptions](#parametersoptions)
+    - [parameter options object](#parameter-options-object)
   - [context object](#context-object)
 - [Getting started](#getting-started)
   - [install scaffolder globally](#install-scaffolder-globally)
@@ -142,7 +143,7 @@ For example, lets say we have a key named myReactComponetName and we want to sho
   }
 }
 ```
-#### parameter options
+#### parameter options object
 | property        | type                                                        | description                                                                                            |
 | :-------------- | :---------------------------------------------------------- | :----------------------------------------------------------------------------------------------------- |
 | question    | string                                     | The question that will be shown to the user when he will enter a value for the matching parameter             |
