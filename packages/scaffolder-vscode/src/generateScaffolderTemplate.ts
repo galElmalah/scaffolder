@@ -23,6 +23,8 @@ export const generateScaffolderTemplate = async (path: string) => {
       availableTemplateCommands
     )(chosenTemplate);
 
+    scaffolderOut.appendLine(JSON.stringify(config, null, 2));
+
     const templateKeys = extractAllKeysFromTemplate(currentCommandTemplate);
 
     const paramsValues = await getParamsValuesFromUser(templateKeys, config);
