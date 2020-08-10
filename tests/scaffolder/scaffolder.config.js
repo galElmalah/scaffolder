@@ -7,6 +7,7 @@ module.exports = {
 		date: (ctx) => {
 			return `date:${new Date().getDate()}`;
 		},
+
 	},
 	parametersOptions: {
 		key1: {

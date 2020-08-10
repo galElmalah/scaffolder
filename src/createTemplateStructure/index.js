@@ -77,6 +77,9 @@ const templateReader = (commands) => (cmd) => {
 	}
 
 	if (fs.existsSync(getConfigPath(commands[cmd]))) {
+		// reset scaffolder config so I wont get old values.
+
+		delete require.cache['./scaffolder.config.js'];
 		config = { ...defaultConfig(), ...require(getConfigPath(commands[cmd])) };
 	}
 
