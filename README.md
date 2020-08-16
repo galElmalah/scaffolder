@@ -52,7 +52,7 @@
 
 ### **interactive, i**
 
-Run the scaffolder in an interactive mode, meaning, it will prompt the user to choose a template and a value for each key.
+Run the scaffolder in an interactive mode, meaning, it will prompt the user to choose a template and a value for each parameter.
 This command is the most recommended one as it simplifies the process for the user a lot.
 
 ### **create** _\<commandName>_
@@ -67,9 +67,9 @@ _\<commandName>_: One of the commands defined in the **scaffolder** folder. <br/
   Generate the template to a specified location.
 - --folder, -f _\<folderName>_  
   _\<folderName>_: The name of the folder you want the template to be generated into. If none is supplied the template will be generated to the current working directory.
-- _\<key>=\<value>_  
-  _\<key>_: One of the keys for a specific template  
-  _\<value>_: The value you want the key to be replaced with.
+- _\<parameter>=\<value>_  
+  _\<parameter>_: One of the parameters for a specific template  
+  _\<value>_: The value you want the parameter to be replaced with.
 
 ### **list**, **ls**
 
@@ -96,15 +96,15 @@ Example config file
 ```javascript
 module.exports = {
   transformers: {
-    toLowerCase: (keyValue, context) => keyValue.toLowerCase(),
+    toLowerCase: (parameterValue, context) => parameterValue.toLowerCase(),
   },
   functions: {
     date: (context) => Date.now(),
   },
   parametersOptions: {
-    someKey: {
+    someParameter: {
       question:
-        "this text will be showen to the user in the interactive mode when he will be asked to enter the value for 'someKey'",
+        "this text will be shown to the user in the interactive mode when he will be asked to enter the value for 'someParameter'",
     },
   },
 };
@@ -112,24 +112,24 @@ module.exports = {
 
 ### transformers
 
-Transformers can be used to transform the key value.  
+Transformers can be used to transform a parameter value.  
 For example, you can write the following:
-`{{ someKey | toLowerCase | someOtherTransformer }}`
+`{{ someParameter | toLowerCase | someOtherTransformer }}`
 and the value that will be injected in your template will be the value after all of the transformations.
 
 - Transformers can be chained together.
-- Transformers are invoked with the value supplied for that key as the first argument and the [context](#context-object) object as the second argument.
+- Transformers are invoked with the value supplied for that parameter as the first argument and the [context](#context-object) object as the second argument.
 
 ### functions
 
-functions are very similiar to transformations, but they are unary, meaning, they are invoked without any key value supplied to them.  
+functions are very similar to transformations, but they are unary, meaning, they are invoked without any parameter value supplied to them.  
 For example, you can write the following:
 `{{date()}}` and the value returned from are date function (defined in our config file) will be injected to the template.
 
 ### parametersOptions
 
-parametersOptions is a map from keys to their options.  
-For example, lets say we have a key named myReactComponetName and we want to show a custom question to the user when he is asked to enter a value for that key, we can add the following to our config file:
+parametersOptions is a map from parameters to their options.  
+For example, lets say we have a parameter named myReactComponentName and we want to show a custom question to the user when he is asked to enter a value for that parameter, we can add the following to our config file:
 
 ```javascript
 {
@@ -156,7 +156,7 @@ For example, lets say we have a key named myReactComponetName and we want to sho
 
 | property        | type                                                        | description                                                                                            |
 | :-------------- | :---------------------------------------------------------- | :----------------------------------------------------------------------------------------------------- |
-| parametersValues | Object<string, string>                                      | Key value pairs containing each key and his associated value in the current template.                  |
+| parametersValues | Object<string, string>                                      | Key value pairs containing each parameter and his associated value in the current template.                  |
 | templateName    | string                                                      | The name of the template being generated.                                                              |
 | templateRoot    | string                                                      | Absolute path to the template being generated.                                                         |
 | targetRoot      | string                                                      | Absolute path to the location the template is being generated into.                                    |
