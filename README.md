@@ -238,7 +238,7 @@ describe('{{componentName}}', () => {
 Now let's run the following command somewhere in our project
 
 ```bash
-scaffolder create component componentName=CoolAFComponent --folder MyCoolComp
+scaff create component componentName=CoolAFComponent --folder MyCoolComp
 ```
 
 A new folder will be created under our current working directory, let's look at what we got.
