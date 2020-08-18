@@ -40,6 +40,7 @@
   - [show _\<commandName>_](#--show------commandname--)
 - [Scaffolder config file](#scaffolder-config-file)
   - [transformers](#transformers)
+    - [default transformers](#default-transformers)
   - [functions](#functions)
   - [parametersOptions](#parametersoptions)
     - [parameter options object](#parameter-options-object)
