@@ -11,6 +11,7 @@ const defaultConfig = () => ({
 	transformers: {},
 	functions: {},
 	parametersOptions: {},
+	templatesOptions: {}
 });
 
 const extractKey = (k) => k.replace(/({|})/g, '').trim();

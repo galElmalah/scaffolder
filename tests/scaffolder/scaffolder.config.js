@@ -20,4 +20,13 @@ module.exports = {
 			}
 		},
 	},
+	templatesOptions: {
+		hooks: {
+			'not-nested': {
+				preTemplateGeneration: (ctx) => {
+					console.log(ctx);
+				}
+			}
+		}
+	}
 };

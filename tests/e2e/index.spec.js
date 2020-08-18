@@ -84,6 +84,14 @@ describe('e2e', () => {
 		// execOnTestDir("show nested", false);
 	});
 
+	it('execute pre generation hook', () => {
+		execOnTestDir(
+			'create not-nested key1=awesome key5=awesome --folder not-nested'
+		);
+		expect(isFolderExists('nested/generatedInPreHook')).toBeTruthy();
+	});
+
+
 	it('should create a nested template', () => {
 		execOnTestDir('create nested key=awesome keyF=f2 --folder nested');
 		expect(isFolderExists('nested')).toBeTruthy();

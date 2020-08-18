@@ -31,6 +31,7 @@ const getTransformedTemplates = (command, cmd) => {
 		parametersValues: keyValuePairs,
 		targetRoot: cmd.entryPoint || process.cwd(),
 	};
+	
 
 	const injector = _injector(keyValuePairs, config, globalCtx);
 	const transformedTemplate = templateTransformer(
