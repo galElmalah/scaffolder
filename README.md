@@ -120,6 +120,15 @@ and the value that will be injected in your template will be the value after all
 - Transformers can be chained together.
 - Transformers are invoked with the value supplied for that parameter as the first argument and the [context](#context-object) object as the second argument.
 
+#### Default transformers
+You can use the following transformers without defining anything in your config file  
+  1. toLowerCase
+  2. 	toUpperCase
+  3. 	capitalize - capitalize each word in your parameter value
+  4. 	toCamelCase - takes Kebab or snake case and transform them to camelCase format
+  5. 	camelCaseToSnakeCase
+  6. 	camelCaseToKebabCase
+
 ### functions
 
 functions are very similar to transformations, but they are unary, meaning, they are invoked without any parameter value supplied to them.  
