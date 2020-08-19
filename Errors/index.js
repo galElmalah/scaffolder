@@ -4,6 +4,7 @@ const MissingKeyValuePairs = require('./MissingKeyValuePairs');
 const NoScaffolderFolder = require('./NoScaffolderFolder');
 const MissingTransformerImplementation = require('./MissingTransformerImplementation');
 const MissingFunctionImplementation = require('./MissingFunctionImplementation');
+const TemplateHooksMustBeFunctions = require('./TemplateHooksMustBeFunctions');
 module.exports = {
 	MissingTransformerImplementation,
 	MissingFunctionImplementation,
@@ -11,4 +12,5 @@ module.exports = {
 	FolderAlreadyExists,
 	MissingKeyValuePairs,
 	NoScaffolderFolder,
+	TemplateHooksMustBeFunctions
 };

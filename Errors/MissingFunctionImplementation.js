@@ -12,9 +12,10 @@ class MissingFunctionImplementation extends Error {
 			)}".`
 		)}\nYou are probably missing a definition for the "${boldGreen(
 			this.functionKey
-		)}" function in your scaffolder.config.js file\nFor more information about transformers check this out ${path(
-			'https://github.com/galElmalah/scaffolder#getting-started'
-		)}`;
+		)}" function in your scaffolder.config.js file
+		\nFor more information about transformers check this out ${path(
+		'https://github.com/galElmalah/scaffolder#getting-started'
+	)}`;
 
 		return message;
 	}

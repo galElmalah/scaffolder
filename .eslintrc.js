@@ -6,12 +6,14 @@ module.exports = {
 	},
 	'extends': 'eslint:recommended',
 	'parserOptions': {
-		'ecmaVersion': 2018
+		'ecmaVersion': 2018 
 	},
 	'rules': {
 		'object-curly-spacing': ['error', 'always'],
 		'object-curly-newline': ['error', {
-			'ObjectExpression': 'always',
+			'ObjectExpression': {
+				'minProperties': 1 
+			},
 			'ObjectPattern': {
 				'multiline': true 
 			},
@@ -21,7 +23,11 @@ module.exports = {
 			}
 		}],
 		'max-len': ['error', {
-			'code': 80 
+			'code': 100,
+			'ignoreStrings': true,
+			'ignoreUrls': true,
+			'ignoreTemplateLiterals': true,
+			'ignoreRegExpLiterals': true
 		}],
 		'no-prototype-builtins': 'off',
 		'indent': [
