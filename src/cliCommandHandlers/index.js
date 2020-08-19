@@ -1,4 +1,3 @@
-const inquirer = require('inquirer');
 const {
 	templateReader,
 	templateTransformer,
@@ -13,12 +12,12 @@ const {
 	displayAvailableCommands,
 	displaySpecificCommandTemplate,
 } = require('../cliHelpers');
-const {
-	interactiveCreateCommandHandler,
-} = require('./interactiveCreateHandler');
+const { interactiveCreateCommandHandler, } = require('./interactiveCreateHandler');
+const getTemplateHooksFromConfig = require('./getTemplateHooksFromConfig');
 
 const getTransformedTemplates = (command, cmd) => {
 	const commandsLocations = commandsBuilder(cmd.loadFrom || process.cwd());
+
 	const { config, currentCommandTemplate } = templateReader(commandsLocations)(
 		command
 	);
@@ -40,20 +39,44 @@ const getTransformedTemplates = (command, cmd) => {
 		globalCtx
 	);
 
-	return transformedTemplate;
+	return {
+		transformedTemplate,config,globalCtx
+	};
 };
 
-const createCommandHandler = (command, cmd) => {
+
+
+const createCommandHandler = async (command, cmd) => {
 	try {
-		const templates = getTransformedTemplates(command, cmd);
+		const {
+			transformedTemplate:templates, 
+			config, 
+			globalCtx 
+		} = getTransformedTemplates(command, cmd);
+
+		const  { 
+			preTemplateGeneration,
+			postTemplateGeneration 
+		} = getTemplateHooksFromConfig(config, command);
 
 		const templatesBuilder = new TemplatesBuilder(templates, command);
 		cmd.folder && templatesBuilder.inAFolder(cmd.folder);
 		cmd.entryPoint && templatesBuilder.withCustomEntryPoint(cmd.entryPoint);
 
+		const preTemplateGenerationResult = preTemplateGeneration && preTemplateGeneration();
+
+		if(preTemplateGenerationResult instanceof Promise) {
+			try {
+				console.log(`Executing "${command}" pre template generation hook.`);
+				await preTemplateGenerationResult;
+			} catch(e) {
+				console.log(`Error while Executing "${command}" pre template generation hook::\n${e}`);
+			}
+		}
 		return Promise.all(templatesBuilder.build()).then(() => {
 			showSuccessMessage(command, templatesBuilder.getFullPath());
 		});
+
 	} catch (err) {
 		handleError(err);
 	}
