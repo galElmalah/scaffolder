@@ -8,8 +8,8 @@ const execOnTestDir = (cmd, withEntryPoint = true) =>
 			withEntryPoint ? `--entry-point ${__dirname}/results` : ''
 		}`,
 		{
-			stdio: 'inherit',
-			stderr: 'inherit',
+			// stdio: 'inherit',
+			// stderr: 'inherit',
 			cwd: __dirname,
 		}
 	);
@@ -48,6 +48,14 @@ const assertThatTheContextIsPassedCorrectly = (from) => {
 };
 
 describe('e2e', () => {
+	afterEach(() => {
+		cleanUp('not-nested');
+		cleanUp('nested');
+		cleanUp('generatedInPostHook');
+		cleanUp('generatedInPreHook');
+
+	});
+
 	it('should create the template with the right values as keys', () => {
 		execOnTestDir(
 			'create not-nested key1=awesome key5=awesome --folder not-nested'
@@ -88,7 +96,14 @@ describe('e2e', () => {
 		execOnTestDir(
 			'create not-nested key1=awesome key5=awesome --folder not-nested'
 		);
-		expect(isFolderExists('nested/generatedInPreHook')).toBeTruthy();
+		expect(isFolderExists('/generatedInPreHook')).toBeTruthy();
+	});
+
+	it('execute post generation hook', () => {
+		execOnTestDir(
+			'create nested key=awesome keyF=awesome --folder not-nested'
+		);
+		expect(isFolderExists('/generatedInPostHook')).toBeTruthy();
 	});
 
 
@@ -124,6 +139,6 @@ describe('e2e', () => {
 		expect(
 			hasFileWithName(`${__dirname}/results/nested`, 'awesome.js')
 		).toBeTruthy();
-		cleanUp('nested');
+
 	});
 });

@@ -1,3 +1,5 @@
+const fs = require('fs');
+
 module.exports = {
 	transformers: {
 		toUpper: (value) => value.toUpperCase(),
@@ -21,10 +23,17 @@ module.exports = {
 		},
 	},
 	templatesOptions: {
-		hooks: {
-			'not-nested': {
+		'not-nested': {
+			hooks: {
 				preTemplateGeneration: (ctx) => {
-					console.log(ctx);
+					fs.mkdirSync(`${process.cwd()}/results/generatedInPreHook`);
+				}
+			}
+		},
+		'nested': {
+			hooks: {
+				postTemplateGeneration: (ctx) => {
+					fs.mkdirSync(`${process.cwd()}/results/generatedInPostHook`);
 				}
 			}
 		}

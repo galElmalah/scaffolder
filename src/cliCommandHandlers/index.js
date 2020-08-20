@@ -13,7 +13,8 @@ const {
 	displaySpecificCommandTemplate,
 } = require('../cliHelpers');
 const { interactiveCreateCommandHandler, } = require('./interactiveCreateHandler');
-const getTemplateHooksFromConfig = require('./getTemplateHooksFromConfig');
+const { getTemplateHooksFromConfig } = require('./getTemplateHooksFromConfig');
+const { asyncExecuter } = require('./asyncExecuter');
 
 const getTransformedTemplates = (command, cmd) => {
 	const commandsLocations = commandsBuilder(cmd.loadFrom || process.cwd());
@@ -59,22 +60,26 @@ const createCommandHandler = async (command, cmd) => {
 			postTemplateGeneration 
 		} = getTemplateHooksFromConfig(config, command);
 
+
 		const templatesBuilder = new TemplatesBuilder(templates, command);
 		cmd.folder && templatesBuilder.inAFolder(cmd.folder);
 		cmd.entryPoint && templatesBuilder.withCustomEntryPoint(cmd.entryPoint);
 
-		const preTemplateGenerationResult = preTemplateGeneration && preTemplateGeneration();
+		await asyncExecuter(
+			preTemplateGeneration,
+			`Executing "${command}" pre-template generation hook.`,
+			(e) => `Error while Executing "${command}" pre template generation hook::\n${e}`,
+			globalCtx
+		);
 
-		if(preTemplateGenerationResult instanceof Promise) {
-			try {
-				console.log(`Executing "${command}" pre template generation hook.`);
-				await preTemplateGenerationResult;
-			} catch(e) {
-				console.log(`Error while Executing "${command}" pre template generation hook::\n${e}`);
-			}
-		}
 		return Promise.all(templatesBuilder.build()).then(() => {
 			showSuccessMessage(command, templatesBuilder.getFullPath());
+			asyncExecuter(
+				postTemplateGeneration,
+				`Executing "${command}" post-template generation hook.`,
+				(e) => `Error while Executing "${command}" post-template generation hook::\n${e}`,
+				globalCtx
+			);
 		});
 
 	} catch (err) {
