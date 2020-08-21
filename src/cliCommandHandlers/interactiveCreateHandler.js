@@ -26,7 +26,7 @@ const interactiveCreateCommandHandler = async (command) => {
 		const  { 
 			preTemplateGeneration,
 			postTemplateGeneration 
-		} = getTemplateHooksFromConfig(config, command);
+		} = getTemplateHooksFromConfig(config, chosenTemplate);
 
 		const keyValuePairs = await getKeysValues(
 			currentCommandTemplate,
@@ -54,8 +54,8 @@ const interactiveCreateCommandHandler = async (command) => {
 
 		await asyncExecuter(
 			preTemplateGeneration,
-			`Executing "${command}" pre-template generation hook.`,
-			(e) => `Error while Executing "${command}" pre template generation hook::\n${e}`,
+			`Executed "${chosenTemplate}" pre-template generation hook.`,
+			(e) => `Error while Executing "${chosenTemplate}" pre template generation hook::\n${e}`,
 			globalCtx
 		);
 
@@ -64,8 +64,8 @@ const interactiveCreateCommandHandler = async (command) => {
 			showSuccessMessage(chosenTemplate, templatesBuilder.getFullPath());
 			asyncExecuter(
 				postTemplateGeneration,
-				`Executing "${command}" post-template generation hook.`,
-				(e) => `Error while Executing "${command}" post-template generation hook::\n${e}`,
+				`Executed "${chosenTemplate}" post-template generation hook.`,
+				(e) => `Error while Executing "${chosenTemplate}" post-template generation hook::\n${e}`,
 				globalCtx
 			);
 		});

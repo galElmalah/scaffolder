@@ -13,7 +13,6 @@ const assertHooksAreOfTypeFunction = (hooks, templateName) => {
 };
 
 const getTemplateHooksFromConfig = (config, templateName) => {
-
 	if(!config.templatesOptions[templateName]) {
 		return {};
 	}

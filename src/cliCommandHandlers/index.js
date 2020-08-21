@@ -67,7 +67,7 @@ const createCommandHandler = async (command, cmd) => {
 
 		await asyncExecuter(
 			preTemplateGeneration,
-			`Executing "${command}" pre-template generation hook.`,
+			`Executed "${command}" pre-template generation hook.`,
 			(e) => `Error while Executing "${command}" pre template generation hook::\n${e}`,
 			globalCtx
 		);
@@ -76,7 +76,7 @@ const createCommandHandler = async (command, cmd) => {
 			showSuccessMessage(command, templatesBuilder.getFullPath());
 			asyncExecuter(
 				postTemplateGeneration,
-				`Executing "${command}" post-template generation hook.`,
+				`Executed "${command}" post-template generation hook.`,
 				(e) => `Error while Executing "${command}" post-template generation hook::\n${e}`,
 				globalCtx
 			);
