@@ -40,4 +40,16 @@ describe('asyncExecuter', () => {
 		await asyncExecuter(fn,'','', ...args);
 		expect(fn).toHaveBeenCalledWith(...args);
 	});
+
+	it('should call the successMsg if its of type function', async () => {
+		const successMsg = jest.fn();
+		await asyncExecuter(() =>{},successMsg,'');
+		expect(successMsg).toHaveBeenCalled();
+	});
+	it('should call the errorMsg if its of type function and pass it the error', async () => {
+		const errorMsg = jest.fn();
+		const err = new Error('test');
+		await asyncExecuter(() =>{throw err;},'',errorMsg);
+		expect(errorMsg).toHaveBeenCalledWith(err);
+	});
 });

@@ -10,6 +10,9 @@ const {
 	getKeysValues,
 	chooseTemplate,
 } = require('./questions');
+const { getTemplateHooksFromConfig } = require('./getTemplateHooksFromConfig');
+const { asyncExecuter } = require('./asyncExecuter');
+
 
 const interactiveCreateCommandHandler = async (command) => {
 	try {
@@ -19,6 +22,11 @@ const interactiveCreateCommandHandler = async (command) => {
 		const { config, currentCommandTemplate } = templateReader(
 			availableTemplateCommands
 		)(chosenTemplate);
+
+		const  { 
+			preTemplateGeneration,
+			postTemplateGeneration 
+		} = getTemplateHooksFromConfig(config, command);
 
 		const keyValuePairs = await getKeysValues(
 			currentCommandTemplate,
@@ -37,14 +45,29 @@ const interactiveCreateCommandHandler = async (command) => {
 			_injector(keyValuePairs, config, globalCtx),
 			globalCtx
 		);
+
 		const templatesBuilder = new TemplatesBuilder(templates, chosenTemplate);
 
 		if (command.entryPoint) {
 			templatesBuilder.withCustomEntryPoint(command.entryPoint);
 		}
 
+		await asyncExecuter(
+			preTemplateGeneration,
+			`Executing "${command}" pre-template generation hook.`,
+			(e) => `Error while Executing "${command}" pre template generation hook::\n${e}`,
+			globalCtx
+		);
+
+
 		return Promise.all(templatesBuilder.build()).then(() => {
 			showSuccessMessage(chosenTemplate, templatesBuilder.getFullPath());
+			asyncExecuter(
+				postTemplateGeneration,
+				`Executing "${command}" post-template generation hook.`,
+				(e) => `Error while Executing "${command}" post-template generation hook::\n${e}`,
+				globalCtx
+			);
 		});
 	} catch (err) {
 		handleError(err);
