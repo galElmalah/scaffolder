@@ -9,6 +9,8 @@ import {
   templateTransformer,
   injector,
   TemplatesBuilder,
+  asyncExecutor,
+  getTemplateHooksFromConfig
 } from "scaffolder-cli";
 import * as vscode from "vscode";
 
@@ -22,6 +24,8 @@ export const generateScaffolderTemplate = async (path: string) => {
     const { config, currentCommandTemplate } = templateReader(
       availableTemplateCommands
     )(chosenTemplate);
+
+    const { preTemplateGeneration, postTemplateGeneration } = getTemplateHooksFromConfig(config, chosenTemplate);
 
     scaffolderOut.appendLine(JSON.stringify(config, null, 2));
 
@@ -47,7 +51,22 @@ export const generateScaffolderTemplate = async (path: string) => {
       chosenTemplate
     ).withCustomEntryPoint(path);
 
+    await asyncExecutor(
+			preTemplateGeneration,
+			()=> scaffolderOut.appendLine(`Executed "${chosenTemplate}" pre-template generation hook.`),
+			(e: Error) => scaffolderOut.appendLine(`Error while Executing "${chosenTemplate}" pre-template generation hook::\n${e}`),
+			globalCtx
+		);
+
     await Promise.all(templatesBuilder.build());
+
+
+    await asyncExecutor(
+			postTemplateGeneration,
+			()=> scaffolderOut.appendLine(`Executed "${chosenTemplate}" post-template generation hook.`),
+			(e: Error) => scaffolderOut.appendLine(`Error while Executing "${chosenTemplate}" post-template generation hook::\n${e}`),
+			globalCtx
+		);
 
     vscode.window.showInformationMessage(
       scaffolderMessage(`Generated "${chosenTemplate}" at - ${path}`)
