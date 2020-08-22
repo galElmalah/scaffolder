@@ -2,7 +2,7 @@ const { extractAllKeysFromTemplate, getQuestionMessage, getValidationFunction } 
 const { commandsBuilder } = require('./src/commandsBuilder');
 const { templateReader, extractKey, injector, templateTransformer } = require('./src/createTemplateStructure');
 const TemplatesBuilder = require('./src/TemplatesBuilder');
-const { asyncExecutor } = require('./src/cliCommandHandlers/asyncExecuter');
+const { asyncExecutor } = require('./src/cliCommandHandlers/asyncExecutor');
 const { getTemplateHooksFromConfig } = require('./src/cliCommandHandlers/getTemplateHooksFromConfig');
 
 module.exports = {

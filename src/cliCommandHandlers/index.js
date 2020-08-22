@@ -14,7 +14,7 @@ const {
 } = require('../cliHelpers');
 const { interactiveCreateCommandHandler, } = require('./interactiveCreateHandler');
 const { getTemplateHooksFromConfig } = require('./getTemplateHooksFromConfig');
-const { asyncExecuter } = require('./asyncExecuter');
+const { asyncExecutor } = require('./asyncExecutor');
 
 const getTransformedTemplates = (command, cmd) => {
 	const commandsLocations = commandsBuilder(cmd.loadFrom || process.cwd());
@@ -65,7 +65,7 @@ const createCommandHandler = async (command, cmd) => {
 		cmd.folder && templatesBuilder.inAFolder(cmd.folder);
 		cmd.entryPoint && templatesBuilder.withCustomEntryPoint(cmd.entryPoint);
 
-		await asyncExecuter(
+		await asyncExecutor(
 			preTemplateGeneration,
 			`Executed "${command}" pre-template generation hook.`,
 			(e) => `Error while Executing "${command}" pre template generation hook::\n${e}`,
@@ -74,7 +74,7 @@ const createCommandHandler = async (command, cmd) => {
 
 		return Promise.all(templatesBuilder.build()).then(() => {
 			showSuccessMessage(command, templatesBuilder.getFullPath());
-			asyncExecuter(
+			asyncExecutor(
 				postTemplateGeneration,
 				`Executed "${command}" post-template generation hook.`,
 				(e) => `Error while Executing "${command}" post-template generation hook::\n${e}`,

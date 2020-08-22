@@ -11,7 +11,7 @@ const {
 	chooseTemplate,
 } = require('./questions');
 const { getTemplateHooksFromConfig } = require('./getTemplateHooksFromConfig');
-const { asyncExecuter } = require('./asyncExecuter');
+const { asyncExecutor } = require('./asyncExecutor');
 
 
 const interactiveCreateCommandHandler = async (command) => {
@@ -52,7 +52,7 @@ const interactiveCreateCommandHandler = async (command) => {
 			templatesBuilder.withCustomEntryPoint(command.entryPoint);
 		}
 
-		await asyncExecuter(
+		await asyncExecutor(
 			preTemplateGeneration,
 			`Executed "${chosenTemplate}" pre-template generation hook.`,
 			(e) => `Error while Executing "${chosenTemplate}" pre template generation hook::\n${e}`,
@@ -62,7 +62,7 @@ const interactiveCreateCommandHandler = async (command) => {
 
 		return Promise.all(templatesBuilder.build()).then(() => {
 			showSuccessMessage(chosenTemplate, templatesBuilder.getFullPath());
-			asyncExecuter(
+			asyncExecutor(
 				postTemplateGeneration,
 				`Executed "${chosenTemplate}" post-template generation hook.`,
 				(e) => `Error while Executing "${chosenTemplate}" post-template generation hook::\n${e}`,

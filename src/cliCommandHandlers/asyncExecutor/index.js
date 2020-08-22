@@ -1,6 +1,6 @@
 const defaultSuccessMessage = 'Successfully executed';
 const defaultErrorMessage = 'Error in asyncExecutor';
-const asyncExecuter = async (
+const asyncExecutor = async (
 	fn, 
 	successMsg = defaultSuccessMessage,
 	errMsg = defaultErrorMessage,
@@ -21,5 +21,5 @@ const asyncExecuter = async (
 };
 
 module.exports = {
-	asyncExecuter 
+	asyncExecutor 
 };
