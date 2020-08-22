@@ -114,10 +114,10 @@ module.exports = {
    templatesOptions: {
       someTemplate: {
         hooks: {
-          preGenerationHook: (context) => {
+          preTemplateGeneration: (context) => {
           // do something before generating a template
           },
-          postGenerationHook: (context) => {
+          postTemplateGeneration: (context) => {
           // do something after generating a template
           }
       }
