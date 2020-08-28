@@ -1,6 +1,6 @@
 {
   "name": "scaffolder-cli",
-  "version": "1.5.7",
+  "version": "1.6.0",
   "bin": {
     "scaff": "./cli.js"
   },
