@@ -21,5 +21,8 @@
   "peacock.color": "#3caea3",
   "files.autoSave": "afterDelay",
   "eslint.alwaysShowStatus": true,
-  "eslint.format.enable": true
+  "eslint.format.enable": true,
+  "cSpell.words": [
+    "Elmalah"
+  ]
 }

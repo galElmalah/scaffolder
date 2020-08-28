@@ -1,6 +1,6 @@
 const inquirer = require('inquirer');
 const { extractKey } = require('../createTemplateStructure');
-const {getAllKeys} = require('./getAllKeys');
+const { getAllKeys } = require('./getAllKeys');
 
 
 const QUESTIONS = {
@@ -63,25 +63,22 @@ const getKeysValues = (currentCommandTemplate, parametersOptions) => {
 	return inquirer.prompt(questions);
 };
 
-const shouldGenerateTemplateInAFolder = () => {
+const getRepositorySource = () => {
 	return inquirer.prompt({
 		type: 'input',
-		name: 'inAFolder',
-		message: 'should generate the template inside a folder?(y/n)',
-	});
-};
-
-const getFolderName = () => {
-	return inquirer.prompt({
-		type: 'input',
-		name: 'folderName',
-		message: 'Enter the name of the folder you wish the template will be generated into:',
+		name: 'repositorySource',
+		message: 'Enter the src of the repository you want to consume templates from.',
+		validate: (repo) => {
+			if(!/(?:git|ssh|https?|git@[-\w.]+):(\/\/)?(.*?)(\.git)(\/?|\#[-\d\w._]+?)$/.test(repo)) {
+				return 'Invalid github source';
+			}
+			return true;
+		}
 	});
 };
 
 module.exports = {
-	getFolderName,
-	shouldGenerateTemplateInAFolder,
+	getRepositorySource,
 	getKeysValues,
 	chooseTemplate,
 	getQuestionMessage,

@@ -34,28 +34,38 @@ const templatePathsFinder = (currentPath) => {
 	return findTemplate(currentPath);
 };
 
+const readTemplatesFromPaths = (paths) => {
+	let allCommands = {};
+	for (const scaffolderPath of paths) {
+		const commands = fs.readdirSync(scaffolderPath);
+
+		const commandsToPath = commands
+			.filter((p) => p[0] !== '.')
+			.filter((p) => isFolder(scaffolderPath, p))
+			.reduce(
+				(accm, cmd) => ({
+					...accm, [cmd]: path.join(scaffolderPath, cmd) 
+				}),
+				{}
+			);
+		allCommands = {
+			...commandsToPath, ...allCommands 
+		};
+	}
+	return allCommands;
+};
 /**
  *
  * @param {string} currentPath Used as the root entry from which we start looking for scaffolder directories
  * @returns {Object.<string, string>} key value pairs where the key is the template command and the value is the path to that command
  */
 const commandsBuilder = (currentPath) => {
-
 	const scaffolderPaths = templatePathsFinder(currentPath);
-	let allCommands = {};
-	for (const scaffolderPath of scaffolderPaths) {
-		const commands = fs.readdirSync(scaffolderPath);
-
-		let commandsToPath = commands
-			.filter((p) => p[0] !== '.')
-			.filter((p) => isFolder(scaffolderPath, p))
-			.reduce(
-				(accm, cmd) => ({ ...accm, [cmd]: path.join(scaffolderPath, cmd) }),
-				{}
-			);
-		allCommands = { ...commandsToPath, ...allCommands };
-	}
-	return allCommands;
+	return readTemplatesFromPaths(scaffolderPaths);
 };
 
-module.exports = { commandsBuilder, templatePathsFinder };
+module.exports = {
+	commandsBuilder, 
+	templatePathsFinder,
+	readTemplatesFromPaths
+};

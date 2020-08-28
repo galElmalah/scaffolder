@@ -32,6 +32,10 @@ cli
 		'--entry-point <value>',
 		'The entry point to generate the template into (Absolute path)'
 	)
+	.option(
+		'--from-github',
+		'Using this option will consume the templates from a specified Github repository.\nExample templates repository can be seen here https://github.com/galElmalah/scaffolder-templates-example'
+	)
 	.description(
 		'Interactive mode that ask for the user input on each step of the way'
 	)

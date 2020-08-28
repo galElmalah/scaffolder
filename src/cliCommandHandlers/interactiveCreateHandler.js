@@ -3,20 +3,40 @@ const {
 	templateTransformer,
 	injector: _injector,
 } = require('../createTemplateStructure');
-const { commandsBuilder } = require('../commandsBuilder');
+const { commandsBuilder, readTemplatesFromPaths } = require('../commandsBuilder');
 const TemplatesBuilder = require('../TemplatesBuilder');
 const { handleError, showSuccessMessage } = require('../cliHelpers');
 const {
 	getKeysValues,
 	chooseTemplate,
+	getRepositorySource
 } = require('./questions');
 const { getTemplateHooksFromConfig } = require('./getTemplateHooksFromConfig');
 const { asyncExecutor } = require('./asyncExecutor');
+const { GithubTempCloner } = require('../GithubTempCloner');
 
+const getAvailableTemplatesCommands = (path,fromGithub, gitCloner) => {
 
+	if(fromGithub) {
+		const directoryPath = gitCloner.clone();
+		return readTemplatesFromPaths([directoryPath]);
+	}
+
+	return commandsBuilder(path);
+};
 const interactiveCreateCommandHandler = async (command) => {
+	const gitCloner =  new GithubTempCloner();
 	try {
-		const availableTemplateCommands = await commandsBuilder(process.cwd());
+		if(command.fromGithub) {
+			const { repositorySource } = await getRepositorySource();
+			gitCloner.setSrc(repositorySource);
+		}
+		const availableTemplateCommands = getAvailableTemplatesCommands(
+			process.cwd(),
+			command.fromGithub,
+			gitCloner,
+		);
+
 		const { chosenTemplate } = await chooseTemplate(availableTemplateCommands);
 
 		const { config, currentCommandTemplate } = templateReader(
@@ -71,6 +91,8 @@ const interactiveCreateCommandHandler = async (command) => {
 		});
 	} catch (err) {
 		handleError(err);
+	} finally {
+		gitCloner.cleanUp();
 	}
 };
 
