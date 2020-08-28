@@ -19,7 +19,7 @@ const { GithubTempCloner } = require('../GithubTempCloner');
 const getAvailableTemplatesCommands = (path,fromGithub, gitCloner) => {
 	if(fromGithub) {
 		const directoryPath = gitCloner.clone();
-		return readTemplatesFromPaths([directoryPath]);
+		return readTemplatesFromPaths([`${directoryPath}/scaffolder`]);
 	}
 
 	return commandsBuilder(path);

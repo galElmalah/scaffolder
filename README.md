@@ -38,6 +38,7 @@
   - [create _\<commandName>_](#--create------commandname--)
   - [list, ls](#--list------ls--)
   - [show _\<commandName>_](#--show------commandname--)
+- [Sharing templates](#sharing-templates)
 - [Scaffolder config file](#scaffolder-config-file)
   - [transformers](#transformers)
     - [default transformers](#default-transformers)
@@ -59,10 +60,18 @@
 Run the scaffolder in an interactive mode, meaning, it will prompt the user to choose a template and a value for each parameter.
 This command is the most recommended one as it simplifies the process for the user a lot.
 
+**options:**
+- _--from-github_  
+  Passing this flag will cause a prompt to appear, asking the user to enter a github repository (https/ssh) and consume the templates defined on that repository.  
+  For example `git@github.com:galElmalah/scaffolder-templates-example.git` or `https://github.com/galElmalah/scaffolder-templates-example.git` from this [example repo](https://github.com/galElmalah/scaffolder-templates-example).
+  More info about [sharing templates](#sharing-templates).
+- _--entry-point_ _\<absolutePath>_  
+  Generate the template to a specified location.
+
 ### **create** _\<commandName>_
 
 _\<commandName>_: One of the commands defined in the **scaffolder** folder. <br/>
-
+ 
 **options:**
 
 - _--load-from_ _\<absolutePath>_  
@@ -86,6 +95,12 @@ Show a specific command template files
 
 - _--show-content_  
   Also show the full content of the template files.
+
+---
+
+## Sharing templates  
+Often you find yourself wanting to share a template while not making every consumer of that template to save it on his machine.  
+In order to address that problem Scaffolder lets you consume templates from Github repositories that have the following structure. 
 
 ---
 
@@ -326,4 +341,4 @@ This could also be achived using the interactive mode!
 
 How cool is this, right?  
 As you can see our params got injected to the right places and we created our template with little effort.  
-Horray!! :sparkles: :fireworks: :sparkler: :sparkles:
+Hooray!! :sparkles: :fireworks: :sparkler: :sparkles:
