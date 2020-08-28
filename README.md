@@ -57,7 +57,7 @@
 
 ### **interactive, i**
 
-Run the scaffolder in an interactive mode, meaning, it will prompt the user to choose a template and a value for each parameter.
+Run Scaffolder in interactive mode, meaning, it will prompt the user to choose a template and a value for each parameter.  
 This command is the most recommended one as it simplifies the process for the user a lot.
 
 **options:**
