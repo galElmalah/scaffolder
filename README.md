@@ -34,9 +34,9 @@
 ### TOC
 
 - [API](#api)
-  - [interactive, i](#--interactive-i-)
+  - [interactive, i](#--interactive-i)
   - [create _\<commandName>_](#-create-commandname)
-  - [list, ls](#--list------ls--)
+  - [list, ls](#--list-ls)
   - [show _\<commandName>_](#-show-commandname)
 - [Sharing templates](#sharing-templates)
 - [Scaffolder config file](#scaffolder-config-file)
