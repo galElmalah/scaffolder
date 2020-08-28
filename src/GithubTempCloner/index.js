@@ -21,7 +21,6 @@ class GithubTempCloner {
 	}
   
 	clone() {
-
 		this.tmpFolderObject= tmp.dirSync();
 		this.logger('Creating temporary folder...');
 		this.tempDirPath = this.tmpFolderObject.name;

@@ -14,6 +14,7 @@ const {
 const { getTemplateHooksFromConfig } = require('./getTemplateHooksFromConfig');
 const { asyncExecutor } = require('./asyncExecutor');
 const { GithubTempCloner } = require('../GithubTempCloner');
+ 
 
 const getAvailableTemplatesCommands = (path,fromGithub, gitCloner) => {
 
@@ -27,10 +28,12 @@ const getAvailableTemplatesCommands = (path,fromGithub, gitCloner) => {
 const interactiveCreateCommandHandler = async (command) => {
 	const gitCloner =  new GithubTempCloner();
 	try {
+
 		if(command.fromGithub) {
 			const { repositorySource } = await getRepositorySource();
 			gitCloner.setSrc(repositorySource);
 		}
+		
 		const availableTemplateCommands = getAvailableTemplatesCommands(
 			process.cwd(),
 			command.fromGithub,

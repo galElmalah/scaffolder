@@ -67,7 +67,7 @@ const getRepositorySource = () => {
 	return inquirer.prompt({
 		type: 'input',
 		name: 'repositorySource',
-		message: 'Enter the src of the repository you want to consume templates from.',
+		message: 'Enter the src of the repository you want to consume templates from:',
 		validate: (repo) => {
 			if(!/(?:git|ssh|https?|git@[-\w.]+):(\/\/)?(.*?)(\.git)(\/?|\#[-\d\w._]+?)$/.test(repo)) {
 				return 'Invalid github source';
