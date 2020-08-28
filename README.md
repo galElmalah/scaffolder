@@ -63,7 +63,6 @@ This command is the most recommended one as it simplifies the process for the us
 **options:**
 - _--from-github_  
   Passing this flag will cause a prompt to appear, asking the user to enter a github repository (https/ssh) and consume the templates defined on that repository.  
-  For example `git@github.com:galElmalah/scaffolder-templates-example.git` or `https://github.com/galElmalah/scaffolder-templates-example.git` from this [example repo](https://github.com/galElmalah/scaffolder-templates-example).
   More info about [sharing templates](#sharing-templates).
 - _--entry-point_ _\<absolutePath>_  
   Generate the template to a specified location.
