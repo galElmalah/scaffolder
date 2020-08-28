@@ -100,7 +100,11 @@ Show a specific command template files
 
 ## Sharing templates  
 Often you find yourself wanting to share a template while not making every consumer of that template to save it on his machine.  
-In order to address that problem Scaffolder lets you consume templates from Github repositories that have the following structure. 
+
+In order to address that problem, Scaffolder lets you consume templates from Github repositories that have a **scaffolder** folder at their root.  
+For example, you can see this [repository](https://github.com/galElmalah/scaffolder-templates-example) which contains 3 templates and a config file.
+To generate one of those templates you can run `npx scaff i --from-github` and enter `https://github.com/galElmalah/scaffolder-templates-example.git` and you'll be promoted to choose one of those templates.   
+> Any improvement suggestions? go ahead and [open an issue](https://github.com/galElmalah/scaffolder/issues)!
 
 ---
 

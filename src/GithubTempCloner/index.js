@@ -25,7 +25,9 @@ class GithubTempCloner {
 		this.logger('Creating temporary folder...');
 		this.tempDirPath = this.tmpFolderObject.name;
 		this.logger('Cloning repository...');
-		execSync(`git clone --depth 1 ${this.gitSrc} ${this.tempDirPath}`);
+		execSync(`git clone --depth 1 ${this.gitSrc} ${this.tempDirPath}`, {
+			stdio : 'pipe' 
+		});
 		this.logger('Finished cloning repository...');
 		return this.tempDirPath;
 	}
