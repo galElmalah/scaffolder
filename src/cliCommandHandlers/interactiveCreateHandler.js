@@ -17,7 +17,6 @@ const { GithubTempCloner } = require('../GithubTempCloner');
  
 
 const getAvailableTemplatesCommands = (path,fromGithub, gitCloner) => {
-
 	if(fromGithub) {
 		const directoryPath = gitCloner.clone();
 		return readTemplatesFromPaths([directoryPath]);
@@ -33,7 +32,7 @@ const interactiveCreateCommandHandler = async (command) => {
 			const { repositorySource } = await getRepositorySource();
 			gitCloner.setSrc(repositorySource);
 		}
-		
+
 		const availableTemplateCommands = getAvailableTemplatesCommands(
 			process.cwd(),
 			command.fromGithub,
@@ -101,4 +100,5 @@ const interactiveCreateCommandHandler = async (command) => {
 
 module.exports = {
 	interactiveCreateCommandHandler,
+	getAvailableTemplatesCommands
 };

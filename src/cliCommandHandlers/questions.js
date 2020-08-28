@@ -63,13 +63,16 @@ const getKeysValues = (currentCommandTemplate, parametersOptions) => {
 	return inquirer.prompt(questions);
 };
 
+// eslint-disable-next-line no-useless-escape
+const isAValidGithubSource= (src) => /(?:git|ssh|https?|git@[-\w.]+):(\/\/)?(.*?)(\.git)(\/?|\#[-\d\w._]+?)$/.test(src);
+
 const getRepositorySource = () => {
 	return inquirer.prompt({
 		type: 'input',
 		name: 'repositorySource',
 		message: 'Enter the src of the repository you want to consume templates from:',
-		validate: (repo) => {
-			if(!/(?:git|ssh|https?|git@[-\w.]+):(\/\/)?(.*?)(\.git)(\/?|\#[-\d\w._]+?)$/.test(repo)) {
+		validate: (src) => {
+			if(!isAValidGithubSource(src)) {
 				return 'Invalid github source';
 			}
 			return true;
@@ -84,5 +87,6 @@ module.exports = {
 	getQuestionMessage,
 	shouldCreateAFolder,
 	extractAllKeysFromTemplate,
-	getValidationFunction
+	getValidationFunction,
+	isAValidGithubSource
 };

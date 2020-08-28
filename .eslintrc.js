@@ -25,6 +25,7 @@ module.exports = {
 		'max-len': ['error', {
 			'code': 100,
 			'ignoreStrings': true,
+			'ignoreComments': true,
 			'ignoreUrls': true,
 			'ignoreTemplateLiterals': true,
 			'ignoreRegExpLiterals': true
