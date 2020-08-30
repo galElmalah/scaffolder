@@ -85,7 +85,7 @@ const interactiveCreateCommandHandler = async (command) => {
 		await Promise.all(templatesBuilder.build());
 		showSuccessMessage(chosenTemplate, templatesBuilder.getFullPath());
 		asyncExecutor(
-			setTimeout( () =>postTemplateGeneration&& postTemplateGeneration(globalCtx), 300),
+			() => setTimeout( () =>postTemplateGeneration&& postTemplateGeneration(globalCtx), 300),
 			`Executed "${chosenTemplate}" post-template generation hook.`,
 			(e) => `Error while Executing "${chosenTemplate}" post-template generation hook::\n${e}`,
 			globalCtx
