@@ -33,6 +33,9 @@ class GithubTempCloner {
 	}
 
 	cleanUp() {
+		if(!this.gitSrc || !this.tmpFolderObject) {
+			return;
+		}
 		return new Promise((resolve, reject) => fs.rmdir(this.tempDirPath, {
 			recursive: true 
 		}, (err) => {
