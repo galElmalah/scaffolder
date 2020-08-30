@@ -82,15 +82,15 @@ const interactiveCreateCommandHandler = async (command) => {
 		);
 
 
-		return Promise.all(templatesBuilder.build()).then(() => {
-			showSuccessMessage(chosenTemplate, templatesBuilder.getFullPath());
-			asyncExecutor(
-				postTemplateGeneration,
-				`Executed "${chosenTemplate}" post-template generation hook.`,
-				(e) => `Error while Executing "${chosenTemplate}" post-template generation hook::\n${e}`,
-				globalCtx
-			);
-		});
+		await Promise.all(templatesBuilder.build());
+		showSuccessMessage(chosenTemplate, templatesBuilder.getFullPath());
+		asyncExecutor(
+			setTimeout( () => postTemplateGeneration(globalCtx), 300),
+			`Executed "${chosenTemplate}" post-template generation hook.`,
+			(e) => `Error while Executing "${chosenTemplate}" post-template generation hook::\n${e}`,
+			globalCtx
+		);
+
 	} catch (err) {
 		handleError(err);
 	} finally {
