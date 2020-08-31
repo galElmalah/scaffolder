@@ -48,7 +48,7 @@ class TemplatesBuilder {
 
 	createTemplateFolder(folderDescriptor, root) {
 		return mkdir(join(root, folderDescriptor.name)).then(() => {
-			return folderDescriptor.content.map((descriptor) => {
+			return Promise.all(folderDescriptor.content.map((descriptor) => {
 				try {
 					if (descriptor.type === TYPES.FOLDER) {
 						return this.createTemplateFolder(
@@ -59,11 +59,11 @@ class TemplatesBuilder {
 					return writeFilePromise(
 						join(root, folderDescriptor.name, descriptor.name),
 						descriptor.content
-					);
+					).catch((e) => console.log('Error::createTemplateFolder::', e));
 				} catch (e) {
 					console.log('Error::createTemplateFolder::', e);
 				}
-			});
+			}));
 		});
 	}
 
