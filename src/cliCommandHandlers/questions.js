@@ -31,7 +31,7 @@ const chooseTemplate = (commands) => {
 const getQuestionMessage = (parametersOptions = {}, key) => {
 	return (
 		(parametersOptions[key] && parametersOptions[key].question) ||
-    `Enter a value for the following key "${key}"`
+    `Enter a value for the following parameter "${key}"`
 	);
 };
 
