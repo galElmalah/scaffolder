@@ -66,6 +66,8 @@ This command is the most recommended one as it simplifies the process for the us
   More info about [sharing templates](#sharing-templates).
 - _--entry-point_ _\<absolutePath>_  
   Generate the template to a specified location.
+- _--path-prefix _\<relativePath>_  
+  Path that will be appended the the location the script is generated into.
 
 ### **create** _\<commandName>_
 
@@ -77,6 +79,8 @@ _\<commandName>_: One of the commands defined in the **scaffolder** folder. <br/
   Load the templates from a specific location.
 - _--entry-point_ _\<absolutePath>_  
   Generate the template to a specified location.
+- _--path-prefix _\<relativePath>_  
+  Path that will be appended the the location the script is generated into.
 - --folder, -f _\<folderName>_  
   _\<folderName>_: The name of the folder you want the template to be generated into. If none is supplied the template will be generated to the current working directory.
 - _\<parameter>=\<value>_  
