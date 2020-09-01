@@ -15,6 +15,20 @@ const {
 const { interactiveCreateCommandHandler, } = require('./interactiveCreateHandler');
 const { getTemplateHooksFromConfig } = require('./getTemplateHooksFromConfig');
 const { asyncExecutor } = require('./asyncExecutor');
+const { getValidationFunction } = require('./questions');
+
+const validateParametersValues = (parametersOptions,keyValuePairs) => {
+	for(const [parameter,value] of Object.entries(keyValuePairs)) {
+		const validationFn = getValidationFunction(parametersOptions,parameter);
+		if(validationFn) {
+			const res =  validationFn(value);
+			if(typeof res ==='string') {
+				throw new Error(`invalid value for "${parameter}"::${res}`); 
+			} 
+		} 
+	}
+};
+
 
 const getTransformedTemplates = (command, cmd) => {
 	const commandsLocations = commandsBuilder(cmd.loadFrom || process.cwd());
@@ -22,8 +36,11 @@ const getTransformedTemplates = (command, cmd) => {
 	const { config, currentCommandTemplate } = templateReader(commandsLocations)(
 		command
 	);
+	
 
 	const keyValuePairs = generateKeyValues(cmd);
+	
+	validateParametersValues(config.parametersOptions, keyValuePairs);
 
 	const globalCtx = {
 		templateName: command,
@@ -73,15 +90,16 @@ const createCommandHandler = async (command, cmd) => {
 			globalCtx
 		);
 
-		return Promise.all(templatesBuilder.build()).then(() => {
-			showSuccessMessage(command, templatesBuilder.getFullPath());
-			asyncExecutor(
-				postTemplateGeneration,
-				`Executed "${command}" post-template generation hook.`,
-				(e) => `Error while Executing "${command}" post-template generation hook::\n${e}`,
-				globalCtx
-			);
-		});
+		await Promise.all(templatesBuilder.build());
+		
+		showSuccessMessage(command, templatesBuilder.getFullPath());
+		asyncExecutor(
+			postTemplateGeneration,
+			`Executed "${command}" post-template generation hook.`,
+			(e) => `Error while Executing "${command}" post-template generation hook::\n${e}`,
+			globalCtx
+		);
+
 
 	} catch (err) {
 		handleError(err);
