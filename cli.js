@@ -14,6 +14,11 @@ cli
 		''
 	)
 	.option(
+		'--path-prefix <prefix>',
+		'Path that will be appended the the location the script is generated into',
+		''
+	)
+	.option(
 		'--entry-point <value>',
 		'The entry point to generate the template into (Absolute path)'
 	)
@@ -28,6 +33,11 @@ cli
 cli
 	.command('interactive')
 	.alias('i')
+	.option(
+		'--path-prefix <prefix>',
+		'Path that will be appended the the location the script is generated into',
+		''
+	)
 	.option(
 		'--entry-point <value>',
 		'The entry point to generate the template into (Absolute path)'

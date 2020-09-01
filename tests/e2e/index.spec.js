@@ -53,7 +53,34 @@ describe('e2e', () => {
 		cleanUp('nested');
 		cleanUp('generatedInPostHook');
 		cleanUp('generatedInPreHook');
+		cleanUp('prefix/not-nested');
 
+	});
+
+	it.only('should create the template with the prefix provided', () => {
+		execOnTestDir(
+			'create not-nested key1=awesome key5=awesome --folder not-nested --path-prefix prefix'
+		);
+
+		expect(isFolderExists('prefix/not-nested')).toBeTruthy();
+
+		expect(
+			hasFileWithName(`${__dirname}/results/prefix/not-nested`, 'AWESOME.js')
+		).toBeTruthy();
+
+		expect(
+			isFileContainsText(
+				`${__dirname}/results/prefix/not-nested/AWESOME.js`,
+				'AWESOME'
+			)
+		).toBeTruthy();
+
+		expect(
+			isFileContainsText(
+				`${__dirname}/results/prefix/not-nested/AWESOME.js`,
+				`date:${new Date().getDate()}`
+			)
+		).toBeTruthy();
 	});
 
 	it('should create the template with the right values as keys', () => {

@@ -70,9 +70,12 @@ const interactiveCreateCommandHandler = async (command) => {
 
 		const templatesBuilder = new TemplatesBuilder(templates, chosenTemplate);
 
-		if (command.entryPoint) {
+		command.entryPoint &&
 			templatesBuilder.withCustomEntryPoint(command.entryPoint);
-		}
+
+		command.pathPrefix &&
+			templatesBuilder.withPathPrefix(command.pathPrefix);
+
 
 		await asyncExecutor(
 			preTemplateGeneration,

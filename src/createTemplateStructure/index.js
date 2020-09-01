@@ -32,7 +32,9 @@ const replaceKeyWithValue = (
 	if (isAFunctionKey(match)) {
 		const functionKey = extractKey(match).replace(/\(|\)/g, '');
 		if (!functionsMap.hasOwnProperty(functionKey)) {
-			throw new MissingFunctionImplementation({ functionKey });
+			throw new MissingFunctionImplementation({
+				functionKey 
+			});
 		}
 		return functionsMap[functionKey](ctx);
 	}
@@ -81,7 +83,9 @@ const templateReader = (commands) => (cmd) => {
 		// reset scaffolder config so I wont get old values.
 
 		delete require.cache[getConfigPath(commands[cmd])];
-		config = { ...defaultConfig(), ...require(getConfigPath(commands[cmd])) };
+		config = {
+			...defaultConfig(), ...require(getConfigPath(commands[cmd])) 
+		};
 	}
 
 	return {
@@ -96,7 +100,9 @@ const templateTransformer = (templateDescriptor, injector, globalCtx) => {
 			.split('scaffolder')
 			.pop();
 		const currentFilePath = `${globalCtx.targetRoot}${currentFileLocationPath}`;
-		return { fileName: name, type, currentFilePath };
+		return {
+			fileName: name, type, currentFilePath 
+		};
 	};
 	return templateDescriptor.map((descriptor) => {
 		if (descriptor.type === TYPES.FOLDER) {
@@ -109,11 +115,15 @@ const templateTransformer = (templateDescriptor, injector, globalCtx) => {
 		return {
 			name: injector(
 				descriptor.name,
-				createLocalCtx({ ...descriptor, type: TYPES.FILE_NAME })
+				createLocalCtx({
+					...descriptor, type: TYPES.FILE_NAME 
+				})
 			),
 			content: injector(
 				descriptor.content,
-				createLocalCtx({ ...descriptor, type: TYPES.FILE_CONTENT })
+				createLocalCtx({
+					...descriptor, type: TYPES.FILE_CONTENT 
+				})
 			),
 		};
 	});
@@ -142,7 +152,9 @@ const injector = (
 	{ transformers = {}, functions = {} } = {},
 	globalCtx
 ) => (text, localCtx) => {
-	const ctx = { ...globalCtx, ...localCtx };
+	const ctx = {
+		...globalCtx, ...localCtx 
+	};
 	const keyPattern = new RegExp(keyPatternString, 'g');
 	const replacer = replaceKeyWithValue(
 		keyValuePairs,

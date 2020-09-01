@@ -16,7 +16,7 @@ const writeFilePromise = (path, content) =>
 class TemplatesBuilder {
 	constructor(templates, cmd) {
 		this.templates = templates;
-
+		this.pathPrefix = '';
 		this.folder = '';
 		this.cmd = cmd;
 		this.entryPoint = process.cwd();
@@ -26,6 +26,12 @@ class TemplatesBuilder {
 		this.entryPoint = entryPoint;
 		return this;
 	}
+
+	withPathPrefix(pathPrefix) {
+		this.pathPrefix = pathPrefix;
+		return this;
+	}
+
 
 	inAFolder(folderName) {
 		this.folder = folderName;
@@ -71,12 +77,12 @@ class TemplatesBuilder {
 		this.createFolderIfNeeded();
 		const promises = [];
 		this.templates.forEach((template) => {
-			const path = join(this.entryPoint, this.folder, template.name);
+			const path = join(this.entryPoint, this.pathPrefix,this.folder, template.name);
 			if (template.type) {
 				promises.push(
 					this.createTemplateFolder(
 						template,
-						join(this.entryPoint, this.folder)
+						join(this.entryPoint, this.pathPrefix,this.folder)
 					)
 				);
 				return;
@@ -87,7 +93,7 @@ class TemplatesBuilder {
 	}
 
 	getFullPath() {
-		return join(this.entryPoint, this.folder);
+		return join(this.entryPoint, this.pathPrefix, this.folder);
 	}
 }
 

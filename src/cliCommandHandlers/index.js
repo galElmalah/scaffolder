@@ -64,6 +64,7 @@ const createCommandHandler = async (command, cmd) => {
 		const templatesBuilder = new TemplatesBuilder(templates, command);
 		cmd.folder && templatesBuilder.inAFolder(cmd.folder);
 		cmd.entryPoint && templatesBuilder.withCustomEntryPoint(cmd.entryPoint);
+		cmd.pathPrefix && templatesBuilder.withPathPrefix(cmd.pathPrefix);
 
 		await asyncExecutor(
 			preTemplateGeneration,
