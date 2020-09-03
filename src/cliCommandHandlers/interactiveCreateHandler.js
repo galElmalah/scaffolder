@@ -16,6 +16,19 @@ const { asyncExecutor } = require('./asyncExecutor');
 const { GithubTempCloner } = require('../GithubTempCloner');
  
 
+const getChosenTemplate =  async (availableTemplateCommands, preSelectedTemplate) => {
+
+	if(availableTemplateCommands[preSelectedTemplate]) {
+		return {
+			chosenTemplate: preSelectedTemplate 
+		};
+	} 
+
+	return chooseTemplate(availableTemplateCommands);
+
+
+};
+
 const getAvailableTemplatesCommands = (path,fromGithub, gitCloner) => {
 	if(fromGithub) {
 		const directoryPath = gitCloner.clone();
@@ -39,7 +52,7 @@ const interactiveCreateCommandHandler = async (command) => {
 			gitCloner,
 		);
 
-		const { chosenTemplate } = await chooseTemplate(availableTemplateCommands);
+		const { chosenTemplate } = await getChosenTemplate(availableTemplateCommands, command.template);
 
 		const { config, currentCommandTemplate } = templateReader(
 			availableTemplateCommands

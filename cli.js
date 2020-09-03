@@ -6,6 +6,7 @@ const {
 	showCommandHandler,
 	interactiveCreateCommandHandler,
 } = require('./src/cliCommandHandlers');
+
 cli
 	.command('create <commandName>')
 	.option(
@@ -45,6 +46,9 @@ cli
 	.option(
 		'--from-github',
 		'Using this option will consume the templates from a specified Github repository.\nExample templates repository can be seen here https://github.com/galElmalah/scaffolder-templates-example'
+	)
+	.option('--template <templateName>', 
+		'Start the interactive mode with a preselected template.'
 	)
 	.description(
 		'Interactive mode that ask for the user input on each step of the way'

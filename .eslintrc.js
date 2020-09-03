@@ -22,14 +22,6 @@ module.exports = {
 				'multiline': true, 'minProperties': 3 
 			}
 		}],
-		'max-len': ['error', {
-			'code': 100,
-			'ignoreStrings': true,
-			'ignoreComments': true,
-			'ignoreUrls': true,
-			'ignoreTemplateLiterals': true,
-			'ignoreRegExpLiterals': true
-		}],
 		'no-prototype-builtins': 'off',
 		'indent': [
 			'error',
