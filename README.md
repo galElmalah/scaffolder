@@ -66,9 +66,9 @@ This command is the most recommended one as it simplifies the process for the us
   More info about [sharing templates](#sharing-templates).
 - _--entry-point_ _\<absolutePath>_  
   Generate the template to a specified location.
-- _--path-prefix _\<relativePath>_  
+- _--path-prefix_ _\<relativePath>_  
   Path that will be appended the the location the script is generated into.
-- _--template _\<templateName>_  
+- _--template_ _\<templateName>_  
   Start the interactive mode with a preselected template.
 
 ### **create** _\<commandName>_
