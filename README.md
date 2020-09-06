@@ -18,8 +18,10 @@
 ---
 
 <p align="center"> 
-  Scaffolder lets you create dynamic templates and increase your development velocity. :shipit:.        <br/>
-  With Scaffolder you can define custom file structre template and link them to specifc commands which can then be used to create them in a few easy steps!
+  Copy pasting is hard and prone to mistakes.<br/>
+  Keeping your project file structure consistent is annoying.<br/>
+  Sharing templates is too damn complicated!<br/>
+  This is where Scaffolder come in.
   <br> 
 </p>
 
@@ -33,32 +35,162 @@
 
 ### TOC
 
+- [Getting started](#getting-started)
+  * [Setup](#setup)
+  * [Usage](#usage)
+    + [Create a templates folder in your project root directory](#create-a-templates-folder-in-your-project-root-directory)
 - [API](#api)
-  - [interactive, i](#interactive-i)
-  - [create _\<commandName>_](#create-commandname)
-  - [list, ls](#list-ls)
-  - [show _\<commandName>_](#show-commandname)
+  * [**interactive, i**](#interactive-i)
+  * [**create** _\<templateName>_](#create-templatename)
+  * [**list**, **ls**](#list-ls)
+  * [**show** _\<templateName>_](#show-templatename)
 - [Sharing templates](#sharing-templates)
 - [Scaffolder config file](#scaffolder-config-file)
-  - [transformers](#transformers)
-    - [default transformers](#default-transformers)
-  - [functions](#functions)
-  - [parametersOptions](#parametersoptions)
-    - [parameter options object](#parameter-options-object)
-  - [context object](#context-object)  
-  - [templatesOptions](#templatesoptions)
-    - [templates options object](#templates-options-object)
-    - [hooks object](#hooks-object)
-- [Getting started](#getting-started)
-  - [install scaffolder globally](#install-scaffolder-globally)
-  - [Create a commands folder in your project root directory](#create-a-commands-folder-in-your-project-root-directory)
+  * [transformers](#transformers)
+    + [Default transformers](#default-transformers)
+  * [functions](#functions)
+  * [parametersOptions](#parametersoptions)
+    + [parameter options object](#parameter-options-object)
+  * [context object](#context-object)
+  * [templatesOptions](#templatesoptions)
+    + [templates options object](#templates-options-object)
+    + [hooks object](#hooks-object)
+- [Motivation and globals](#motivation-and-globals)
+  * [Why I wrote Scaffolder?](#why-i-wrote-scaffolder-)
+  * [Why I didn’t use any existing solutions?](#why-i-didnt-use-any-existing-solutions-)
+  * [My goals while writing this tool](#my-goals-while-writing-this-tool)
+
+## Getting started
+
+### Setup
+Install scaffolder globally
+```bash
+npm i -g scaffolder-cli
+```
+this will make the `scaff` command available globally, you can now type `scaff i` in the terminal, to enter the cli in [interactive mode](#interactive-i).
+
+You can also use `npx` for example `npx scaffolder-cli i` will start scaffolder in [interactive mode](#interactive-i).
+
+### Usage
+
+#### Create a templates folder in your project root directory
+
+The templates folder should be named **scaffolder** and should contain a folders where each folder represents a different template and inside of that folder, there is the template structure you wish to create.  
+> The templates available are the templates defined in the **scaffolder** folder.  
+
+If you have more scaffolder folders in the current file system hierarchy then all of them will be included with precedence to the nearest **scaffolder** folder.  
+**For example:**  
+In our current project root
+
+```bash
+scaffolder
+├── component
+│   ├── index.js
+│   ├── {{componentName}}.js
+│   └── {{componentName}}.spec.js
+└── index
+    └── index.js
+```
+
+In our desktop
+
+```bash
+scaffolder
+├── component
+│   ├── index.js
+│   ├── {{lol}}.js
+│   └── {{wattt}}.spec.js
+└── coolFile
+    └── coolFile.sh
+```
+
+From the above structure, we will have three commands **component** (from the project scaffolder), **index** (from the project scaffolder) and **coolFile** (from the desktop scaffolder).  
+Lets look at the content of **{{componentName}}.js** and **{{componentName}}.spec.js**.
+**{{componentName}}.js** from the current project **scaffolder** folder.
+
+```javascript
+import React from 'react'
+
+export const {{componentName}} = (props) => {
+  return (
+    <div>
+      Such a cool component
+    </div>
+  )
+}
+```
+
+**{{componentName}}.spec.js**
+
+```javascript
+import React from 'react';
+import { mount } from 'enzyme';
+import { {{componentName}} } from './{{componentName}}';
+
+describe('{{componentName}}', () => {
+  it('should have a div', () => {
+    const wrapper = mount(
+      <{{componentName}} />
+    );
+   expect(wrapper.find('div').exists()).toBeTruthy()
+  });
+});
+```
+
+Now let's run the following command somewhere in our project
+
+```bash
+scaff create component componentName=CoolAFComponent --folder MyCoolComp
+```
+
+A new folder will be created under our current working directory, let's look at what we got.
+
+```bash
+MyCoolComp
+├── CoolAFComponent.js
+├── CoolAFComponent.spec.js
+└── index.js
+```
+
+**CoolAFComponent.js**
+
+```javascript
+import React from "react";
+
+export const CoolAFComponent = (props) => {
+  return <div>Such a cool component</div>;
+};
+```
+
+**CoolAFComponent.spec.js**
+
+```javascript
+import React from "react";
+import { mount } from "enzyme";
+import { CoolAFComponent } from "./CoolAFComponent";
+
+describe("CoolAFComponent", () => {
+  it("should have a div", () => {
+    const wrapper = mount(<CoolAFComponent />);
+    expect(wrapper.find("div").exists()).toBeTruthy();
+  });
+});
+```
+
+This could also be achieved using the interactive mode!
+![](scaffolder.gif)
+
+How cool is this, right?  
+As you can see our params got injected to the right places and we created our template with little effort.  
+Hooray!! :sparkles: :fireworks: :sparkler: :sparkles:
+
 
 ## API
 
 ### **interactive, i**
 
 Run Scaffolder in interactive mode, meaning, it will prompt the user to choose a template and a value for each parameter.  
-This command is the most recommended one as it simplifies the process for the user a lot.
+> This command is the most recommended one as it simplifies the process for the user a lot.
 
 **options:**
 - _--from-github_  
@@ -71,9 +203,9 @@ This command is the most recommended one as it simplifies the process for the us
 - _--template_ _\<templateName>_  
   Start the interactive mode with a preselected template.
 
-### **create** _\<commandName>_
+### **create** _\<templateName>_
 
-_\<commandName>_: One of the commands defined in the **scaffolder** folder. <br/>
+_\<templateName>_: One of the templates defined in the **scaffolder** folder. <br/>
  
 **options:**
 
@@ -81,9 +213,9 @@ _\<commandName>_: One of the commands defined in the **scaffolder** folder. <br/
   Load the templates from a specific location.
 - _--entry-point_ _\<absolutePath>_  
   Generate the template to a specified location.
-- _--path-prefix _\<relativePath>_  
+- _--path-prefix_ _\<relativePath>_  
   Path that will be appended the the location the script is generated into.
-- --folder, -f _\<folderName>_  
+- _--folder, -f_ _\<folderName>_  
   _\<folderName>_: The name of the folder you want the template to be generated into. If none is supplied the template will be generated to the current working directory.
 - _\<parameter>=\<value>_  
   _\<parameter>_: One of the parameters for a specific template  
@@ -91,11 +223,11 @@ _\<commandName>_: One of the commands defined in the **scaffolder** folder. <br/
 
 ### **list**, **ls**
 
-Show the available commands from the current working directory.
+Show the available templates from the current working directory.
 
-### **show** _\<commandName>_
+### **show** _\<templateName>_
 
-Show a specific command template files  
+Show a specific template files  
  **options:**
 
 - _--show-content_  
@@ -233,121 +365,29 @@ If an hook function returns a Promise then it will be awaited and only then the 
 | preTemplateGeneration    | ([context](#context-object)): any \| Promise\<any>                                    | Executed before the template is generated.             |
 | postTemplateGeneration    | ([context](#context-object)): any \| Promise\<any>                                    | Executed after the template is generated.             |
 
+## Motivation and globals
+### Why I wrote Scaffolder?
+Working on several big projects, I noticed that there a few time-consuming tasks that keep popping up. One of those tasks is creating folders and filling in all the boilerplate code while keeping the project structure consistent. After realizing that this process needs to be automated, I set out to find a solution and ended up creating my own CLI tool 🌈.
 
-## Getting started
+The first thing I had to do is to understand **WHY** it’s so annoying, and I realized that this happens for two reasons:
 
-### install scaffolder globally
+- Creating files and folders can be repetitive, annoying and a waste of time. Especially if some content repeats itself for every new file.
+- Keeping a project file structure consistent is becoming more and more complex as the number of people working on that project increases — each team member has his preference for naming files and exposing functionality.
 
-```npm
-npm i -g scaffolder-cli
-```
+### Why I didn’t use any existing solutions?
+***First***, came [Yeoman](https://yeoman.io/). I gave yeoman a try but found it too complex. Furthermore, I want the templates to be a part of the project (in some cases), and committed to git alongside the code. Thus, supporting template generation offline and tight coupling between the project and the templates. All of the above seemed too complex or not possible at all with yeoman, so one hour after trying it out I moved on to other prospects.
 
-### Create a commands folder in your project root directory
+***Second***, came [boiler](https://github.com/tmrts/boilr), I did not like this one for the same reasons I did not like Yeoman. Also, the fact that it’s not managed with npm is a bit annoying.
 
-The commands folder should be named **scaffolder** and it should contain a folder with each folder representing a different command and inside of that folder, there is the template you wish to create.  
-The commands available are the commands defined in the **scaffolder** folder.  
-If you have more scaffolder folders in the current file system hierarchy then all of them will be included with precedence to the nearest **scaffolder** folder.  
-**For example:**  
-In our current project root
+***Third***, came frustration 😞. After trying two of the most popular solutions out there I realized that If I want something tailored to my needs I should just go ahead and write it myself.
 
-```bash
-scaffolder
-├── component
-│   ├── index.js
-│   ├── {{componentName}}.js
-│   └── {{componentName}}.spec.js
-└── index
-    └── index.js
-```
+Both of these tools are **AWESOME** but for my needs, they weren’t right.
 
-In our desktop
+### My goals while writing this tool
+- making this process as easy and seamless as possible.
 
-```bash
-scaffolder
-├── component
-│   ├── index.js
-│   ├── {{lol}}.js
-│   └── {{wattt}}.spec.js
-└── coolFile
-    └── coolFile.sh
-```
+- Addressing the general problem. Meaning, it won’t be language-specific e.g only React or Vue templates. I could potentially create templates in any shape, structure, and language I want.
 
-From the above structure, we will have three commands **component** (from the project scaffolder), **index** (from the project scaffolder) and **coolFile** (from the desktop scaffolder).  
-Lets look at the content of **{{componentName}}.js** and **{{componentName}}.spec.js**.
-**{{componentName}}.js** from the current project **scaffolder** folder.
-
-```javascript
-import React from 'react'
-
-export const {{componentName}} = (props) => {
-  return (
-    <div>
-      Such a cool component
-    </div>
-  )
-}
-```
-
-**{{componentName}}.spec.js**
-
-```javascript
-import React from 'react';
-import { mount } from 'enzyme';
-import { {{componentName}} } from './{{componentName}}';
-
-describe('{{componentName}}', () => {
-  it('should have a div', () => {
-    const wrapper = mount(
-      <{{componentName}} />
-    );
-   expect(wrapper.find('div').exists()).toBeTruthy()
-  });
-});
-```
-
-Now let's run the following command somewhere in our project
-
-```bash
-scaff create component componentName=CoolAFComponent --folder MyCoolComp
-```
-
-A new folder will be created under our current working directory, let's look at what we got.
-
-```bash
-MyCoolComp
-├── CoolAFComponent.js
-├── CoolAFComponent.spec.js
-└── index.js
-```
-
-**CoolAFComponent.js**
-
-```javascript
-import React from "react";
-
-export const CoolAFComponent = (props) => {
-  return <div>Such a cool component</div>;
-};
-```
-
-**CoolAFComponent.spec.js**
-
-```javascript
-import React from "react";
-import { mount } from "enzyme";
-import { CoolAFComponent } from "./CoolAFComponent";
-
-describe("CoolAFComponent", () => {
-  it("should have a div", () => {
-    const wrapper = mount(<CoolAFComponent />);
-    expect(wrapper.find("div").exists()).toBeTruthy();
-  });
-});
-```
-
-This could also be achived using the interactive mode!
-![](scaffolder.gif)
-
-How cool is this, right?  
-As you can see our params got injected to the right places and we created our template with little effort.  
-Hooray!! :sparkles: :fireworks: :sparkler: :sparkles:
+- Having the ability to create scoped templates. Meaning, creating project-specific templates that can be committed to git with the rest of the code.
+- Having the ability to create “global” templates that will be available from anywhere.
+- Managed with npm.

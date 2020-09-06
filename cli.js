@@ -8,23 +8,23 @@ const {
 } = require('./src/cliCommandHandlers');
 
 cli
-	.command('create <commandName>')
+	.command('create <templateName>')
 	.option(
 		'-f, --folder <folder>',
 		'Folder name that the template will be generated into',
 		''
 	)
 	.option(
-		'--path-prefix <prefix>',
+		'--path-prefix <relativePath>',
 		'Path that will be appended the the location the script is generated into',
 		''
 	)
 	.option(
-		'--entry-point <value>',
+		'--entry-point <absolutePath>',
 		'The entry point to generate the template into (Absolute path)'
 	)
 	.option(
-		'--load-from <value>',
+		'--load-from <absolutePath>',
 		'A path to a scaffolder folder from which to load the templates.'
 	)
 	.alias('c')
@@ -35,12 +35,12 @@ cli
 	.command('interactive')
 	.alias('i')
 	.option(
-		'--path-prefix <prefix>',
+		'--path-prefix <relativePath>',
 		'Path that will be appended the the location the script is generated into',
 		''
 	)
 	.option(
-		'--entry-point <value>',
+		'--entry-point <absolutePath>',
 		'The entry point to generate the template into (Absolute path)'
 	)
 	.option(
@@ -59,14 +59,14 @@ cli
 	.command('list')
 	.alias('ls')
 	.option(
-		'--entry-point <value>',
+		'--entry-point <absolutePath>',
 		'The entry point from which you want to see all available templates (Absolute path)'
 	)
 	.description('Show all available commands and their paths')
 	.action(listCommandHandler);
 
 cli
-	.command('show <commandName>')
+	.command('show <templateName>')
 	.alias('s')
 	.description('Show specific command corresponding template files')
 	.option('-c, --show-content')
