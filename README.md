@@ -365,7 +365,7 @@ If an hook function returns a Promise then it will be awaited and only then the 
 | preTemplateGeneration    | ([context](#context-object)): any \| Promise\<any>                                    | Executed before the template is generated.             |
 | postTemplateGeneration    | ([context](#context-object)): any \| Promise\<any>                                    | Executed after the template is generated.             |
 
-## Motivation and globals
+## Motivation and goals
 ### Why I wrote Scaffolder?
 Working on several big projects, I noticed that there a few time-consuming tasks that keep popping up. One of those tasks is creating folders and filling in all the boilerplate code while keeping the project structure consistent. After realizing that this process needs to be automated, I set out to find a solution and ended up creating my own CLI tool 🌈.
 
