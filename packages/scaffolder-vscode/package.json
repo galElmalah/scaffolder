@@ -32,6 +32,10 @@
   "contributes": {
     "commands": [
       {
+        "command": "scaffolder-vscode.createTemplateFromGithub",
+        "title": "Scaffolder: Generate Template from Github"
+      },
+      {
         "command": "scaffolder-vscode.createTemplateInFolder",
         "title": "Scaffolder: Generate Template"
       },

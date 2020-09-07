@@ -21,7 +21,6 @@ export const generateScaffolderTemplate = async (path: string) => {
     const chosenTemplate = await chooseTemplate(availableTemplateCommands);
 
     if (!chosenTemplate) {
-      // exit early if the user entered "Esc" when the templates menu appeared
       return;
     }
 
@@ -59,11 +58,11 @@ export const generateScaffolderTemplate = async (path: string) => {
     await asyncExecutor(
       preTemplateGeneration,
       () =>
-        scaffolderOut.appendLine(
+        logger.log(
           `Executed "${chosenTemplate}" pre-template generation hook.`
         ),
       (e: Error) =>
-        scaffolderOut.appendLine(
+        logger.log(
           `Error while Executing "${chosenTemplate}" pre-template generation hook::\n${e}`
         ),
       globalCtx
@@ -88,6 +87,6 @@ export const generateScaffolderTemplate = async (path: string) => {
       scaffolderMessage(`Generated "${chosenTemplate}" at - ${path}`)
     );
   } catch (e) {
-    errorHandler(e, scaffolderOut);
+    errorHandler(e, logger.log);
   }
 };

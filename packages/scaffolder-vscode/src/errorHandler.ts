@@ -5,16 +5,16 @@ const genericErrorMessage = `Failed to generate your template.\ncheck the output
 
 export const errorHandler = (
   e: Error & { getDisplayErrorMessage?: () => string },
-  scaffolderOut: any
+  log: (message: any) => void
 ) => {
-  scaffolderOut.appendLine(e);
+  log(e);
   if (e.getDisplayErrorMessage) {
-    scaffolderOut.appendLine(e.getDisplayErrorMessage());
+    log(e.getDisplayErrorMessage());
     vscode.window.showErrorMessage(
       scaffolderMessage(e.getDisplayErrorMessage())
     );
   } else {
-    scaffolderOut.appendLine(e.message);
+    log(e.message);
     vscode.window.showErrorMessage(scaffolderMessage(genericErrorMessage));
   }
 };
