@@ -1,7 +1,4 @@
-import { chooseTemplate } from "./chooseTemplate";
-import { errorHandler } from "./errorHandler";
-import { getParamsValuesFromUser } from "./getParamsValuesFromUser";
-import { scaffolderMessage } from "./scaffolderMessage";
+import * as vscode from "vscode";
 import {
   commandsBuilder,
   templateReader,
@@ -10,24 +7,32 @@ import {
   injector,
   TemplatesBuilder,
   asyncExecutor,
-  getTemplateHooksFromConfig
+  getTemplateHooksFromConfig,
 } from "scaffolder-cli";
-import * as vscode from "vscode";
-
-const scaffolderOut = vscode.window.createOutputChannel("Scaffolder");
+import { chooseTemplate } from "./chooseTemplate";
+import { errorHandler } from "./errorHandler";
+import { getParamsValuesFromUser } from "./getParamsValuesFromUser";
+import { scaffolderMessage } from "./scaffolderMessage";
+import { logger } from "./logger";
 
 export const generateScaffolderTemplate = async (path: string) => {
   try {
     const availableTemplateCommands = await commandsBuilder(path);
     const chosenTemplate = await chooseTemplate(availableTemplateCommands);
 
+    if (!chosenTemplate) {
+      // exit early if the user entered "Esc" when the templates menu appeared
+      return;
+    }
+
     const { config, currentCommandTemplate } = templateReader(
       availableTemplateCommands
     )(chosenTemplate);
 
-    const { preTemplateGeneration, postTemplateGeneration } = getTemplateHooksFromConfig(config, chosenTemplate);
-
-    scaffolderOut.appendLine(JSON.stringify(config, null, 2));
+    const {
+      preTemplateGeneration,
+      postTemplateGeneration,
+    } = getTemplateHooksFromConfig(config, chosenTemplate);
 
     const templateKeys = extractAllKeysFromTemplate(currentCommandTemplate);
 
@@ -52,21 +57,32 @@ export const generateScaffolderTemplate = async (path: string) => {
     ).withCustomEntryPoint(path);
 
     await asyncExecutor(
-			preTemplateGeneration,
-			()=> scaffolderOut.appendLine(`Executed "${chosenTemplate}" pre-template generation hook.`),
-			(e: Error) => scaffolderOut.appendLine(`Error while Executing "${chosenTemplate}" pre-template generation hook::\n${e}`),
-			globalCtx
-		);
+      preTemplateGeneration,
+      () =>
+        scaffolderOut.appendLine(
+          `Executed "${chosenTemplate}" pre-template generation hook.`
+        ),
+      (e: Error) =>
+        scaffolderOut.appendLine(
+          `Error while Executing "${chosenTemplate}" pre-template generation hook::\n${e}`
+        ),
+      globalCtx
+    );
 
     await Promise.all(templatesBuilder.build());
 
-
     await asyncExecutor(
-			postTemplateGeneration,
-			()=> scaffolderOut.appendLine(`Executed "${chosenTemplate}" post-template generation hook.`),
-			(e: Error) => scaffolderOut.appendLine(`Error while Executing "${chosenTemplate}" post-template generation hook::\n${e}`),
-			globalCtx
-		);
+      postTemplateGeneration,
+      () =>
+        logger.log(
+          `Executed "${chosenTemplate}" post-template generation hook.`
+        ),
+      (e: Error) =>
+        logger.log(
+          `Error while Executing "${chosenTemplate}" post-template generation hook::\n${e}`
+        ),
+      globalCtx
+    );
 
     vscode.window.showInformationMessage(
       scaffolderMessage(`Generated "${chosenTemplate}" at - ${path}`)
