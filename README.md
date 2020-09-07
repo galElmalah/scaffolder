@@ -75,7 +75,7 @@ You can also use `npx` for example `npx scaffolder-cli i` will start scaffolder 
 
 #### Create a templates folder in your project root directory
 
-The templates folder should be named **scaffolder** and should contain a folders where each folder represents a different template and inside of that folder, there is the template structure you wish to create.  
+The templates folder should be named **scaffolder** and should contain folders where each folder represents a different template and inside of that folder, there is the template structure you wish to create.  
 > The templates available are the templates defined in the **scaffolder** folder.  
 
 If you have more scaffolder folders in the current file system hierarchy then all of them will be included with precedence to the nearest **scaffolder** folder.  
