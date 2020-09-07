@@ -1,6 +1,7 @@
 import * as vscode from "vscode";
 import { generateScaffolderFromGithub } from "./generateScaffolderFromGithub";
 import { generateScaffolderTemplate } from "./generateScaffolderTemplate";
+import { logger } from "./logger";
 
 //Create output channel
 
@@ -24,8 +25,8 @@ export function activate(context: vscode.ExtensionContext) {
 
   const generatingTemplateFromGithub = vscode.commands.registerCommand(
     "scaffolder-vscode.createTemplateFromGithub",
-    (uri: vscode.Uri) => {
-      generateScaffolderFromGithub();
+    () => {
+      generateScaffolderFromGithub(vscode.workspace.rootPath);
     }
   );
 

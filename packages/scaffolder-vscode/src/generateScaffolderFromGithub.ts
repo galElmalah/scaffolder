@@ -3,16 +3,16 @@ import { GithubTempCloner, isAValidGithubSource } from "scaffolder-cli";
 import { generateScaffolderTemplate } from "./generateScaffolderTemplate";
 import { logger } from "./logger";
 
-export const validationAdapter = (fn: () => any) => (
+export const validationAdapter = (fn: (...args: any) => string | true) => (
   value: any
 ): undefined | string => {
-  const result = isAValidGithubSource(value);
+  const result = fn(value);
   if (typeof result === "string") {
     return result;
   }
 };
 
-export const generateScaffolderFromGithub = async () => {
+export const generateScaffolderFromGithub = async (generateTo: string = "") => {
   const chooseGithubSource = () => {
     return vscode.window.showInputBox({
       prompt: "Enter a Github src (ssh/https)",
@@ -20,9 +20,19 @@ export const generateScaffolderFromGithub = async () => {
       validateInput: validationAdapter(isAValidGithubSource),
     });
   };
-  const githubSrc = await chooseGithubSource();
-  const gitCloner = new GithubTempCloner(githubSrc, logger.log);
-  const githubTempFolderPath = gitCloner.clone();
-  logger.log({ githubTempFolderPath });
-  generateScaffolderTemplate(githubTempFolderPath);
+
+  try {
+    const githubSrc = await chooseGithubSource();
+
+    if (!githubSrc) {
+      return;
+    }
+
+    const gitCloner = new GithubTempCloner(githubSrc, logger.log);
+    vscode.window.showInformationMessage("cloning repository...");
+    const githubTempFolderPath = gitCloner.clone();
+    generateScaffolderTemplate(githubTempFolderPath, generateTo);
+  } catch (e) {
+    logger.log(e);
+  }
 };

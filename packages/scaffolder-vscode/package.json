@@ -22,11 +22,16 @@
     "code",
     "velocity",
     "automation",
-    "templates"
+    "templates",
+    "generate",
+    "web-apps",
+    "nodejs",
+    "development"
   ],
   "activationEvents": [
     "onCommand:scaffolder-vscode.createTemplateInFolder",
-    "onCommand:scaffolder-vscode.createTemplateInFile"
+    "onCommand:scaffolder-vscode.createTemplateInFile",
+    "onCommand:scaffolder-vscode.createTemplateFromGithub"
   ],
   "main": "./out/extension.js",
   "contributes": {

@@ -4,16 +4,15 @@ import {
   getValidationFunction,
 } from "scaffolder-cli";
 import * as vscode from "vscode";
+import { validationAdapter } from "./generateScaffolderFromGithub";
 
-const vscodeValidationFunctionAdapter = (parametersOptions: {}, key:string) => {
+const vscodeValidationFunctionAdapter = (
+  parametersOptions: {},
+  key: string
+) => {
   const validationFn = getValidationFunction(parametersOptions, key);
   if (validationFn) {
-    return (value: string) => {
-      const result = validationFn(value);
-      if (typeof result === "string") {
-        return result;
-      }
-    };
+    return validationAdapter(validationFn);
   }
 };
 

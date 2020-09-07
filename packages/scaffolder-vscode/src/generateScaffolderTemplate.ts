@@ -15,7 +15,11 @@ import { getParamsValuesFromUser } from "./getParamsValuesFromUser";
 import { scaffolderMessage } from "./scaffolderMessage";
 import { logger } from "./logger";
 
-export const generateScaffolderTemplate = async (path: string) => {
+export const generateScaffolderTemplate = async (
+  path: string,
+  generateTo = ""
+) => {
+  generateTo = generateTo || path;
   try {
     const availableTemplateCommands = await commandsBuilder(path);
     const chosenTemplate = await chooseTemplate(availableTemplateCommands);
@@ -41,7 +45,7 @@ export const generateScaffolderTemplate = async (path: string) => {
       parametersValues: paramsValues,
       templateName: chosenTemplate,
       templateRoot: availableTemplateCommands[chosenTemplate],
-      targetRoot: path,
+      targetRoot: generateTo,
     };
 
     const templates = templateTransformer(
@@ -53,7 +57,7 @@ export const generateScaffolderTemplate = async (path: string) => {
     const templatesBuilder = new TemplatesBuilder(
       templates,
       chosenTemplate
-    ).withCustomEntryPoint(path);
+    ).withCustomEntryPoint(generateTo);
 
     await asyncExecutor(
       preTemplateGeneration,
@@ -84,7 +88,7 @@ export const generateScaffolderTemplate = async (path: string) => {
     );
 
     vscode.window.showInformationMessage(
-      scaffolderMessage(`Generated "${chosenTemplate}" at - ${path}`)
+      scaffolderMessage(`Generated "${chosenTemplate}" at - ${generateTo}`)
     );
   } catch (e) {
     errorHandler(e, logger.log);
