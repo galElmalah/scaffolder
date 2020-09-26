@@ -5,17 +5,22 @@ const { isFolder } = require('../filesUtils');
 
 const TEMPLATE_FOLDER_NAME = 'scaffolder';
 
+const SEARCH_DEPTH_LIMIT = 20;
+
 const endOfPath = (path) => path === '/' || path === '' || path === './';
+const shouldStopSearching = (path, depth) => endOfPath(path) || depth === SEARCH_DEPTH_LIMIT;
 
 const templatePathsFinder = (currentPath) => {
 	const pathsQueue = [];
-	const findTemplate = (currentPath) => {
+	const findTemplate = (currentPath, depth = 0) => {
 		if (endOfPath(currentPath) && pathsQueue.length === 0) {
 			throw new NoScaffolderFolder();
 		}
-		if (endOfPath(currentPath)) {
+
+		if (shouldStopSearching(currentPath, depth)) {
 			return pathsQueue;
 		}
+
 		const currentDir = fs.readdirSync(currentPath);
 
 		const isScaffolderFolderInThisLevel = currentDir.find(
@@ -29,7 +34,7 @@ const templatePathsFinder = (currentPath) => {
 			pathsQueue.push(path.join(currentPath, TEMPLATE_FOLDER_NAME));
 		}
 
-		return findTemplate(path.join(currentPath, '../'));
+		return findTemplate(path.join(currentPath, '../'), depth + 1);
 	};
 	return findTemplate(currentPath);
 };
@@ -48,6 +53,7 @@ const readTemplatesFromPaths = (paths) => {
 				}),
 				{}
 			);
+
 		allCommands = {
 			...commandsToPath, ...allCommands 
 		};
@@ -67,5 +73,6 @@ const commandsBuilder = (currentPath) => {
 module.exports = {
 	commandsBuilder, 
 	templatePathsFinder,
-	readTemplatesFromPaths
+	readTemplatesFromPaths,
+	SEARCH_DEPTH_LIMIT
 };
