@@ -136,30 +136,6 @@ describe('commandsBuilder -> commandsBuilder', () => {
 		});
 	});
 
-
-	it('works for windows os paths', () => {
-		const path = '%appdata%\x2Fnpm\x2Fnode_modules\x2Fscaffolder-cli\x2Fsrc\x2FcommandsBuilder';
-		fs.readdirSync
-			.mockReturnValueOnce(['what', 'yeah'])
-			.mockReturnValueOnce(['what', 'scaffolder'])
-			.mockReturnValueOnce(['what', 'scaffolder'])
-			.mockReturnValueOnce(['cmd1', 'cmd2', 'cmd3', 'cmd4', 'cmd5'])
-			.mockReturnValueOnce(['cmd1', 'cmd2', 'cmd6', 'cmd7', 'cmd5'])
-			.mockReturnValueOnce(['cmd1', 'cmd2', 'cmd3', 'cmd4', 'cmd5']);
-
-		fs.lstatSync.mockReturnValue({
-			isDirectory: () => true 
-		});
-		expect(commandsBuilder(path)).toEqual({
-			cmd1: 'global/templatesAreHere/scaffolder/cmd1',
-			cmd2: 'global/templatesAreHere/scaffolder/cmd2',
-			cmd3: 'global/templatesAreHere/scaffolder/cmd3',
-			cmd4: 'global/templatesAreHere/scaffolder/cmd4',
-			cmd5: 'global/templatesAreHere/scaffolder/cmd5',
-			cmd6: 'global/scaffolder/cmd6',
-			cmd7: 'global/scaffolder/cmd7',
-		});
-	});
   
 	it('does not exceed the max search depth', () => {
 		const getAboveThresholdPath =() => {

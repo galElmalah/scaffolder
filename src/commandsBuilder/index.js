@@ -5,21 +5,22 @@ const { isFolder } = require('../filesUtils');
 
 const TEMPLATE_FOLDER_NAME = 'scaffolder';
 
-const SEARCH_DEPTH_LIMIT = 20;
+const SEARCH_DEPTH_LIMIT = 25;
 
-const isEndOfPath = (path, root) => path === root || path === '/' || path === '' || path === './';
-const shouldStopSearching = (path, depth, pathRoot) => isEndOfPath(path,pathRoot) || depth === SEARCH_DEPTH_LIMIT;
 
 const templatePathsFinder = (currentPath) => {
 	const pathsQueue = [];
 	const pathRoot = path.parse(currentPath).root;
+	const isEndOfPath = (_path) => _path === pathRoot || _path === '/' || _path === '' || _path === './';
+	const shouldStopSearching = (_path, depth) => isEndOfPath(_path) || depth === SEARCH_DEPTH_LIMIT;
+
 	const findTemplate = (currentPath, depth = 0) => {
-		console.log({currentPath, pathRoot})
-		if (isEndOfPath(currentPath, pathRoot) && pathsQueue.length === 0) {
+
+		if (isEndOfPath(currentPath) && pathsQueue.length === 0) {
 			throw new NoScaffolderFolder();
 		}
 
-		if (shouldStopSearching(currentPath, depth,pathRoot)) {
+		if (shouldStopSearching(currentPath, depth)) {
 			return pathsQueue;
 		}
 
@@ -45,7 +46,6 @@ const readTemplatesFromPaths = (paths) => {
 	let allCommands = {};
 	for (const scaffolderPath of paths) {
 		const commands = fs.readdirSync(scaffolderPath);
-		
 		if(!commands) {
 			continue;
 		}
