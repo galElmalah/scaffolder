@@ -57,7 +57,7 @@ describe('e2e', () => {
 
 	});
 
-	it.only('should create the template with the prefix provided', () => {
+	it('should create the template with the prefix provided', () => {
 		execOnTestDir(
 			'create not-nested key1=awesome key5=awesome --folder not-nested --path-prefix prefix'
 		);

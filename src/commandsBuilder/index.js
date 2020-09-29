@@ -7,17 +7,19 @@ const TEMPLATE_FOLDER_NAME = 'scaffolder';
 
 const SEARCH_DEPTH_LIMIT = 20;
 
-const endOfPath = (path) => path === '/' || path === '' || path === './';
-const shouldStopSearching = (path, depth) => endOfPath(path) || depth === SEARCH_DEPTH_LIMIT;
+const isEndOfPath = (path, root) => path === root || path === '/' || path === '' || path === './';
+const shouldStopSearching = (path, depth, pathRoot) => isEndOfPath(path,pathRoot) || depth === SEARCH_DEPTH_LIMIT;
 
 const templatePathsFinder = (currentPath) => {
 	const pathsQueue = [];
+	const pathRoot = path.parse(currentPath).root;
 	const findTemplate = (currentPath, depth = 0) => {
-		if (endOfPath(currentPath) && pathsQueue.length === 0) {
+		console.log({currentPath, pathRoot})
+		if (isEndOfPath(currentPath, pathRoot) && pathsQueue.length === 0) {
 			throw new NoScaffolderFolder();
 		}
 
-		if (shouldStopSearching(currentPath, depth)) {
+		if (shouldStopSearching(currentPath, depth,pathRoot)) {
 			return pathsQueue;
 		}
 
@@ -43,9 +45,13 @@ const readTemplatesFromPaths = (paths) => {
 	let allCommands = {};
 	for (const scaffolderPath of paths) {
 		const commands = fs.readdirSync(scaffolderPath);
-
+		
+		if(!commands) {
+			continue;
+		}
+		
 		const commandsToPath = commands
-			.filter((p) => p[0] !== '.')
+			.filter((p) => p && p[0] !== '.')
 			.filter((p) => isFolder(scaffolderPath, p))
 			.reduce(
 				(accm, cmd) => ({

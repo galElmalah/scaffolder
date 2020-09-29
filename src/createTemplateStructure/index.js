@@ -104,28 +104,33 @@ const templateTransformer = (templateDescriptor, injector, globalCtx) => {
 			fileName: name, type, currentFilePath 
 		};
 	};
+	
+	const transformFile = (descriptor) => ({
+		name: injector(
+			descriptor.name,
+			createLocalCtx({
+				...descriptor, type: TYPES.FILE_NAME 
+			})
+		),
+		content: injector(
+			descriptor.content,
+			createLocalCtx({
+				...descriptor, type: TYPES.FILE_CONTENT 
+			})
+		),
+	});
+
+	const transformerFolder = (descriptor) => ({
+		type: descriptor.type,
+		name: injector(descriptor.name, createLocalCtx(descriptor)),
+		content: templateTransformer(descriptor.content, injector, globalCtx),
+	});
+	
 	return templateDescriptor.map((descriptor) => {
 		if (descriptor.type === TYPES.FOLDER) {
-			return {
-				type: descriptor.type,
-				name: injector(descriptor.name, createLocalCtx(descriptor)),
-				content: templateTransformer(descriptor.content, injector, globalCtx),
-			};
+			return transformerFolder(descriptor);
 		}
-		return {
-			name: injector(
-				descriptor.name,
-				createLocalCtx({
-					...descriptor, type: TYPES.FILE_NAME 
-				})
-			),
-			content: injector(
-				descriptor.content,
-				createLocalCtx({
-					...descriptor, type: TYPES.FILE_CONTENT 
-				})
-			),
-		};
+		return transformFile(descriptor);
 	});
 };
 

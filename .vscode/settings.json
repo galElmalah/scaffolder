@@ -24,5 +24,6 @@
   "eslint.format.enable": true,
   "cSpell.words": [
     "Elmalah"
-  ]
+  ],
+  "editor.defaultFormatter": "dbaeumer.vscode-eslint"
 }
