@@ -55,7 +55,7 @@
   * [templatesOptions](#templatesoptions)
     + [templates options object](#templates-options-object)
     + [hooks object](#hooks-object)
-- [Motivation and globals](#motivation-and-globals)
+- [Motivation and gaals](#motivation-and-goals)
   * [Why I wrote Scaffolder?](#why-i-wrote-scaffolder-)
   * [Why I didn’t use any existing solutions?](#why-i-didnt-use-any-existing-solutions-)
   * [My goals while writing this tool](#my-goals-while-writing-this-tool)
