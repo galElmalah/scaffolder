@@ -1,10 +1,10 @@
-const { execSync } = require('child_process');
-const { existsSync, readFileSync, readdirSync } = require('fs');
-var rimraf = require('rimraf');
+import { execSync } from 'child_process';
+import { existsSync, readFileSync, readdirSync } from 'fs';
+import rimraf from 'rimraf';
 
 const execOnTestDir = (cmd, withEntryPoint = true) =>
 	execSync(
-		`node ${process.cwd()}/cli.js ${cmd} ${
+		`node ${process.cwd()}/dist/cli.js ${cmd} ${
 			withEntryPoint ? `--entry-point ${__dirname}/results` : ''
 		}`,
 		{
@@ -32,6 +32,7 @@ const hasFileWithName = (path, fileName) =>
 	readdirSync(path).some((name) => name.includes(fileName));
 
 const assertThatTheContextIsPassedCorrectly = (from) => {
+	// eslint-disable-next-line @typescript-eslint/no-var-requires
 	const context = require(from);
 	const contextProperties = [
 		'parametersValues',

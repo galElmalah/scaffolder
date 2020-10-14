@@ -1,6 +1,7 @@
-const inquirer = require('inquirer');
-const { extractKey } = require('../createTemplateStructure');
-const { getAllKeys } = require('./getAllKeys');
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const inquirer_1 = require("inquirer");
+const scaffolder_core_1 = require("scaffolder-core");
 const QUESTIONS = {
     TEMPLATES: {
         type: 'list',
@@ -14,7 +15,7 @@ const shouldCreateAFolder = (answer = '') => {
 };
 const chooseTemplate = (commands) => {
     const choices = Object.keys(commands);
-    return inquirer.prompt([
+    return inquirer_1.default.prompt([
         Object.assign(Object.assign({}, QUESTIONS.TEMPLATES), { choices }),
     ]);
 };
@@ -31,12 +32,12 @@ const getValidationFunction = (parametersOptions = {}, key) => {
 };
 const extractAllKeysFromTemplate = (currentCommandTemplate) => {
     const keySet = new Set();
-    const keys = getAllKeys(currentCommandTemplate, keySet);
+    const keys = scaffolder_core_1.getAllKeys(currentCommandTemplate, keySet);
     return keys.filter(Boolean);
 };
 const getKeysValues = (currentCommandTemplate, parametersOptions) => {
     const questions = extractAllKeysFromTemplate(currentCommandTemplate).map((key) => {
-        const cleanKey = extractKey(key);
+        const cleanKey = scaffolder_core_1.extractKey(key);
         return {
             type: 'input',
             name: cleanKey,
@@ -44,12 +45,12 @@ const getKeysValues = (currentCommandTemplate, parametersOptions) => {
             validate: getValidationFunction(parametersOptions, cleanKey)
         };
     });
-    return inquirer.prompt(questions);
+    return inquirer_1.default.prompt(questions);
 };
 // eslint-disable-next-line no-useless-escape
 const isAValidGithubSource = (src) => /(?:git|ssh|https?|git@[-\w.]+):(\/\/)?(.*?)(\.git)(\/?|\#[-\d\w._]+?)$/.test(src);
 const getRepositorySource = () => {
-    return inquirer.prompt({
+    return inquirer_1.default.prompt({
         type: 'input',
         name: 'repositorySource',
         message: 'Enter the src of the repository you want to consume templates from:',

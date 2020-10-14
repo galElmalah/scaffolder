@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-const cli = require('commander');
+import cli from 'commander';
 import {
 	createCommandHandler,
 	listCommandHandler,

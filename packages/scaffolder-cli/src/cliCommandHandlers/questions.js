@@ -1,5 +1,5 @@
 import inquirer from 'inquirer';
-import {getAllKeys, extractKey} from 'scaffolder-core'
+import {getAllKeys, extractKey} from 'scaffolder-core';
 
 const QUESTIONS = {
 	TEMPLATES: {
