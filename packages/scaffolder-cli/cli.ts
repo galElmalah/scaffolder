@@ -7,6 +7,7 @@ import {
 	interactiveCreateCommandHandler,
 } from './src/cliCommandHandlers';
 
+
 cli
 	.command('create <templateName>')
 	.option(

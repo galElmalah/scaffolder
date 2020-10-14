@@ -10,8 +10,11 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-var inquirer_1 = require("inquirer");
+var inquirer_1 = __importDefault(require("inquirer"));
 var scaffolder_core_1 = require("scaffolder-core");
 var QUESTIONS = {
     TEMPLATES: {
