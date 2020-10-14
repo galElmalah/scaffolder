@@ -1,0 +1,55 @@
+{
+  "name": "scaffolder-cli",
+  "version": "1.6.17",
+  "bin": {
+    "scaff": "./dist/cli.js"
+  },
+  "jest": {
+    "testPathIgnorePatterns": [
+      "<rootDir>/tests/e2e/results",
+      "results/*"
+    ]
+  },
+  "description": "Dynamically create predefined templates",
+  "main": "index.js",
+  "preversion": "npm test",
+  "scripts": {
+    "preversion": "npm test",
+    "test": "jest",
+    "build": "tsc",
+    "test:watch": "jest --watch"
+  },
+  "author": "Gal ELmalah",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^7.5.0",
+    "rimraf": "^2.6.3",
+    "@types/fs-extra": "^9.0.2",
+    "@types/jest": "^26.0.10",
+    "@types/node": "^14.6.2",
+    "jest": "^26.4.2",
+    "ts-jest": "^26.3.0",
+    "typescript": "^4.0.2"
+  },
+  "dependencies": {
+    "chalk": "^2.4.2",
+    "commander": "^2.19.0",
+    "fs-extra": "^9.0.1",
+    "inquirer": "^6.5.0",
+    "scaffolder-core": "^1.0.0",
+    "tmp": "^0.2.1"
+  },
+  "keywords": [
+    "cli",
+    "generator",
+    "templates"
+  ],
+  "bugs": {
+    "url": "https://github.com/galElmalah/scaffolder/issues"
+  },
+  "homepage": "https://github.com/galElmalah/scaffolder",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/galElmalah/scaffolder"
+  }
+}
