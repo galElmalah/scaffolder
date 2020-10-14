@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const commander_1 = require("commander");
-const cliCommandHandlers_1 = require("./src/cliCommandHandlers");
+var commander_1 = require("commander");
+var cliCommandHandlers_1 = require("./src/cliCommandHandlers");
 commander_1.default
     .command('create <templateName>')
     .option('-f, --folder <folder>', 'Folder name that the template will be generated into', '')

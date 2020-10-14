@@ -1,20 +1,25 @@
 {
   "name": "root",
   "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
     "bootstrap": "lerna bootstrap --hoist",
-    "pretest": "eslint packages",
-    "test": "jest",
-    "jest": "^20.0.4"
+    "build": "tsc -b packages/scaffolder-cli packages/scaffolder-core",
+    "test": "lerna run test"
   },
   "devDependencies": {
+    "@babel/core": "^7.12.0",
+    "@babel/preset-env": "^7.12.0",
     "@types/jest": "^26.0.14",
     "@typescript-eslint/eslint-plugin": "^4.4.1",
     "@typescript-eslint/parser": "^4.4.1",
+    "babel-jest": "^26.5.2",
     "eslint": "^7.5.0",
-    "lerna": "^3.22.1",
-    "typescript": "^4.0.3",
     "jest": "^26.4.2",
-    "ts-jest": "^26.3.0"
+    "lerna": "^3.22.1",
+    "ts-jest": "^26.3.0",
+    "typescript": "^4.0.3"
   }
 }

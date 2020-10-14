@@ -1,8 +1,6 @@
 {
   "compilerOptions": {
-    "module": "commonJs",
-    "target": "es2015",
-    "outDir": "dist/",
+    "target": "es5",
     "allowJs": true,
     "noImplicitAny": false,
     "preserveConstEnums": true,
