@@ -1,4 +1,4 @@
-const { asyncExecutor } = require('./index.js');
+import { asyncExecutor } from '.';
 describe('asyncExecutor', () => {
 	it('should call the function passes to it an await if the returned value is a promise', async () => {
 		let value;
