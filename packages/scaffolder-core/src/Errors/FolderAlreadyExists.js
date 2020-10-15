@@ -2,7 +2,7 @@ const { error, boldGreen, path } = require('../cliHelpers/colors');
 
 export class FolderAlreadyExists extends Error {
 	constructor({ cmd, folder, path }) {
-		super();
+		super('');
 		this.cmd = cmd;
 		this.folder = folder;
 		this.path = path;
