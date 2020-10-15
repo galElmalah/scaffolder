@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import { GithubTempCloner, isAValidGithubSource } from "scaffolder-cli";
+import { GithubTempCloner, isAValidGithubSource } from "scaffolder-core";
 import { generateScaffolderTemplate } from "./generateScaffolderTemplate";
 import { logger } from "./logger";
 

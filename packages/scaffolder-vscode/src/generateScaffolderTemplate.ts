@@ -8,7 +8,7 @@ import {
   TemplatesBuilder,
   asyncExecutor,
   getTemplateHooksFromConfig,
-} from "scaffolder-cli";
+} from "scaffolder-core";
 import { chooseTemplate } from "./chooseTemplate";
 import { errorHandler } from "./errorHandler";
 import { getParamsValuesFromUser } from "./getParamsValuesFromUser";

@@ -1,4 +1,4 @@
-import * as scaffolder from "scaffolder-cli";
+import * as scaffolder from "scaffolder-core";
 import * as vscode from "vscode";
 
 const toQuickPickWithDetails = (availableTemplateCommands: any) => (

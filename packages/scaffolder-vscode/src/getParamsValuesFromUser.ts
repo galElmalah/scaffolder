@@ -2,7 +2,7 @@ import {
   getQuestionMessage,
   extractKey,
   getValidationFunction,
-} from "scaffolder-cli";
+} from "scaffolder-core";
 import * as vscode from "vscode";
 import { validationAdapter } from "./generateScaffolderFromGithub";
 
