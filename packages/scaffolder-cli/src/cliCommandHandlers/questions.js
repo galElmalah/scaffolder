@@ -77,7 +77,6 @@ module.exports = {
 	getKeysValues,
 	chooseTemplate,
 	getQuestionMessage,
-	shouldCreateAFolder,
 	extractAllKeysFromTemplate,
 	getValidationFunction,
 	isAValidGithubSource
