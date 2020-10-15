@@ -102,4 +102,3 @@ export class TemplatesBuilder {
 		return join(this.entryPoint, this.pathPrefix, this.folder);
 	}
 }
-

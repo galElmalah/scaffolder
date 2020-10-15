@@ -9,7 +9,7 @@ jobs:
       - checkout
       - node/with-cache:
           steps:
-            - run: npm install
+            - run: npm run bootstrap
             - run: npm test         
   publish:
     executor:
