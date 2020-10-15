@@ -1,0 +1,34 @@
+[
+  {
+    "name": "index.{{testKey | toLowerCase}}.js",
+    "content": "import { {{compName | wow}} } from '.'\n \nconst defaultProps = {}\n\nexport class {{compName}}Driver extends BaseUiDriver{\n  constructor() {\n    super({component: {{compName}}, defaultProps})\n  }\n}",
+    "scaffolderTargetRoot": "/Users/gale/Desktop/scaffolder/test-component"
+  },
+  {
+    "name": "index.js",
+    "content": "import * as React from 'react';\nimport * as style from './{{date()}}.scss';\n\n\nexport const {{componentName}} = (props) => {\n  return <div>created {{componentName}} using CTF</div>;\n};\n",
+    "scaffolderTargetRoot": "/Users/gale/Desktop/scaffolder/test-component"
+  },
+  {
+    "name": "index.spec.js",
+    "content": "import { {{compName | test}}Driver } {{test | toUpper}} from './index.driver';\n\n\ndescribe('{{compName}}', () => {\n  /** @type { {{compName}}Driver } */\n  let driver;\n  beforeEach(() => {\n    driver = new {{compName}}Driver()\n  });\n  it('some fake test', () => {\n    expect(1).toBe(1);\n  })\n});\n",
+    "scaffolderTargetRoot": "/Users/gale/Desktop/scaffolder/test-component"
+  },
+  {
+    "name": "{{compName}}.scss",
+    "content": "",
+    "scaffolderTargetRoot": "/Users/gale/Desktop/scaffolder/test-component"
+  },
+  {
+    "type": "FOLDER",
+    "name": "{{keyF | toUpper}}",
+    "content": [
+      {
+        "name": "just-some-{{nested}}.txt",
+        "content": "lol",
+        "scaffolderTargetRoot": "/Users/gale/Desktop/projects/scaffolder/tests/scaffolder/nested/{{keyF | toUpper}}"
+      }
+    ],
+    "scaffolderTargetRoot": "/Users/gale/Desktop/projects/scaffolder/tests/scaffolder/nested"
+  }
+]
