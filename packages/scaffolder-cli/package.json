@@ -1,6 +1,6 @@
 {
-  "name": "@scaffolder-org/cli",
-  "version": "0.0.1",
+  "name": "scaffolder-cli-test",
+  "version": "1.6.18",
   "bin": {
     "scaff": "./dist/cli.js"
   },
@@ -53,7 +53,5 @@
     "type": "git",
     "url": "https://github.com/galElmalah/scaffolder"
   },
-  "publishConfig": {
-    "access": "public"
-  }
+  "gitHead": "26b581d0ccab5497637cb75536985e7c6f35291c"
 }
