@@ -1,13 +1,16 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TemplatesBuilder = void 0;
-var fs = require('fs');
-var mkdir = require('fs-extra').mkdir;
-var FolderAlreadyExists = require('../Errors').FolderAlreadyExists;
-var _a = require('../filesUtils'), join = _a.join, TYPES = _a.TYPES;
+var fs_1 = __importDefault(require("fs"));
+var fs_extra_1 = require("fs-extra");
+var Errors_1 = require("../Errors");
+var filesUtils_1 = require("../filesUtils");
 var writeFilePromise = function (path, content) {
     return new Promise(function (resolve, reject) {
-        fs.writeFile(path, content, function (err) {
+        fs_1.default.writeFile(path, content, function (err) {
             if (err) {
                 reject(err);
             }
@@ -38,25 +41,25 @@ var TemplatesBuilder = /** @class */ (function () {
     TemplatesBuilder.prototype.createFolderIfNeeded = function () {
         if (this.folder) {
             var newFolderPath = this.getFullPath();
-            if (fs.existsSync(newFolderPath)) {
-                throw new FolderAlreadyExists({
+            if (fs_1.default.existsSync(newFolderPath)) {
+                throw new Errors_1.FolderAlreadyExists({
                     cmd: this.cmd,
                     folder: this.folder,
                     path: newFolderPath,
                 });
             }
-            fs.mkdirSync(newFolderPath);
+            fs_1.default.mkdirSync(newFolderPath);
         }
     };
     TemplatesBuilder.prototype.createTemplateFolder = function (folderDescriptor, root) {
         var _this = this;
-        return mkdir(join(root, folderDescriptor.name)).then(function () {
+        return fs_extra_1.mkdir(filesUtils_1.join(root, folderDescriptor.name)).then(function () {
             return Promise.all(folderDescriptor.content.map(function (descriptor) {
                 try {
-                    if (descriptor.type === TYPES.FOLDER) {
-                        return _this.createTemplateFolder(descriptor, join(root, folderDescriptor.name));
+                    if (descriptor.type === "FOLDER" /* FOLDER */) {
+                        return _this.createTemplateFolder(descriptor, filesUtils_1.join(root, folderDescriptor.name));
                     }
-                    return writeFilePromise(join(root, folderDescriptor.name, descriptor.name), descriptor.content).catch(function (e) { return console.log('Error::createTemplateFolder::', e); });
+                    return writeFilePromise(filesUtils_1.join(root, folderDescriptor.name, descriptor.name), descriptor.content).catch(function (e) { return console.log('Error::createTemplateFolder::', e); });
                 }
                 catch (e) {
                     console.log('Error::createTemplateFolder::', e);
@@ -69,9 +72,9 @@ var TemplatesBuilder = /** @class */ (function () {
         this.createFolderIfNeeded();
         var promises = [];
         this.templates.forEach(function (template) {
-            var path = join(_this.entryPoint, _this.pathPrefix, _this.folder, template.name);
+            var path = filesUtils_1.join(_this.entryPoint, _this.pathPrefix, _this.folder, template.name);
             if (template.type) {
-                promises.push(_this.createTemplateFolder(template, join(_this.entryPoint, _this.pathPrefix, _this.folder)));
+                promises.push(_this.createTemplateFolder(template, filesUtils_1.join(_this.entryPoint, _this.pathPrefix, _this.folder)));
                 return;
             }
             promises.push(writeFilePromise(path, template.content));
@@ -79,7 +82,7 @@ var TemplatesBuilder = /** @class */ (function () {
         return promises;
     };
     TemplatesBuilder.prototype.getFullPath = function () {
-        return join(this.entryPoint, this.pathPrefix, this.folder);
+        return filesUtils_1.join(this.entryPoint, this.pathPrefix, this.folder);
     };
     return TemplatesBuilder;
 }());

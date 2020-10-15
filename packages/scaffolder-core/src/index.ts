@@ -5,4 +5,6 @@ export * from './asyncExecutor';
 export * from './getTemplateHooksFromConfig';
 export * from './GithubTempCloner';
 export * from './Errors';
+export * from './getAllKeys';
+export * from './cliHelpers';
 

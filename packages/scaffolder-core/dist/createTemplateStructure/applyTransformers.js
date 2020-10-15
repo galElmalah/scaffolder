@@ -1,8 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.removeTransformationsFromKey = void 0;
 var Errors_1 = require("../Errors");
 var defaultTransformers_1 = require("./defaultTransformers");
-var removeTransformationsFromKey = function (key) {
+exports.removeTransformationsFromKey = function (key) {
     if (key === void 0) { key = ''; }
     return key.replace(/\|.*/g, '}}').replace(/\s*/g, '');
 };
@@ -22,6 +23,6 @@ var applyTransformers = function (initialValue, transformersMap, transformersKey
 };
 exports.default = {
     applyTransformers: applyTransformers,
-    removeTransformationsFromKey: removeTransformationsFromKey,
+    removeTransformationsFromKey: exports.removeTransformationsFromKey,
 };
 //# sourceMappingURL=applyTransformers.js.map

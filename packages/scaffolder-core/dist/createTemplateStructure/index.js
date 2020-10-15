@@ -11,7 +11,7 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.injector = exports.templateTransformer = exports.templateReader = exports.getConfigPath = exports.createTemplateStructure = exports.replaceKeyWithValue = exports.getKeyAndTransformers = exports.isAFunctionKey = exports.extractKey = exports.defaultConfig = void 0;
+exports.injector = exports.keyPatternString = exports.templateTransformer = exports.templateReader = exports.getConfigPath = exports.createTemplateStructure = exports.replaceKeyWithValue = exports.getKeyAndTransformers = exports.isAFunctionKey = exports.extractKey = exports.defaultConfig = void 0;
 var fs = require('fs');
 var _a = require('../Errors'), NoMatchingTemplate = _a.NoMatchingTemplate, MissingKeyValuePairs = _a.MissingKeyValuePairs, MissingFunctionImplementation = _a.MissingFunctionImplementation;
 var _b = require('../filesUtils'), isFolder = _b.isFolder, join = _b.join, TYPES = _b.TYPES;
@@ -53,7 +53,7 @@ exports.createTemplateStructure = function (folderPath) {
     return folderContent.map(function (file) {
         if (isFolder(folderPath, file)) {
             return {
-                type: "FOLDER" /* FOLDER */,
+                type: TYPES.FOLDER,
                 name: file,
                 content: exports.createTemplateStructure(join(folderPath, file)),
                 scaffolderTargetRoot: folderPath,
@@ -97,8 +97,8 @@ exports.templateTransformer = function (templateDescriptor, injector, globalCtx)
         };
     };
     var transformFile = function (descriptor) { return ({
-        name: injector(descriptor.name, createLocalCtx(__assign(__assign({}, descriptor), { type: "FILE_NAME" /* FILE_NAME */ }))),
-        content: injector(descriptor.content, createLocalCtx(__assign(__assign({}, descriptor), { type: "FILE_CONTENT" /* FILE_CONTENT */ }))),
+        name: injector(descriptor.name, createLocalCtx(__assign(__assign({}, descriptor), { type: TYPES.FILE_NAME }))),
+        content: injector(descriptor.content, createLocalCtx(__assign(__assign({}, descriptor), { type: TYPES.FILE_CONTENT }))),
     }); };
     var transformerFolder = function (descriptor) { return ({
         type: descriptor.type,
@@ -106,18 +106,18 @@ exports.templateTransformer = function (templateDescriptor, injector, globalCtx)
         content: exports.templateTransformer(descriptor.content, injector, globalCtx),
     }); };
     return templateDescriptor.map(function (descriptor) {
-        if (descriptor.type === "FOLDER" /* FOLDER */) {
+        if (descriptor.type === TYPES.FOLDER) {
             return transformerFolder(descriptor);
         }
         return transformFile(descriptor);
     });
 };
-var keyPatternString = '{{s*[a-zA-Z_|0-9- ()]+s*}}';
+exports.keyPatternString = '{{s*[a-zA-Z_|0-9- ()]+s*}}';
 exports.injector = function (keyValuePairs, _a, globalCtx) {
     var _b = _a === void 0 ? {} : _a, _c = _b.transformers, transformers = _c === void 0 ? {} : _c, _d = _b.functions, functions = _d === void 0 ? {} : _d;
     return function (text, localCtx) {
         var ctx = __assign(__assign({}, globalCtx), localCtx);
-        var keyPattern = new RegExp(keyPatternString, 'g');
+        var keyPattern = new RegExp(exports.keyPatternString, 'g');
         var replacer = exports.replaceKeyWithValue(keyValuePairs, transformers, functions, ctx);
         var transformedText = text.replace(keyPattern, replacer);
         return transformedText;

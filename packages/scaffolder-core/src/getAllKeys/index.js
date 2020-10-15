@@ -28,6 +28,4 @@ export const getAllKeys = (templates, set) => {
 	return Array.from(set.keys());
 };
 
-module.exports = {
-	getAllKeys,
-};
+

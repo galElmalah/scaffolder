@@ -1,5 +1,5 @@
-export declare const isFolder: (basePath: any, filePath: any) => any;
-export declare const join: (...args: any[]) => any;
+export declare const isFolder: (basePath: string, filePath: string) => boolean;
+export declare const join: (...args: string[]) => string;
 export declare const enum TYPES {
     FOLDER = "FOLDER",
     FILE = "FILE",

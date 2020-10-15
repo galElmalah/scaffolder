@@ -4,7 +4,8 @@
   "scripts": {
     "bootstrap": "lerna bootstrap --hoist",
     "build": "tsc -b packages/scaffolder-cli packages/scaffolder-core",
-    "test": "lerna run test"
+    "test": "lerna run test",
+    "version": "lerna version"
   },
   "devDependencies": {
     "@babel/core": "^7.12.0",

@@ -17,4 +17,6 @@ __exportStar(require("./asyncExecutor"), exports);
 __exportStar(require("./getTemplateHooksFromConfig"), exports);
 __exportStar(require("./GithubTempCloner"), exports);
 __exportStar(require("./Errors"), exports);
+__exportStar(require("./getAllKeys"), exports);
+__exportStar(require("./cliHelpers"), exports);
 //# sourceMappingURL=index.js.map

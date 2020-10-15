@@ -9,7 +9,7 @@ export declare class TemplatesBuilder {
     withPathPrefix(pathPrefix: string): this;
     inAFolder(folderName: string): this;
     createFolderIfNeeded(): void;
-    createTemplateFolder(folderDescriptor: any, root: any): any;
+    createTemplateFolder(folderDescriptor: any, root: any): Promise<[unknown, unknown, unknown, unknown, unknown, unknown, unknown, unknown, unknown, unknown]>;
     build(): any[];
-    getFullPath(): any;
+    getFullPath(): string;
 }

@@ -1,16 +1,16 @@
-export function defaultConfig(): {
+export declare const defaultConfig: () => {
     transformers: {};
     functions: {};
     parametersOptions: {};
     templatesOptions: {};
 };
-export function extractKey(k: any): any;
-export function isAFunctionKey(key: any): boolean;
-export function getKeyAndTransformers(initialKey: any): any;
-export function replaceKeyWithValue(keyValuePairs: any, transformersMap: any, functionsMap: any, ctx: any): (match: any) => any;
-export function createTemplateStructure(folderPath: any): any;
-export function getConfigPath(path: any): string;
-export function templateReader(commands: any): (cmd: any) => {
+export declare const extractKey: (k: any) => any;
+export declare const isAFunctionKey: (key: string) => boolean;
+export declare const getKeyAndTransformers: (initialKey: any) => any;
+export declare const replaceKeyWithValue: (keyValuePairs: any, transformersMap: any, functionsMap: any, ctx: any) => (match: any) => any;
+export declare const createTemplateStructure: (folderPath: any) => any;
+export declare const getConfigPath: (path: any) => string;
+export declare const templateReader: (commands: any) => (cmd: any) => {
     config: {
         transformers: {};
         functions: {};
@@ -19,8 +19,9 @@ export function templateReader(commands: any): (cmd: any) => {
     };
     currentCommandTemplate: any;
 };
-export function templateTransformer(templateDescriptor: any, injector: any, globalCtx: any): any;
-export function injector(keyValuePairs: any, { transformers, functions }: {
+export declare const templateTransformer: (templateDescriptor: any, injector: any, globalCtx: any) => any;
+export declare const keyPatternString = "{{s*[a-zA-Z_|0-9- ()]+s*}}";
+export declare const injector: (keyValuePairs: any, { transformers, functions }: {
     transformers?: {};
     functions?: {};
-}, globalCtx: any): (text: any, localCtx: any) => any;
+}, globalCtx: any) => (text: any, localCtx: any) => any;

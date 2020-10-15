@@ -1,10 +1,11 @@
-const chalk = require('chalk');
-module.exports.error = chalk.bold.red;
-module.exports.boldGreen = chalk.green.bold;
-module.exports.path = chalk.blue.underline.bold;
-module.exports.bold = chalk.bold;
+import chalk from 'chalk';
 
-module.exports.multiColors = word => {
+export const error = chalk.bold.red;
+export const boldGreen = chalk.green.bold;
+export const path = chalk.blue.underline.bold;
+export const bold = chalk.bold;
+
+export const  multiColors = word => {
 	const colors = [
 		chalk.greenBright,
 		chalk.yellowBright,
