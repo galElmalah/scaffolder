@@ -7,4 +7,5 @@ export * from './GithubTempCloner';
 export * from './Errors';
 export * from './getAllKeys';
 export * from './cliHelpers';
+export * from './configHelpers';
 

@@ -10,12 +10,6 @@ const QUESTIONS = {
 };
 
 
-
-const shouldCreateAFolder = (answer = '') => {
-	const _answer = answer.toLowerCase();
-	return _answer === 'y' || _answer === 'yes';
-};
-
 const chooseTemplate = (commands) => {
 	const choices = Object.keys(commands);
 	return inquirer.prompt([

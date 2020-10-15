@@ -1,9 +1,15 @@
-const {
+import {
 	keyPatternString,
 	isAFunctionKey,
-} = require('../createTemplateStructure');
-const { removeTransformationsFromKey } = require('../createTemplateStructure/applyTransformers');
-const { TYPES } = require('../filesUtils');
+} from '../createTemplateStructure';
+import { removeTransformationsFromKey } from '../createTemplateStructure/applyTransformers';
+import { TYPES } from '../filesUtils';
+
+export const extractAllKeysFromTemplate = (currentCommandTemplate) => {
+	const keySet = new Set();
+	const keys = getAllKeys(currentCommandTemplate, keySet);
+	return keys.filter(Boolean);
+};
 
 const fillSetWithKeys = (keys, set) => {
 	keys
