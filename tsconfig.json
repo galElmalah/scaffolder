@@ -9,6 +9,5 @@
     "lib": ["es6"],
     "skipLibCheck": true
   },
-  "files": ["cli.js"],
   "exclude": ["node_modules", "**/*.spec.ts","**/*.spec.js"]
 }
