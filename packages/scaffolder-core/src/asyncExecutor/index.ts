@@ -1,9 +1,11 @@
 const defaultSuccessMessage = 'Successfully executed';
 const defaultErrorMessage = 'Error in asyncExecutor';
+
+type Message = string | ((args?:any) => string);
 export const asyncExecutor = async (
 	fn, 
-	successMsg = defaultSuccessMessage,
-	errMsg = defaultErrorMessage,
+	successMsg:Message = defaultSuccessMessage,
+	errMsg:Message = defaultErrorMessage,
 	...args
 ) => {
 	if(fn){
