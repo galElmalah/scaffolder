@@ -1,5 +1,6 @@
 module.exports = {
 	'env': {
+		'jest': true,
 		'es2021': true,
 		'node': true
 	},
@@ -16,6 +17,7 @@ module.exports = {
 		'@typescript-eslint'
 	],
 	'rules': {
+		'@typescript-eslint/explicit-module-boundary-types': 'off',
 		'indent': [
 			'error',
 			'tab'
