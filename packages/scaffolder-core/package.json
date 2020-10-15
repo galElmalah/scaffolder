@@ -1,6 +1,6 @@
 {
   "name": "scaffolder-core",
-  "version": "1.6.18",
+  "version": "1.6.19",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
@@ -28,6 +28,6 @@
     "typescript": "^4.0.3"
   },
   "publishConfig": {
-  "access": "public"
-}
+    "access": "public"
+  }
 }
