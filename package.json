@@ -6,7 +6,8 @@
     "build": "tsc -b packages/scaffolder-cli packages/scaffolder-core",
     "test": "lerna run test",
     "version": "lerna version --conventional-commits",
-    "publish": "lerna publish from-package"
+    "publish": "lerna publish from-package",
+    "lint": "eslint packages/scaffolder-cli packages/scaffolder-core"
   },
   "devDependencies": {
     "@babel/core": "^7.12.0",

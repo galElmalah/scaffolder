@@ -1,7 +1,7 @@
-import fs from 'fs'
-import path from 'path'
-import { NoScaffolderFolder  } from '../Errors'
-import { isFolder  } from '../filesUtils'
+import fs from 'fs';
+import path from 'path';
+import { NoScaffolderFolder  } from '../Errors';
+import { isFolder  } from '../filesUtils';
 
 export const TEMPLATE_FOLDER_NAME = 'scaffolder';
 
