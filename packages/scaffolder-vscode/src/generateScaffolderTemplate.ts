@@ -44,6 +44,7 @@ export const generateScaffolderTemplate = async (
     const globalCtx = {
       parametersValues: paramsValues,
       templateName: chosenTemplate,
+      // @ts-ignore
       templateRoot: availableTemplateCommands[chosenTemplate],
       targetRoot: generateTo,
     };
