@@ -1,6 +1,6 @@
 {
   "name": "@scaffolder-org/core",
-  "version": "1.6.18",
+  "version": "0.0.0",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
