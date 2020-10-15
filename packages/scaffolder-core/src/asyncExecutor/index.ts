@@ -1,7 +1,7 @@
 const defaultSuccessMessage = 'Successfully executed';
 const defaultErrorMessage = 'Error in asyncExecutor';
 
-type Message = string | ((args?:any) => string);
+type Message = string | ((args?:any) => void);
 export const asyncExecutor = async (
 	fn, 
 	successMsg:Message = defaultSuccessMessage,
