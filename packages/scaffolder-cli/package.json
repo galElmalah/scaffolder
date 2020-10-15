@@ -1,6 +1,6 @@
 {
   "name": "@scaffolder-org/cli",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "bin": {
     "scaff": "./dist/cli.js"
   },
