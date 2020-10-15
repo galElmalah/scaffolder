@@ -1,6 +1,6 @@
 {
   "name": "scaffolder-cli-test",
-  "version": "1.6.18",
+  "version": "1.6.20",
   "bin": {
     "scaff": "./dist/cli.js"
   },
@@ -37,7 +37,7 @@
     "commander": "^2.20.3",
     "fs-extra": "^9.0.1",
     "inquirer": "^6.5.0",
-    "scaffolder-core": "^1.6.18",
+    "scaffolder-core": "^1.6.20",
     "tmp": "^0.2.1"
   },
   "keywords": [
