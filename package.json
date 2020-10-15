@@ -15,6 +15,8 @@
     "@typescript-eslint/eslint-plugin": "^4.4.1",
     "@typescript-eslint/parser": "^4.4.1",
     "babel-jest": "^26.5.2",
+    "@types/commander": "^2.12.2",
+    "@types/fs-extra": "^9.0.2",
     "eslint": "^7.5.0",
     "jest": "^26.4.2",
     "lerna": "^3.22.1",
