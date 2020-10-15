@@ -9,7 +9,8 @@ jobs:
       - checkout
       - node/with-cache:
           steps:
-            - run: npm i
+            - run: npm install
+            - run: npm run build
             - run: npm test         
   publish:
     executor:
