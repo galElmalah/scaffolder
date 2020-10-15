@@ -1,5 +1,5 @@
 {
-  "name": "scaffolder-cli-test",
+  "name": "scaffolder-cli",
   "version": "1.6.20",
   "bin": {
     "scaff": "./dist/cli.js"
