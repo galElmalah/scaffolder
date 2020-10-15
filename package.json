@@ -5,7 +5,8 @@
     "bootstrap": "lerna bootstrap --hoist",
     "build": "tsc -b packages/scaffolder-cli packages/scaffolder-core",
     "test": "lerna run test",
-    "version": "lerna version"
+    "version": "lerna version --conventional-commits",
+    "publish": "lerna publish from-package"
   },
   "devDependencies": {
     "@babel/core": "^7.12.0",
