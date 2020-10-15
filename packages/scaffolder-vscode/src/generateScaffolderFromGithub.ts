@@ -3,7 +3,7 @@ import { GithubTempCloner, isAValidGithubSource } from "scaffolder-core";
 import { generateScaffolderTemplate } from "./generateScaffolderTemplate";
 import { logger } from "./logger";
 
-export const validationAdapter = (fn: (...args: any) => string | true) => (
+export const validationAdapter = (fn: (...args: any) => string | boolean) => (
   value: any
 ): undefined | string => {
   const result = fn(value);
