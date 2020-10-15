@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![Scaffolder logo](scaffolder-logo.png)  
+![Scaffolder logo](images/scaffolder-logo.png)  
 
 </div>
 
@@ -178,7 +178,7 @@ describe("CoolAFComponent", () => {
 ```
 
 This could also be achieved using the interactive mode!
-![](scaffolder.gif)
+![](images/scaffolder.gif)
 
 How cool is this, right?  
 As you can see our params got injected to the right places and we created our template with little effort.  
