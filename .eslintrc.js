@@ -1,28 +1,23 @@
 module.exports = {
 	'env': {
-		'es6': true,
-		'node': true,
-		'jest': true
+		'jest': true,
+		'es2021': true,
+		'node': true
 	},
-	'extends': 'eslint:recommended',
+	'extends': [
+		'eslint:recommended',
+		'plugin:@typescript-eslint/recommended'
+	],
+	'parser': '@typescript-eslint/parser',
 	'parserOptions': {
-		'ecmaVersion': 2018 
+		'ecmaVersion': 12,
+		'sourceType': 'module'
 	},
+	'plugins': [
+		'@typescript-eslint'
+	],
 	'rules': {
-		'object-curly-spacing': ['error', 'always'],
-		'object-curly-newline': ['error', {
-			'ObjectExpression': {
-				'minProperties': 1 
-			},
-			'ObjectPattern': {
-				'multiline': true 
-			},
-			'ImportDeclaration': 'never',
-			'ExportDeclaration': {
-				'multiline': true, 'minProperties': 3 
-			}
-		}],
-		'no-prototype-builtins': 'off',
+		'@typescript-eslint/explicit-module-boundary-types': 'off',
 		'indent': [
 			'error',
 			'tab'

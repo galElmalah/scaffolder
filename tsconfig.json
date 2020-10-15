@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "allowJs": true,
+    "noImplicitAny": false,
+    "preserveConstEnums": true,
+    "sourceMap": true,
+    "declaration": true,
+    "lib": ["es6"],
+    "skipLibCheck": true
+  },
+  "files": ["cli.js"],
+  "exclude": ["node_modules", "**/*.spec.ts","**/*.spec.js"]
+}
