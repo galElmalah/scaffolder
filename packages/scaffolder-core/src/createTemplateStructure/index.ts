@@ -2,8 +2,9 @@ import fs from 'fs';
 import { NoMatchingTemplate, MissingKeyValuePairs, MissingFunctionImplementation } from '../Errors';
 import { isFolder, join, TYPES } from '../filesUtils';
 import { applyTransformers } from './applyTransformers';
+import { Config, Context } from '../configHelpers/config';
 
-export const defaultConfig = () => ({
+export const defaultConfig = ():Config => ({
 	transformers: {},
 	functions: {},
 	parametersOptions: {},
@@ -24,11 +25,11 @@ export const replaceKeyWithValue = (
 	keyValuePairs,
 	transformersMap,
 	functionsMap,
-	ctx
+	ctx: Context
 ) => (match) => {
 	if (isAFunctionKey(match)) {
 		const functionKey = extractKey(match).replace(/\(|\)/g, '');
-		if (!functionsMap.hasOwnProperty(functionKey)) {
+		if (!(functionKey in functionsMap)) {
 			throw new MissingFunctionImplementation({
 				functionKey
 			});
@@ -38,7 +39,7 @@ export const replaceKeyWithValue = (
 
 	const [key, ...transformersKeys] = getKeyAndTransformers(match);
 
-	if (!keyValuePairs.hasOwnProperty(key)) {
+	if (!(key in keyValuePairs)) {
 		throw new MissingKeyValuePairs(match);
 	}
 
@@ -68,26 +69,29 @@ export const createTemplateStructure = (folderPath) => {
 	});
 };
 
-export const getConfigPath = (path) =>
-	path.split('/').slice(0, -1).join('/') + '/scaffolder.config.js';
+export const getConfigPath = (path: string) =>
+	`${path.split('/').slice(0, -1).join('/')}/scaffolder.config.js`;
+
+
+export const readConfig = (path: string) : Config => {
+	let config = defaultConfig();
+	if (fs.existsSync(getConfigPath(path))) {
+		// Invalidate require cache to prevent stale configs
+		delete require.cache[getConfigPath(path)];
+		config = {
+			...defaultConfig(), ...require(getConfigPath(path))
+		};
+	}
+	return config;
+};
 
 export const templateReader = (commands) => (cmd) => {
-	let config = defaultConfig();
 	if (!commands[cmd]) {
 		throw new NoMatchingTemplate(cmd);
 	}
 
-	if (fs.existsSync(getConfigPath(commands[cmd]))) {
-		// reset scaffolder config so I wont get old values.
-
-		delete require.cache[getConfigPath(commands[cmd])];
-		config = {
-			...defaultConfig(), ...require(getConfigPath(commands[cmd]))
-		};
-	}
-
 	return {
-		config,
+		config: readConfig(commands[cmd]),
 		currentCommandTemplate: createTemplateStructure(commands[cmd]),
 	};
 };
@@ -118,7 +122,7 @@ export const templateTransformer = (templateDescriptor, injector, globalCtx) => 
 		),
 	});
 
-	const transformerFolder = (descriptor) => ({
+	const transformFolder = (descriptor) => ({
 		type: descriptor.type,
 		name: injector(descriptor.name, createLocalCtx(descriptor)),
 		content: templateTransformer(descriptor.content, injector, globalCtx),
@@ -126,7 +130,7 @@ export const templateTransformer = (templateDescriptor, injector, globalCtx) => 
 
 	return templateDescriptor.map((descriptor) => {
 		if (descriptor.type === TYPES.FOLDER) {
-			return transformerFolder(descriptor);
+			return transformFolder(descriptor);
 		}
 		return transformFile(descriptor);
 	});
