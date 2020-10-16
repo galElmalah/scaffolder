@@ -1,11 +1,7 @@
-const fs = require('fs');
-const {
-	NoMatchingTemplate,
-	MissingKeyValuePairs,
-	MissingFunctionImplementation,
-} = require('../Errors');
-const { isFolder, join, TYPES } = require('../filesUtils');
-const { applyTransformers } = require('./applyTransformers').default;
+import fs from 'fs';
+import { NoMatchingTemplate, MissingKeyValuePairs, MissingFunctionImplementation } from '../Errors';
+import { isFolder, join, TYPES } from '../filesUtils';
+import { applyTransformers } from './applyTransformers';
 
 export const defaultConfig = () => ({
 	transformers: {},
@@ -17,7 +13,7 @@ export const defaultConfig = () => ({
 export const extractKey = (k) => k.replace(/({|})/g, '').trim();
 
 
-export const isAFunctionKey = (key:string) => /.+\(\)/.test(key);
+export const isAFunctionKey = (key: string) => /.+\(\)/.test(key);
 
 export const getKeyAndTransformers = (initialKey) =>
 	extractKey(initialKey)
@@ -34,7 +30,7 @@ export const replaceKeyWithValue = (
 		const functionKey = extractKey(match).replace(/\(|\)/g, '');
 		if (!functionsMap.hasOwnProperty(functionKey)) {
 			throw new MissingFunctionImplementation({
-				functionKey 
+				functionKey
 			});
 		}
 		return functionsMap[functionKey](ctx);
@@ -86,7 +82,7 @@ export const templateReader = (commands) => (cmd) => {
 
 		delete require.cache[getConfigPath(commands[cmd])];
 		config = {
-			...defaultConfig(), ...require(getConfigPath(commands[cmd])) 
+			...defaultConfig(), ...require(getConfigPath(commands[cmd]))
 		};
 	}
 
@@ -103,21 +99,21 @@ export const templateTransformer = (templateDescriptor, injector, globalCtx) => 
 			.pop();
 		const currentFilePath = `${globalCtx.targetRoot}${currentFileLocationPath}`;
 		return {
-			fileName: name, type, currentFilePath 
+			fileName: name, type, currentFilePath
 		};
 	};
-	
+
 	const transformFile = (descriptor) => ({
 		name: injector(
 			descriptor.name,
 			createLocalCtx({
-				...descriptor, type: TYPES.FILE_NAME 
+				...descriptor, type: TYPES.FILE_NAME
 			})
 		),
 		content: injector(
 			descriptor.content,
 			createLocalCtx({
-				...descriptor, type: TYPES.FILE_CONTENT 
+				...descriptor, type: TYPES.FILE_CONTENT
 			})
 		),
 	});
@@ -127,7 +123,7 @@ export const templateTransformer = (templateDescriptor, injector, globalCtx) => 
 		name: injector(descriptor.name, createLocalCtx(descriptor)),
 		content: templateTransformer(descriptor.content, injector, globalCtx),
 	});
-	
+
 	return templateDescriptor.map((descriptor) => {
 		if (descriptor.type === TYPES.FOLDER) {
 			return transformerFolder(descriptor);
@@ -144,7 +140,7 @@ export const injector = (
 	globalCtx
 ) => (text, localCtx) => {
 	const ctx = {
-		...globalCtx, ...localCtx 
+		...globalCtx, ...localCtx
 	};
 	const keyPattern = new RegExp(keyPatternString, 'g');
 	const replacer = replaceKeyWithValue(

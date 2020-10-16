@@ -5,7 +5,7 @@ export const removeTransformationsFromKey = (key = '') => {
 	return key.replace(/\|.*/g, '}}').replace(/\s*/g, '');
 };
 
-const applyTransformers = (
+export const applyTransformers = (
 	initialValue,
 	transformersMap,
 	transformersKeys,
