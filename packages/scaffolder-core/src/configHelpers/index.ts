@@ -17,8 +17,3 @@ export const getValidationFunction = (parametersOptions = {}, key) => {
 	return validationFn;
 };
 
-export const isAValidGithubSource = (src) =>
-// eslint-disable-next-line no-useless-escape
-	/(?:git|ssh|https?|git@[-\w.]+):(\/\/)?(.*?)(\.git)(\/?|\#[-\d\w._]+?)$/.test(
-		src
-	);

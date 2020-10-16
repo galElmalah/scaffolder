@@ -12,7 +12,7 @@ describe('TemplatesBuilder', () => {
 
 	it('when invoking inAFolder a new folder is created', () => {
 		const folder = 'MyFolder';
-		existsSync.mockReturnValue(false);
+		(existsSync as jest.Mock).mockReturnValue(false);
 		const templateBuilder = new TemplatesBuilder([]);
 		templateBuilder.inAFolder(folder).build();
 		expect(mkdirSync).toBeCalledWith(join(process.cwd(), folder));
@@ -20,8 +20,8 @@ describe('TemplatesBuilder', () => {
 
 	it('if a folder with the same name exists in the path then a FolderAlreadyExists error is thrown', () => {
 		const folder = 'MyFolder';
-		existsSync.mockReturnValue(true);
-		const templateBuilder = new TemplatesBuilder();
+		(existsSync as jest.Mock).mockReturnValue(true);
+		const templateBuilder = new TemplatesBuilder([]);
 		expect(() => templateBuilder.inAFolder(folder).build()).toThrow(
 			FolderAlreadyExists
 		);

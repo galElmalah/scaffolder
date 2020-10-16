@@ -1,4 +1,4 @@
-import fs from 'fs';
+import fs from 'fs-extra';
 import path from 'path';
 import { NoScaffolderFolder  } from '../Errors';
 import { isFolder  } from '../filesUtils';
@@ -26,7 +26,7 @@ export const templatePathsFinder = (currentPath) => {
 
 		const currentDir = fs.readdirSync(currentPath);
 
-		const isScaffolderFolderInThisLevel = currentDir.find(
+		const isScaffolderFolderInThisLevel = currentDir.some(
 			(f) => f === TEMPLATE_FOLDER_NAME
 		);
 
@@ -42,7 +42,9 @@ export const templatePathsFinder = (currentPath) => {
 	return findTemplate(currentPath);
 };
 
-export const readTemplatesFromPaths = (paths) => {
+type CommandsToPaths = {[key: string]: string};
+
+export const readTemplatesFromPaths =  (paths: string[]): CommandsToPaths => {
 	let allCommands = {};
 	for (const scaffolderPath of paths) {
 		const commands = fs.readdirSync(scaffolderPath);
@@ -52,7 +54,7 @@ export const readTemplatesFromPaths = (paths) => {
 		
 		const commandsToPath = commands
 			.filter((p) => p && p[0] !== '.')
-			.filter((p) => isFolder(scaffolderPath, p))
+			.filter(isFolder(scaffolderPath))
 			.reduce(
 				(accm, cmd) => ({
 					...accm, [cmd]: path.join(scaffolderPath, cmd) 
@@ -67,7 +69,11 @@ export const readTemplatesFromPaths = (paths) => {
 	return allCommands;
 };
 
-export const commandsBuilder = (currentPath) => {
+/**
+ * @param {string} currentPath Initial path to start searching from for scaffolder folders.
+ * @returns {Object<string, string>} Mapping between each available template and the path the template is located at.
+ */
+export const commandsBuilder = (currentPath: string) => {
 	const scaffolderPaths = templatePathsFinder(currentPath);
 	return readTemplatesFromPaths(scaffolderPaths);
 };

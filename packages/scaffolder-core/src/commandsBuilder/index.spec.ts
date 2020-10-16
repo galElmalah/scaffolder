@@ -3,6 +3,11 @@ import { templatePathsFinder, commandsBuilder, SEARCH_DEPTH_LIMIT } from './inde
 import { NoScaffolderFolder } from '../Errors';
 
 jest.mock('fs');
+
+const mockedReaddirSync = readdirSync as jest.Mock;
+const mockedLstatSync = lstatSync as jest.Mock;
+
+
 const path = 'g/d/a/s/d/f';
 
 describe('commandsBuilder -> templatePathFinder', () => {
@@ -11,35 +16,35 @@ describe('commandsBuilder -> templatePathFinder', () => {
 	});
 
 	it('finds the scaffolder folder on the first level', () => {
-		readdirSync
+		mockedReaddirSync
 			.mockReturnValueOnce(['what', 'scaffolder'])
 			.mockReturnValue([]);
-		lstatSync.mockReturnValue({
+		mockedLstatSync.mockReturnValue({
 			isDirectory: () => true 
 		});
 		expect(templatePathsFinder(path)).toHaveLength(1);
 	});
 
 	it('finds the scaffolder folder not on the first level', () => {
-		readdirSync
+		mockedReaddirSync
 			.mockReturnValueOnce(['what', 'yeah'])
 			.mockReturnValueOnce(['what', 'lala'])
 			.mockReturnValueOnce(['what', 'scaffolder'])
 			.mockReturnValue([]);
 
-		lstatSync.mockReturnValue({
+		mockedLstatSync.mockReturnValue({
 			isDirectory: () => true 
 		});
 		templatePathsFinder(path);
 	});
 
 	it('it ignores the scaffolder if its a file and not a folder', () => {
-		readdirSync
+		mockedReaddirSync
 			.mockReturnValueOnce(['what', 'yeah'])
 			.mockReturnValueOnce(['what', 'scaffolder'])
 			.mockReturnValueOnce(['what', 'scaffolder'])
 			.mockReturnValue([]);
-		lstatSync
+		mockedLstatSync
 			.mockReturnValueOnce({
 				isDirectory: () => false 
 			})
@@ -48,16 +53,16 @@ describe('commandsBuilder -> templatePathFinder', () => {
 			});
 		templatePathsFinder(path);
 
-		expect(readdirSync).toHaveBeenCalledTimes(path.split('/').length);
+		expect(mockedReaddirSync).toHaveBeenCalledTimes(path.split('/').length);
 	});
 
 	it('throws an error if there is no scaffolder folder in the hierarchy', () => {
-		readdirSync
+		mockedReaddirSync
 			.mockReturnValueOnce(['what', 'yeah'])
 			.mockReturnValueOnce(['what', '21'])
 			.mockReturnValueOnce(['what', '12'])
 			.mockReturnValue([]);
-		lstatSync.mockReturnValue({
+		mockedLstatSync.mockReturnValue({
 			isDirectory: () => true 
 		});
 
@@ -66,14 +71,14 @@ describe('commandsBuilder -> templatePathFinder', () => {
 
 	it('finds all levels of scaffolder', () => {
 		const path = '/home/gal/yeah';
-		readdirSync
+		mockedReaddirSync
 			.mockReturnValueOnce(['what', 'scaffolder'])
 			.mockReturnValueOnce(['what', 'scaffolder'])
 			.mockReturnValueOnce(['what', 'scaffolder'])
 			.mockReturnValueOnce(['cmd1', 'cmd2'])
 			.mockReturnValueOnce(['cmd3', 'cmd4'])
 			.mockReturnValueOnce(['cmd5', 'cmd6']);
-		lstatSync.mockReturnValue({
+		mockedLstatSync.mockReturnValue({
 			isDirectory: () => true 
 		});
 
@@ -88,14 +93,14 @@ describe('commandsBuilder -> commandsBuilder', () => {
 
 	it('builds the commands with the templates path from all levels', () => {
 		const path = 'global/templatesAreHere/project';
-		readdirSync
+		mockedReaddirSync
 			.mockReturnValueOnce(['what', 'yeah'])
 			.mockReturnValueOnce(['what', 'scaffolder'])
 			.mockReturnValueOnce(['what', 'scaffolder'])
 			.mockReturnValueOnce(['cmd1', 'cmd2', 'cmd3', 'cmd4', 'cmd5'])
 			.mockReturnValueOnce(['cmd7', 'cmd6', 'cmd8', 'cmd9', 'cmd10']);
 
-		lstatSync.mockReturnValue({
+		mockedLstatSync.mockReturnValue({
 			isDirectory: () => true 
 		});
 		expect(commandsBuilder(path)).toEqual({
@@ -114,7 +119,7 @@ describe('commandsBuilder -> commandsBuilder', () => {
 
 	it('given two paths with the same template command the closer one will have precednce', () => {
 		const path = 'global/templatesAreHere/project';
-		readdirSync
+		mockedReaddirSync
 			.mockReturnValueOnce(['what', 'yeah'])
 			.mockReturnValueOnce(['what', 'scaffolder'])
 			.mockReturnValueOnce(['what', 'scaffolder'])
@@ -122,7 +127,7 @@ describe('commandsBuilder -> commandsBuilder', () => {
 			.mockReturnValueOnce(['cmd1', 'cmd2', 'cmd6', 'cmd7', 'cmd5'])
 			.mockReturnValueOnce(['cmd1', 'cmd2', 'cmd3', 'cmd4', 'cmd5']);
 
-		lstatSync.mockReturnValue({
+		mockedLstatSync.mockReturnValue({
 			isDirectory: () => true 
 		});
 		expect(commandsBuilder(path)).toEqual({
@@ -146,12 +151,12 @@ describe('commandsBuilder -> commandsBuilder', () => {
 			return path;
 		};
 
-		readdirSync.mockReturnValue(['what', 'scaffolder']);
+		mockedReaddirSync.mockReturnValue(['what', 'scaffolder']);
 
-		lstatSync.mockReturnValue({
+		mockedLstatSync.mockReturnValue({
 			isDirectory: () => true 
 		});
 		templatePathsFinder(getAboveThresholdPath());
-		expect(readdirSync).toBeCalledTimes(SEARCH_DEPTH_LIMIT);
+		expect(mockedReaddirSync).toBeCalledTimes(SEARCH_DEPTH_LIMIT);
 	});
 });

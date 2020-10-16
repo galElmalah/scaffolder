@@ -2,6 +2,7 @@ const defaultSuccessMessage = 'Successfully executed';
 const defaultErrorMessage = 'Error in asyncExecutor';
 
 type Message = string | ((args?:any) => void);
+
 export const asyncExecutor = async (
 	fn, 
 	successMsg:Message = defaultSuccessMessage,
@@ -11,8 +12,7 @@ export const asyncExecutor = async (
 	if(fn){
 		try {
 			const successMessage = typeof successMsg === 'function'  ? successMsg() : successMsg;
-			const fnResult = fn(...args);
-			const resolvedValue =  fnResult instanceof Promise ? await fnResult : fnResult;
+			const resolvedValue =  await fn(...args); 
 			console.log(successMessage);
 			return resolvedValue;
 		} catch(e) {
