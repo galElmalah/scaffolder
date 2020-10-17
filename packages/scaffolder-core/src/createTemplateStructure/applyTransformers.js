@@ -1,29 +1,33 @@
 import { MissingTransformerImplementation } from '../Errors';
 import { defaultTransformers } from './defaultTransformers';
+import { trim } from 'ramda';
 
 export const removeTransformationsFromKey = (key = '') => {
 	return key.replace(/\|.*/g, '}}').replace(/\s*/g, '');
 };
 
-const applyTransformers = (
+
+const toValueAfterTransformations = (transformersMap,ctx) => (currValue, nextTransformerKey) => {
+	const transformerFunction =
+		transformersMap[nextTransformerKey] ||
+		defaultTransformers[nextTransformerKey];
+	if (!transformerFunction) {
+		throw new MissingTransformerImplementation({
+			transformationKey: nextTransformerKey,
+		});
+	}
+	return transformerFunction(currValue, ctx);
+};
+
+export const applyTransformers = (
 	initialValue,
 	transformersMap,
 	transformersKeys,
 	ctx
 ) => {
 	return transformersKeys
-		.map((t) => t.trim())
-		.reduce((currValue, nextTranformerKey) => {
-			const transformerFunction =
-        transformersMap[nextTranformerKey] ||
-        defaultTransformers[nextTranformerKey];
-			if (!transformerFunction) {
-				throw new MissingTransformerImplementation({
-					transformationKey: nextTranformerKey,
-				});
-			}
-			return transformerFunction(currValue, ctx);
-		}, initialValue);
+		.map(trim)
+		.reduce(toValueAfterTransformations(transformersMap,ctx), initialValue);
 };
 
 export default {

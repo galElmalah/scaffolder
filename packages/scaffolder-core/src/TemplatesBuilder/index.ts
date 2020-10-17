@@ -20,7 +20,7 @@ export class TemplatesBuilder {
 	cmd: string;
 	entryPoint: string;
 
-	constructor(templates, cmd) {
+	constructor(templates, cmd?:any) {
 		this.templates = templates;
 		this.pathPrefix = '';
 		this.folder = '';
@@ -79,7 +79,7 @@ export class TemplatesBuilder {
 		});
 	}
 
-	build() {
+	build():Promise<any>[] {
 		this.createFolderIfNeeded();
 		const promises = [];
 		this.templates.forEach((template) => {

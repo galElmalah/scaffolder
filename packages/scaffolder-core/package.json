@@ -5,6 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "test": "jest",
+    "test:watch": "jest --watch",
     "start": "tsc --watch",
     "prepare": "tsc",
     "build": "tsc"
@@ -14,6 +15,7 @@
   "dependencies": {
     "chalk": "^4.1.0",
     "fs-extra": "^9.0.1",
+    "ramda": "^0.27.1",
     "tmp": "^0.2.1"
   },
   "devDependencies": {
@@ -22,6 +24,7 @@
     "@types/commander": "^2.12.2",
     "@types/fs-extra": "^9.0.2",
     "@types/node": "^14.6.2",
+    "@types/ramda": "^0.27.29",
     "babel-jest": "^26.5.2",
     "eslint": "^7.5.0",
     "jest": "^26.4.2",

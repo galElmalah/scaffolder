@@ -43,6 +43,7 @@ describe('asyncExecutor', () => {
 
 	it('should call the successMsg if its of type function', async () => {
 		const successMsg = jest.fn();
+
 		await asyncExecutor(() =>{},successMsg,'');
 		expect(successMsg).toHaveBeenCalled();
 	});
