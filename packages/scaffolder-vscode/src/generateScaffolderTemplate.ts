@@ -21,7 +21,7 @@ export const generateScaffolderTemplate = async (
 ) => {
   generateTo = generateTo || path;
   try {
-    const availableTemplateCommands = await commandsBuilder(path);
+    const availableTemplateCommands = commandsBuilder(path);
     const chosenTemplate = await chooseTemplate(availableTemplateCommands);
 
     if (!chosenTemplate) {
