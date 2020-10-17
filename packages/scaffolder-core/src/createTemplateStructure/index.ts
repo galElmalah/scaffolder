@@ -2,14 +2,18 @@ import fs from 'fs';
 import { NoMatchingTemplate, MissingKeyValuePairs, MissingFunctionImplementation } from '../Errors';
 import { isFolder, join, TYPES } from '../filesUtils';
 import { applyTransformers } from './applyTransformers';
-import { Config, Context } from '../configHelpers/config';
+import { Context } from '../configHelpers/config';
+import { readConfig } from '../configHelpers';
+import { curry } from 'ramda';
 
-export const defaultConfig = ():Config => ({
-	transformers: {},
-	functions: {},
-	parametersOptions: {},
-	templatesOptions: {}
-});
+
+
+export interface TemplateStructure {
+	name: string;
+	type?: TYPES;
+	content: string | TemplateStructure[];
+	[key: string]: any;
+}
 
 export const extractKey = (k) => k.replace(/({|})/g, '').trim();
 
@@ -50,7 +54,7 @@ export const replaceKeyWithValue = (
 		: keyInitialValue;
 };
 
-export const createTemplateStructure = (folderPath) => {
+export const createTemplateStructure = (folderPath: string): TemplateStructure[] => {
 	const folderContent = fs.readdirSync(folderPath);
 	return folderContent.map((file) => {
 		if (isFolder(folderPath, file)) {
@@ -69,23 +73,8 @@ export const createTemplateStructure = (folderPath) => {
 	});
 };
 
-export const getConfigPath = (path: string) =>
-	`${path.split('/').slice(0, -1).join('/')}/scaffolder.config.js`;
 
-
-export const readConfig = (path: string) : Config => {
-	let config = defaultConfig();
-	if (fs.existsSync(getConfigPath(path))) {
-		// Invalidate require cache to prevent stale configs
-		delete require.cache[getConfigPath(path)];
-		config = {
-			...defaultConfig(), ...require(getConfigPath(path))
-		};
-	}
-	return config;
-};
-
-export const templateReader = (commands) => (cmd) => {
+export const templateReader = curry((commands,cmd) => {
 	if (!commands[cmd]) {
 		throw new NoMatchingTemplate(cmd);
 	}
@@ -94,9 +83,10 @@ export const templateReader = (commands) => (cmd) => {
 		config: readConfig(commands[cmd]),
 		currentCommandTemplate: createTemplateStructure(commands[cmd]),
 	};
-};
+});
 
-export const templateTransformer = (templateDescriptor, injector, globalCtx) => {
+
+export const templateTransformer = (templateDescriptor: TemplateStructure[], injector, globalCtx) => {
 	const createLocalCtx = ({ type = 'FILE', scaffolderTargetRoot, name }) => {
 		const currentFileLocationPath = scaffolderTargetRoot
 			.split('scaffolder')

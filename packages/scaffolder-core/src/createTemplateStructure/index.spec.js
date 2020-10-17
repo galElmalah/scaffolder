@@ -111,8 +111,8 @@ describe('templatesCreator -> injector', () => {
 		});
 	});
 
-	describe('injector with applyTranformers', () => {
-		it('should handle a full template and apply all transforamtions', () => {
+	describe('injector with applyTransformers', () => {
+		it('should handle a full template and apply all transformations', () => {
 			const keys = {
 				key1: 'YEAH',
 				key2: 'whats',
@@ -171,19 +171,13 @@ describe('templatesCreator -> injector', () => {
 
 			const result = keysInjector(testTemplate, localCtx);
 
-			expect(transformers.toLowerCase).toHaveBeenCalledWith('YEAH', {
+			const expectedCtx = {
 				...globalCtx,
 				...localCtx,
-			});
-			expect(transformers.repeat).toHaveBeenCalledWith('yeah', {
-				...globalCtx,
-				...localCtx,
-			});
-
-			expect(functions.date).toHaveBeenCalledWith({
-				...globalCtx,
-				...localCtx,
-			});
+			};
+			expect(transformers.toLowerCase).toHaveBeenCalledWith('YEAH', expectedCtx);
+			expect(transformers.repeat).toHaveBeenCalledWith('yeah', expectedCtx);
+			expect(functions.date).toHaveBeenCalledWith(expectedCtx);
 
 			expect(result).toBe(
 				`
@@ -240,7 +234,7 @@ describe('templatesCreator -> injector', () => {
 			expect(result).toEqual(`${new Date().getDate()}`);
 		});
 
-		it('should throw a \'MissingTransformerImplementation\' error when there is no transformer defined for a specifc tranformer key', () => {
+		it('should throw a "MissingTransformerImplementation" error when there is no transformer defined for a specific transformer key', () => {
 			const keys = {
 				key1: 'YEAH',
 			};
@@ -249,7 +243,7 @@ describe('templatesCreator -> injector', () => {
         `;
 
 			const transformers = {
-				someTranformer: () => {},
+				someTransformer: () => {},
 			};
 
 			const keysInjector = injector(keys, { transformers });

@@ -5,15 +5,20 @@ export interface Dictionary<T> {
   [key: string]: T;
 }
 
-export interface Context {
+export interface GlobalCtx {
   parametersValues: Dictionary<any>;
   templateName: string;
-  templateRoot:string;
+  templateRoot: string;
   targetRoot: string;
+}
+
+export interface LocalCtx {
   currentFilePath: string;
   fileName: string;
   type: TYPES;
 }
+
+export type Context = Readonly<LocalCtx & GlobalCtx>;
 
 export type ScaffolderTransformer = (parameterValue: any, context: Context) => any;
 export type ScaffolderFunction = (context: Context) => any;
@@ -33,10 +38,13 @@ export interface TemplateOptions {
   hooks?: Hooks
 }
 
-
-export interface Config {
+export interface CommonConfig {
   transformers: Dictionary<ScaffolderTransformer>;
   functions: Dictionary<ScaffolderFunction>;
   parametersOptions: Dictionary<Dictionary<ParameterOptions>>;
+}
+
+
+export interface Config extends CommonConfig {
   templatesOptions: Dictionary<Dictionary<TemplateOptions>>;
 }

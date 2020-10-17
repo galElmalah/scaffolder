@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import {curry} from 'ramda';
-export const isFolder = curry((basePath: string, filePath: string):boolean =>
+import { curry } from 'ramda';
+export const isFolder = curry((basePath: string, filePath: string): boolean =>
 	fs.lstatSync(path.resolve(basePath, filePath)).isDirectory());
 
 export const join = (...args: string[]): string => path.join(...args);

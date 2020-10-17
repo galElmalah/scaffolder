@@ -1,3 +1,6 @@
+import { Config } from './config';
+import fs from 'fs';
+
 export const getQuestionMessage = (
 	parametersOptions = {},
 	key: string
@@ -17,3 +20,28 @@ export const getValidationFunction = (parametersOptions = {}, key) => {
 	return validationFn;
 };
 
+
+
+export const getConfigPath = (path: string) =>
+	`${path.split('/').slice(0, -1).join('/')}/scaffolder.config.js`;
+
+
+export const defaultConfig = ():Config => ({
+	transformers: {},
+	functions: {},
+	parametersOptions: {},
+	templatesOptions: {}
+});
+
+export const readConfig = (path: string) : Config => {
+	let config = defaultConfig();
+	const hasConfig = fs.existsSync(getConfigPath(path));
+	if (hasConfig) {
+		// Invalidate require cache to prevent stale configs
+		delete require.cache[getConfigPath(path)];
+		config = {
+			...defaultConfig(), ...require(getConfigPath(path))
+		};
+	}
+	return config;
+};
