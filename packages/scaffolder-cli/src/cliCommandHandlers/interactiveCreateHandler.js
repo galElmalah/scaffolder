@@ -65,9 +65,11 @@ const interactiveCreateCommandHandler = async (command) => {
 		console.log({ availableTemplateCommands });
 		const { chosenTemplate } = await getChosenTemplate(availableTemplateCommands, command.template);
 
-		const { config, currentCommandTemplate } = templateReader(
-			availableTemplateCommands
-		)(chosenTemplate);
+		if (command.fromGithub && !gitCloner.hasCloned()) {
+			await gitCloner.clone();
+		}
+
+		const { config, currentCommandTemplate } = templateReader(availableTemplateCommands, chosenTemplate);
 
 		const {
 			preTemplateGeneration,

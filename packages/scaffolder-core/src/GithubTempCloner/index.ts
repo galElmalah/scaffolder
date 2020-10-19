@@ -5,7 +5,6 @@ import axios from 'axios';
 import gitUrlParse from 'git-url-parse';
 import { allPass } from 'ramda';
 import { CommandsToPaths } from '../commandsBuilder';
-import { accessSync } from 'fs-extra';
 // make sure we delete all of the tmp files when the process exit.
 tmp.setGracefulCleanup();
 
@@ -15,18 +14,31 @@ export const isAValidGithubSource = (src) =>
 		src
 	);
 
+export interface GithubCloner {
+		setSrc(src:string):void;
+		getTempDirPath():string;
+		hasCloned():boolean;
+		getParsedGitSrc():any;
+		createTempDir():void;
+		listTemplates():Promise<CommandsToPaths>;
+		clone():void;
+		cleanUp():void
+	}
 
-export class GithubTempCloner {
+export class GithubTempCloner implements GithubCloner{
 	private gitSrc: string;
 	private logger: (...args: any) => void;
 	private tmpFolderObject: any;
 	private tempDirPath: string;
+	private isCloned: boolean;
 	constructor(src = '', logger = console.log) {
 		src && this.setSrc(src);
 		this.logger = logger;
-		this.tmpFolderObject = null;
+		this.tmpFolderObject = null ;
 		this.tempDirPath = '';
+		this.isCloned = false;
 	}
+
 
 	setSrc(src: string) {
 		if (!isAValidGithubSource(src)) {
@@ -39,29 +51,56 @@ export class GithubTempCloner {
 		return this.tmpFolderObject.name;
 	}
 
+	hasCloned():boolean {
+		return this.isCloned;
+	}
+
+	createTempDir() {
+		this.tmpFolderObject = tmp.dirSync();
+	}
+
+	getParsedGitSrc() {
+		return gitUrlParse(this.gitSrc);
+	}
 
 	async listTemplates(): Promise<CommandsToPaths> {
-		const { owner, name, href } = gitUrlParse(this.gitSrc);
-		console.log(owner, name);
+		this.createTempDir();
+		const { owner, name } = this.getParsedGitSrc();
 		const apiUrl = `https://api.github.com/repos/${owner}/${name}/git/trees/master?recursive=true`;
 		const { tree } = await axios.get(apiUrl).then(({ data }) => data);
-
 		const isTemplate = (({ path }) => path.startsWith('scaffolder') && path.split('/').length === 2);
 		const notConfig = (({ path }) => !path.endsWith('scaffolder.config.js'));
-		const toTemplate = (acc, { path }) => ({...acc, [path.split('/').pop()]: `Remote: ${href}/${path}`});
+		const toTemplate = (acc, { path }) => ({...acc, [path.split('/').pop()]: `${this.getTempDirPath()}/${path}`});
 
 		return tree.filter(allPass([isTemplate, notConfig])).reduce(toTemplate, {});
 	}
 
 	clone() {
-		this.logger('Creating temporary folder...');
-		this.tmpFolderObject = tmp.dirSync();
-		this.logger('Cloning repository...');
-		execSync(`git clone --depth=1 ${this.gitSrc} ${this.tempDirPath}`, {
+		if(!this.tmpFolderObject) {
+			this.createTempDir();
+		}
+		this.logger('Cloning repository...',`git clone --depth=1 ${this.gitSrc} ${this.getTempDirPath()}`);
+		execSync(`git clone --depth=1 ${this.gitSrc} ${this.getTempDirPath()}`, {
 			stdio: 'pipe',
 		});
+		this.isCloned = true;
 		this.logger('Finished cloning repository...');
 		return this.getTempDirPath();
+	}
+
+	cleanUp() {
+		if (!this.gitSrc || !this.tmpFolderObject) {
+			return;
+		}
+
+		return fs
+			.remove(this.getTempDirPath())
+			.then(() => this.logger('Temp directory has been deleted.'))
+			.catch((err) => {
+				this.logger('Error while trying to delete git temp folder::', err);
+				throw err;
+			}
+			);
 	}
 
 }

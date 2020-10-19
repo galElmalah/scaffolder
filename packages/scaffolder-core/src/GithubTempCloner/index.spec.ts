@@ -3,6 +3,10 @@ import nock from 'nock';
 
 const responseData = require('./repoStructureApiReponse.json');
 
+const mockTmpFolderDependency = () => jest.mock('tmp', () =>({dirSync: () => ({name:'gal'}),setGracefulCleanup: () =>{}}) );
+
+mockTmpFolderDependency();
+
 describe('GithubTempCloner', () => {
 	it('should throw when setting invalid git src', () => {
 		expect(() => new GithubTempCloner('gal')).toThrow(TypeError);
@@ -26,9 +30,9 @@ describe('GithubTempCloner', () => {
 		const cloner = new GithubTempCloner(gitHttpsSrc);
 		const templates = await cloner.listTemplates();
 		const expectedTemplates = {
-			'index':'Remote: https://github.com/gal/what-the.git/scaffolder/index',
-			'react-comp':'Remote: https://github.com/gal/what-the.git/scaffolder/react-comp',
-			'typescript-module':'Remote: https://github.com/gal/what-the.git/scaffolder/typescript-module'
+			'index':`${cloner.getTempDirPath()}/scaffolder/index`,
+			'react-comp':`${cloner.getTempDirPath()}/scaffolder/react-comp`,
+			'typescript-module':`${cloner.getTempDirPath()}/scaffolder/typescript-module`
 		};
 		expect(templates).toEqual(expectedTemplates);
 	});
