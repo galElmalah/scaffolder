@@ -1,7 +1,9 @@
 import * as fs from 'fs-extra';
 import * as tmp from 'tmp';
 import { execSync } from 'child_process';
-
+import axios from 'axios';
+import gitUrlParse from 'git-url-parse';
+import {allPass} from 'ramda';
 // make sure we delete all of the tmp files when the process exit.
 tmp.setGracefulCleanup();
 
@@ -10,6 +12,7 @@ export const isAValidGithubSource = (src) =>
 	/(?:git|ssh|https?|git@[-\w.]+):(\/\/)?(.*?)(\.git)(\/?|\#[-\d\w._]+?)$/.test(
 		src
 	);
+
 
 export class GithubTempCloner {
 	private gitSrc: string;
@@ -32,6 +35,20 @@ export class GithubTempCloner {
 
 	getTempDirPath() {
 		return this.tmpFolderObject.name;
+	}
+
+
+	async listTemplates(): Promise<string[]> {
+		const {owner, name, href} = gitUrlParse(this.gitSrc);
+		console.log(owner,name);
+		const apiUrl = `https://api.github.com/repos/${owner}/${name}/git/trees/master?recursive=true`;
+		const {tree} = await axios.get(apiUrl).then(({data}) => data);
+
+		const isTemplate = (({path}) => path.startsWith('scaffolder') && path.split('/').length === 2);
+		const notConfig = (({path}) => !path.endsWith('scaffolder.config.js'));
+		const toTemplate = ({path}) => ({name: path.split('/').pop(), location: href});
+		
+		return tree.filter(allPass([isTemplate,notConfig])).map(toTemplate);
 	}
 
 	clone() {

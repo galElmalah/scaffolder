@@ -1,0 +1,152 @@
+{
+  "sha": "a94a80b263b9300040e9eb94d5f51f4275a0b979",
+  "url": "https://api.github.com/repos/galElmalah/scaffolder-templates-example/git/trees/a94a80b263b9300040e9eb94d5f51f4275a0b979",
+  "tree": [
+  {
+  "path": "scaffolder",
+  "mode": "040000",
+  "type": "tree",
+  "sha": "90216fc42f50e17724c1e12b892e88f56ac4008a",
+  "url": "https://api.github.com/repos/galElmalah/scaffolder-templates-example/git/trees/90216fc42f50e17724c1e12b892e88f56ac4008a"
+  },
+  {
+  "path": "scaffolder/index",
+  "mode": "040000",
+  "type": "tree",
+  "sha": "394148344d234d482dfa6c1bd44de3d4d7caa6aa",
+  "url": "https://api.github.com/repos/galElmalah/scaffolder-templates-example/git/trees/394148344d234d482dfa6c1bd44de3d4d7caa6aa"
+  },
+  {
+  "path": "scaffolder/index/index.js",
+  "mode": "100644",
+  "type": "blob",
+  "sha": "a90789b1aedff69a69b608aec3ddac53e0935f72",
+  "size": 57,
+  "url": "https://api.github.com/repos/galElmalah/scaffolder-templates-example/git/blobs/a90789b1aedff69a69b608aec3ddac53e0935f72"
+  },
+  {
+  "path": "scaffolder/index/index.spec.js",
+  "mode": "100644",
+  "type": "blob",
+  "sha": "1caef73ebba634a665ca539791305008b31e1b3e",
+  "size": 166,
+  "url": "https://api.github.com/repos/galElmalah/scaffolder-templates-example/git/blobs/1caef73ebba634a665ca539791305008b31e1b3e"
+  },
+  {
+  "path": "scaffolder/react-comp",
+  "mode": "040000",
+  "type": "tree",
+  "sha": "5123ac364f19a199b13c03a5dc35d1a95c29db94",
+  "url": "https://api.github.com/repos/galElmalah/scaffolder-templates-example/git/trees/5123ac364f19a199b13c03a5dc35d1a95c29db94"
+  },
+  {
+  "path": "scaffolder/react-comp/{{compName | camelCaseToSnakeCase}}",
+  "mode": "040000",
+  "type": "tree",
+  "sha": "b42d910422ef6a626ea393fe546a04fdbb93ba88",
+  "url": "https://api.github.com/repos/galElmalah/scaffolder-templates-example/git/trees/b42d910422ef6a626ea393fe546a04fdbb93ba88"
+  },
+  {
+  "path": "scaffolder/react-comp/{{compName | camelCaseToSnakeCase}}/index.js",
+  "mode": "100644",
+  "type": "blob",
+  "sha": "cad78059ba76d08d87e62917fc665e46b349d827",
+  "size": 190,
+  "url": "https://api.github.com/repos/galElmalah/scaffolder-templates-example/git/blobs/cad78059ba76d08d87e62917fc665e46b349d827"
+  },
+  {
+  "path": "scaffolder/react-comp/{{compName | camelCaseToSnakeCase}}/index.spec.js",
+  "mode": "100644",
+  "type": "blob",
+  "sha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+  "size": 0,
+  "url": "https://api.github.com/repos/galElmalah/scaffolder-templates-example/git/blobs/e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+  },
+  {
+  "path": "scaffolder/react-comp/{{compName | camelCaseToSnakeCase}}/{{compName}}.scss",
+  "mode": "100644",
+  "type": "blob",
+  "sha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+  "size": 0,
+  "url": "https://api.github.com/repos/galElmalah/scaffolder-templates-example/git/blobs/e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+  },
+  {
+  "path": "scaffolder/scaffolder.config.js",
+  "mode": "100644",
+  "type": "blob",
+  "sha": "f0ab591f94e7635ddaafafca5d49fe7cc1c6d54a",
+  "size": 758,
+  "url": "https://api.github.com/repos/galElmalah/scaffolder-templates-example/git/blobs/f0ab591f94e7635ddaafafca5d49fe7cc1c6d54a"
+  },
+  {
+  "path": "scaffolder/typescript-module",
+  "mode": "040000",
+  "type": "tree",
+  "sha": "c9faeb1c0b19036bd0c971f1477775c1a8c7c48f",
+  "url": "https://api.github.com/repos/galElmalah/scaffolder-templates-example/git/trees/c9faeb1c0b19036bd0c971f1477775c1a8c7c48f"
+  },
+  {
+  "path": "scaffolder/typescript-module/{{moduleName}}",
+  "mode": "040000",
+  "type": "tree",
+  "sha": "54d3045dc5683ef322a687b070938932b68b1854",
+  "url": "https://api.github.com/repos/galElmalah/scaffolder-templates-example/git/trees/54d3045dc5683ef322a687b070938932b68b1854"
+  },
+  {
+  "path": "scaffolder/typescript-module/{{moduleName}}/.gitignore",
+  "mode": "100644",
+  "type": "blob",
+  "sha": "b512c09d476623ff4bf8d0d63c29b784925dbdf8",
+  "size": 12,
+  "url": "https://api.github.com/repos/galElmalah/scaffolder-templates-example/git/blobs/b512c09d476623ff4bf8d0d63c29b784925dbdf8"
+  },
+  {
+  "path": "scaffolder/typescript-module/{{moduleName}}/README.md",
+  "mode": "100644",
+  "type": "blob",
+  "sha": "da31df2f9b7964428e8a2edc19146c1b9a298912",
+  "size": 92,
+  "url": "https://api.github.com/repos/galElmalah/scaffolder-templates-example/git/blobs/da31df2f9b7964428e8a2edc19146c1b9a298912"
+  },
+  {
+  "path": "scaffolder/typescript-module/{{moduleName}}/jest.config.js",
+  "mode": "100644",
+  "type": "blob",
+  "sha": "4317c5305093c02f46aeceddcd65ed521d822800",
+  "size": 225,
+  "url": "https://api.github.com/repos/galElmalah/scaffolder-templates-example/git/blobs/4317c5305093c02f46aeceddcd65ed521d822800"
+  },
+  {
+  "path": "scaffolder/typescript-module/{{moduleName}}/package.json",
+  "mode": "100644",
+  "type": "blob",
+  "sha": "d1ce41e47f9ceacca9c8fc56c1dd77b81edae2eb",
+  "size": 437,
+  "url": "https://api.github.com/repos/galElmalah/scaffolder-templates-example/git/blobs/d1ce41e47f9ceacca9c8fc56c1dd77b81edae2eb"
+  },
+  {
+  "path": "scaffolder/typescript-module/{{moduleName}}/src",
+  "mode": "040000",
+  "type": "tree",
+  "sha": "48771db82d3d04bc88a6eda2bbba597bf5577e61",
+  "url": "https://api.github.com/repos/galElmalah/scaffolder-templates-example/git/trees/48771db82d3d04bc88a6eda2bbba597bf5577e61"
+  },
+  {
+  "path": "scaffolder/typescript-module/{{moduleName}}/src/index.ts",
+  "mode": "100644",
+  "type": "blob",
+  "sha": "24dd1a4b5904f72c939213205f513c56e9565ddf",
+  "size": 76,
+  "url": "https://api.github.com/repos/galElmalah/scaffolder-templates-example/git/blobs/24dd1a4b5904f72c939213205f513c56e9565ddf"
+  },
+  {
+  "path": "scaffolder/typescript-module/{{moduleName}}/tsconfig.json",
+  "mode": "100644",
+  "type": "blob",
+  "sha": "5bb8198cb4ae41733a03898f026fa51b60f8f0b5",
+  "size": 303,
+  "url": "https://api.github.com/repos/galElmalah/scaffolder-templates-example/git/blobs/5bb8198cb4ae41733a03898f026fa51b60f8f0b5"
+  }
+  ],
+  "truncated": false
+  }
