@@ -42,7 +42,7 @@ export const templatePathsFinder = (currentPath) => {
 	return findTemplate(currentPath);
 };
 
-type CommandsToPaths = {[key: string]: string};
+export type CommandsToPaths = {[key: string]: string};
 
 export const readTemplatesFromPaths =  (paths: string[]): CommandsToPaths => {
 	let allCommands = {};

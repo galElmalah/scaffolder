@@ -3,7 +3,9 @@ import * as tmp from 'tmp';
 import { execSync } from 'child_process';
 import axios from 'axios';
 import gitUrlParse from 'git-url-parse';
-import {allPass} from 'ramda';
+import { allPass } from 'ramda';
+import { CommandsToPaths } from '../commandsBuilder';
+import { accessSync } from 'fs-extra';
 // make sure we delete all of the tmp files when the process exit.
 tmp.setGracefulCleanup();
 
@@ -38,17 +40,17 @@ export class GithubTempCloner {
 	}
 
 
-	async listTemplates(): Promise<string[]> {
-		const {owner, name, href} = gitUrlParse(this.gitSrc);
-		console.log(owner,name);
+	async listTemplates(): Promise<CommandsToPaths> {
+		const { owner, name, href } = gitUrlParse(this.gitSrc);
+		console.log(owner, name);
 		const apiUrl = `https://api.github.com/repos/${owner}/${name}/git/trees/master?recursive=true`;
-		const {tree} = await axios.get(apiUrl).then(({data}) => data);
+		const { tree } = await axios.get(apiUrl).then(({ data }) => data);
 
-		const isTemplate = (({path}) => path.startsWith('scaffolder') && path.split('/').length === 2);
-		const notConfig = (({path}) => !path.endsWith('scaffolder.config.js'));
-		const toTemplate = ({path}) => ({name: path.split('/').pop(), location: href});
-		
-		return tree.filter(allPass([isTemplate,notConfig])).map(toTemplate);
+		const isTemplate = (({ path }) => path.startsWith('scaffolder') && path.split('/').length === 2);
+		const notConfig = (({ path }) => !path.endsWith('scaffolder.config.js'));
+		const toTemplate = (acc, { path }) => ({...acc, [path.split('/').pop()]: `Remote: ${href}/${path}`});
+
+		return tree.filter(allPass([isTemplate, notConfig])).reduce(toTemplate, {});
 	}
 
 	clone() {
@@ -62,18 +64,5 @@ export class GithubTempCloner {
 		return this.getTempDirPath();
 	}
 
-	cleanUp() {
-		if (!this.gitSrc || !this.tmpFolderObject) {
-			return;
-		}
-
-		return fs
-			.remove(this.getTempDirPath())
-			.then(() => this.logger('Temp directory has been deleted.'))
-			.catch((err) => {
-				this.logger('Error while trying to delete git temp folder::', err);
-				throw err;
-			}
-			);
-	}
 }
+

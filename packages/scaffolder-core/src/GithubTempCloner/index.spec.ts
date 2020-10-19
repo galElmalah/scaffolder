@@ -25,19 +25,11 @@ describe('GithubTempCloner', () => {
 
 		const cloner = new GithubTempCloner(gitHttpsSrc);
 		const templates = await cloner.listTemplates();
-		const expectedTemplates = [
-			{
-				'location': 'https://github.com/gal/what-the.git',
-				'name': 'index',
-			},
-			{
-				'location': 'https://github.com/gal/what-the.git',
-				'name': 'react-comp',
-			},
-			{
-				'location': 'https://github.com/gal/what-the.git',
-				'name': 'typescript-module'
-			}];
+		const expectedTemplates = {
+			'index':'Remote: https://github.com/gal/what-the.git/scaffolder/index',
+			'react-comp':'Remote: https://github.com/gal/what-the.git/scaffolder/react-comp',
+			'typescript-module':'Remote: https://github.com/gal/what-the.git/scaffolder/typescript-module'
+		};
 		expect(templates).toEqual(expectedTemplates);
 	});
 });

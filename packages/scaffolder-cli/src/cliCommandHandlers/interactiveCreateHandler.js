@@ -19,51 +19,59 @@ import {
 	injector,
 } from 'scaffolder-core';
 
-const getChosenTemplate =  async (availableTemplateCommands, preSelectedTemplate) => {
+const getChosenTemplate = async (availableTemplateCommands, preSelectedTemplate) => {
 
-	if(availableTemplateCommands[preSelectedTemplate]) {
+	if (availableTemplateCommands[preSelectedTemplate]) {
 		return {
-			chosenTemplate: preSelectedTemplate 
+			chosenTemplate: preSelectedTemplate
 		};
-	} 
+	}
 
 	return chooseTemplate(availableTemplateCommands);
 
 
 };
 
-const getAvailableTemplatesCommands = (path,fromGithub, gitCloner) => {
-	if(fromGithub) {
-		const directoryPath = gitCloner.clone();
-		return readTemplatesFromPaths([`${directoryPath}/scaffolder`]);
+const getAvailableTemplatesCommands = async (path, fromGithub, gitCloner) => {
+	if (fromGithub) {
+		try {
+			return await gitCloner.listTemplates();
+		} catch (e) {
+			console.log(`Failed to fetch ${gitCloner.gitSrc} via github API.\nFalling back to cloning the repository.`);
+			const directoryPath = gitCloner.clone();
+			return readTemplatesFromPaths([`${directoryPath}/scaffolder`]);
+		}
 	}
-
 	return commandsBuilder(path);
 };
 const interactiveCreateCommandHandler = async (command) => {
-	const gitCloner =  new GithubTempCloner();
+	const gitCloner = new GithubTempCloner();
 	try {
 
-		if(command.fromGithub) {
+		if (command.fromGithub) {
 			const { repositorySource } = await getRepositorySource();
 			gitCloner.setSrc(repositorySource);
 		}
 
-		const availableTemplateCommands = getAvailableTemplatesCommands(
+
+
+
+		const availableTemplateCommands = await getAvailableTemplatesCommands(
 			process.cwd(),
 			command.fromGithub,
 			gitCloner,
 		);
 
+		console.log({ availableTemplateCommands });
 		const { chosenTemplate } = await getChosenTemplate(availableTemplateCommands, command.template);
 
 		const { config, currentCommandTemplate } = templateReader(
 			availableTemplateCommands
 		)(chosenTemplate);
 
-		const  { 
+		const {
 			preTemplateGeneration,
-			postTemplateGeneration 
+			postTemplateGeneration
 		} = getTemplateHooksFromConfig(config, chosenTemplate);
 
 		const keyValuePairs = await getKeysValues(
