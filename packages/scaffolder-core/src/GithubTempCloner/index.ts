@@ -5,8 +5,11 @@ import axios from 'axios';
 import gitUrlParse from 'git-url-parse';
 import { allPass } from 'ramda';
 import { CommandsToPaths } from '../commandsBuilder';
-import { promisify } from 'util';
-const promisifedSpawn = promisify(spawn);
+const promisifedSpawn = (cmd, args, options) => new Promise((resolve, reject) => {
+	const cp = spawn(cmd,args,options);
+	cp.on('error',reject);
+	cp.on('close',resolve);
+});
 // make sure we delete all of the tmp files when the process exit.
 tmp.setGracefulCleanup();
 
@@ -84,15 +87,13 @@ export class GithubTempCloner implements GithubCloner {
 		if (!this.tmpFolderObject) {
 			this.createTempDir();
 		}
-		this.logger('Cloning repository...');
 		await promisifedSpawn('git', [
 			'clone',
 			'--depth=1',
 			this.gitSrc,
 			this.getTempDirPath(),
-		],{stdio:'inherit'});
+		],{stdio:'ignore'});
 		this.isCloned = true;
-		this.logger('Finished cloning repository...');
 		return this.getTempDirPath();
 	}
 
