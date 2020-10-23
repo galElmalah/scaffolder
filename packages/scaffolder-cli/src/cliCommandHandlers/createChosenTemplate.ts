@@ -9,9 +9,10 @@ import {
 	templateTransformer,
 	injector
 } from 'scaffolder-core';
-
+import console from 'console';
+import {spinners} from './spinners';
 export async function createChosenTemplate(availableTemplateCommands: any, chosenTemplate: any, command: any) {
-	const { config, currentCommandTemplate } = templateReader(availableTemplateCommands, chosenTemplate);
+	const { config, currentCommandTemplate, filesCount } = templateReader(availableTemplateCommands, chosenTemplate);
 
 	const {
 		preTemplateGeneration,
@@ -30,11 +31,13 @@ export async function createChosenTemplate(availableTemplateCommands: any, chose
 		targetRoot: command.entryPoint || process.cwd(),
 	};
 
+	spinners.creatingTemplate.start(`Creating "${chosenTemplate}"...`);
 	const templates = templateTransformer(
 		currentCommandTemplate,
 		injector(keyValuePairs, config, globalCtx),
 		globalCtx
 	);
+
 
 	const templatesBuilder = new TemplatesBuilder(templates, chosenTemplate);
 
@@ -55,7 +58,7 @@ export async function createChosenTemplate(availableTemplateCommands: any, chose
 	const writePromise = templatesBuilder.build();
 
 	await Promise.all(writePromise);
-
+	spinners.creatingTemplate.succeed(`Creating "${chosenTemplate}"...\n${filesCount} files have been created.`);
 	showSuccessMessage(chosenTemplate, templatesBuilder.getFullPath());
 	await asyncExecutor(
 		postTemplateGeneration,

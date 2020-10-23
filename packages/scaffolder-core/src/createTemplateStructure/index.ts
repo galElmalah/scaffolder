@@ -54,23 +54,33 @@ export const replaceKeyWithValue = (
 		: keyInitialValue;
 };
 
-export const createTemplateStructure = (folderPath: string): TemplateStructure[] => {
-	const folderContent = fs.readdirSync(folderPath);
-	return folderContent.map((file) => {
-		if (isFolder(folderPath, file)) {
+interface CreateTemplateStructure {
+	templatesStructure:TemplateStructure[], 
+	filesCount: number;
+}
+export const createTemplateStructure = (folderPath: string): CreateTemplateStructure => {
+	let filesCount = 0;
+	const createStructure = (fromPath):TemplateStructure[] => {
+		const folderContent = fs.readdirSync(fromPath);
+		const toTemplateStructure = (aFilePath):TemplateStructure => {
+			filesCount++;
+			if (isFolder(fromPath, aFilePath)) {
+				return {
+					type: TYPES.FOLDER,
+					name: aFilePath,
+					content: createStructure(join(fromPath, aFilePath)),
+					scaffolderTargetRoot: fromPath,
+				};
+			}
 			return {
-				type: TYPES.FOLDER,
-				name: file,
-				content: createTemplateStructure(join(folderPath, file)),
-				scaffolderTargetRoot: folderPath,
+				name: aFilePath,
+				content: fs.readFileSync(join(fromPath, aFilePath)).toString(),
+				scaffolderTargetRoot: fromPath,
 			};
-		}
-		return {
-			name: file,
-			content: fs.readFileSync(join(folderPath, file)).toString(),
-			scaffolderTargetRoot: folderPath,
 		};
-	});
+		return folderContent.map(toTemplateStructure);
+	};
+	return {templatesStructure: createStructure(folderPath), filesCount};
 };
 
 
@@ -79,9 +89,11 @@ export const templateReader = curry((commands,cmd) => {
 		throw new NoMatchingTemplate(cmd);
 	}
 
+	const templates = createTemplateStructure(commands[cmd]);
 	return {
 		config: readConfig(commands[cmd]),
-		currentCommandTemplate: createTemplateStructure(commands[cmd]),
+		currentCommandTemplate: templates.templatesStructure,
+		filesCount: templates.filesCount,
 	};
 });
 
