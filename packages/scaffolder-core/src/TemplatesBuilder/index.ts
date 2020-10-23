@@ -19,13 +19,30 @@ export class TemplatesBuilder {
 	folder: string;
 	cmd: string;
 	entryPoint: string;
+	onFileWrite: (filesWritten: number) => void;
 
-	constructor(templates, cmd?:any) {
+	counter: number;
+	constructor(
+		templates,
+		cmd?: any,
+		onFileWrite?: (filesWritten: number) => void
+	) {
 		this.templates = templates;
 		this.pathPrefix = '';
 		this.folder = '';
 		this.cmd = cmd;
+		this.onFileWrite = onFileWrite;
 		this.entryPoint = process.cwd();
+		this.counter = 0;
+	}
+
+	handleFileWrite = (data) => {
+		this.counter += 1;
+
+		if (this.onFileWrite) {
+			this.onFileWrite(this.counter);
+		}
+		return data;
 	}
 
 	withCustomEntryPoint(entryPoint: string) {
@@ -37,7 +54,6 @@ export class TemplatesBuilder {
 		this.pathPrefix = pathPrefix;
 		return this;
 	}
-
 
 	inAFolder(folderName: string) {
 		this.folder = folderName;
@@ -60,30 +76,39 @@ export class TemplatesBuilder {
 
 	createTemplateFolder(folderDescriptor, root) {
 		return mkdir(join(root, folderDescriptor.name)).then(() => {
-			return Promise.all(folderDescriptor.content.map((descriptor) => {
-				try {
-					if (descriptor.type === TYPES.FOLDER) {
-						return this.createTemplateFolder(
-							descriptor,
-							join(root, folderDescriptor.name)
-						);
+			return Promise.all(
+				folderDescriptor.content.map((descriptor) => {
+					try {
+						if (descriptor.type === TYPES.FOLDER) {
+							return this.createTemplateFolder(
+								descriptor,
+								join(root, folderDescriptor.name)
+							).then(this.handleFileWrite);
+						}
+						return writeFilePromise(
+							join(root, folderDescriptor.name, descriptor.name),
+							descriptor.content
+						)
+							.then(this.handleFileWrite)
+							.catch((e) => console.log('Error::createTemplateFolder::', e));
+					} catch (e) {
+						console.log('Error::createTemplateFolder::', e);
 					}
-					return writeFilePromise(
-						join(root, folderDescriptor.name, descriptor.name),
-						descriptor.content
-					).catch((e) => console.log('Error::createTemplateFolder::', e));
-				} catch (e) {
-					console.log('Error::createTemplateFolder::', e);
-				}
-			}));
+				})
+			);
 		});
 	}
 
-	build():Promise<any>[] {
+	build(): Promise<any>[] {
 		this.createFolderIfNeeded();
 		const promises = [];
 		this.templates.forEach((template) => {
-			const path = join(this.entryPoint, this.pathPrefix, this.folder, template.name);
+			const path = join(
+				this.entryPoint,
+				this.pathPrefix,
+				this.folder,
+				template.name
+			);
 			if (template.type) {
 				promises.push(
 					this.createTemplateFolder(

@@ -1,4 +1,4 @@
-import fs from 'fs-extra';
+import fs from 'fs';
 import { NoMatchingTemplate, MissingKeyValuePairs, MissingFunctionImplementation } from '../Errors';
 import { isFolder, join, TYPES } from '../filesUtils';
 import { applyTransformers } from './applyTransformers';
@@ -54,29 +54,48 @@ export const replaceKeyWithValue = (
 		: keyInitialValue;
 };
 
-export const createTemplateStructure = async (folderPath: string): Promise<TemplateStructure[]> => {
-	const folderContent = await fs.readdir(folderPath);
-	return Promise.all(folderContent.map(async (file) => {
-		if (isFolder(folderPath, file)) {
-			const content = await createTemplateStructure(join(folderPath, file));
+interface CreateTemplateStructure {
+	templatesStructure:TemplateStructure[], 
+	filesCount: number;
+}
+export const createTemplateStructure = (folderPath: string): CreateTemplateStructure => {
+	let filesCount = 0;
+	const createStructure = (fromPath):TemplateStructure[] => {
+		const folderContent = fs.readdirSync(fromPath);
+		const toTemplateStructure = (aFilePath):TemplateStructure => {
+			filesCount++;
+			if (isFolder(fromPath, aFilePath)) {
+				return {
+					type: TYPES.FOLDER,
+					name: aFilePath,
+					content: createStructure(join(fromPath, aFilePath)),
+					scaffolderTargetRoot: fromPath,
+				};
+			}
 			return {
-				type: TYPES.FOLDER,
-				name: file,
-				content,
-				scaffolderTargetRoot: folderPath,
+				name: aFilePath,
+				content: fs.readFileSync(join(fromPath, aFilePath)).toString(),
+				scaffolderTargetRoot: fromPath,
 			};
-		}
-
-		const fileContent = await  fs.readFile(join(folderPath, file),'utf8');
-		return {
-			name: file,
-			content:fileContent,
-			scaffolderTargetRoot: folderPath,
 		};
-	}));
+		return folderContent.map(toTemplateStructure);
+	};
+	return {templatesStructure: createStructure(folderPath), filesCount};
 };
 
 
+export const templateReader = curry((commands,cmd) => {
+	if (!commands[cmd]) {
+		throw new NoMatchingTemplate(cmd);
+	}
+
+	const templates = createTemplateStructure(commands[cmd]);
+	return {
+		config: readConfig(commands[cmd]),
+		currentCommandTemplate: templates.templatesStructure,
+		filesCount: templates.filesCount,
+	};
+});
 
 
 export const templateTransformer = (templateDescriptor: TemplateStructure[], injector, globalCtx) => {

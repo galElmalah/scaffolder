@@ -30,7 +30,9 @@ const expectedTemplate = [
 	},
 ];
 describe('template reader', () => {
-	it('should create a tree structure matching the provided template',async () => {
-		expect(await createTemplateStructure(path.join(__dirname, '/example'))).toEqual(expectedTemplate);
+	it('should create a tree structure matching the provided template', () => {
+		const {templatesStructure, filesCount} = createTemplateStructure(path.join(__dirname, '/example'));
+		expect(templatesStructure).toEqual(expectedTemplate);
+		expect(filesCount).toBe(4);
 	});
 });
