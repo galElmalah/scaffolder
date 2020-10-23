@@ -1,6 +1,6 @@
 {
   "name": "scaffolder-cli",
-  "version": "1.6.23",
+  "version": "1.6.24",
   "bin": {
     "scaff": "./dist/cli.js"
   },
@@ -30,6 +30,7 @@
     "babel-jest": "^26.5.2",
     "eslint": "^7.5.0",
     "jest": "^26.4.2",
+    "nock": "^13.0.4",
     "rimraf": "^2.6.3",
     "typescript": "^4.0.3"
   },
@@ -38,7 +39,8 @@
     "commander": "^2.20.3",
     "fs-extra": "^9.0.1",
     "inquirer": "^6.5.0",
-    "scaffolder-core": "^1.6.23",
+    "ora": "^5.1.0",
+    "scaffolder-core": "^1.6.24",
     "tmp": "^0.2.1"
   },
   "keywords": [

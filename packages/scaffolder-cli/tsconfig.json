@@ -4,5 +4,5 @@
     "outDir": "./dist",
     "esModuleInterop": true,
   },
-  "files": ["cli.ts"],
+  "files": ["cli.ts", "./src/cliCommandHandlers/getChosenTemplate.ts", "./src/cliCommandHandlers/createChosenTemplate.ts"],
 }

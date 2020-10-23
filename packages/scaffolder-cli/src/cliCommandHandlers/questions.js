@@ -1,5 +1,5 @@
 import inquirer from 'inquirer';
-import {getAllKeys, extractKey} from 'scaffolder-core';
+import { getAllKeys, extractKey } from 'scaffolder-core';
 
 const QUESTIONS = {
 	TEMPLATES: {
@@ -10,7 +10,7 @@ const QUESTIONS = {
 };
 
 
-const chooseTemplate = (commands) => {
+export const chooseTemplate = (commands) => {
 	const choices = Object.keys(commands);
 	return inquirer.prompt([
 		{
@@ -20,29 +20,29 @@ const chooseTemplate = (commands) => {
 	]);
 };
 
-const getQuestionMessage = (parametersOptions = {}, key) => {
+export const getQuestionMessage = (parametersOptions = {}, key) => {
 	return (
 		(parametersOptions[key] && parametersOptions[key].question) ||
-    `Enter a value for the following parameter "${key}"`
+		`Enter a value for the following parameter "${key}"`
 	);
 };
 
-const getValidationFunction = (parametersOptions = {}, key) => {
+export const getValidationFunction = (parametersOptions = {}, key) => {
 	const validationFn = parametersOptions[key] && parametersOptions[key].validation;
-	if(!validationFn) {
+	if (!validationFn) {
 		return;
 	}
 	return validationFn;
 
 };
 
-const extractAllKeysFromTemplate = (currentCommandTemplate) => {
+export const extractAllKeysFromTemplate = (currentCommandTemplate) => {
 	const keySet = new Set();
 	const keys = getAllKeys(currentCommandTemplate, keySet);
 	return keys.filter(Boolean);
 };
 
-const getKeysValues = (currentCommandTemplate, parametersOptions) => {
+export const getKeysValues = (currentCommandTemplate, parametersOptions) => {
 	const questions = extractAllKeysFromTemplate(currentCommandTemplate).map((key) => {
 		const cleanKey = extractKey(key);
 		return {
@@ -56,28 +56,18 @@ const getKeysValues = (currentCommandTemplate, parametersOptions) => {
 };
 
 // eslint-disable-next-line no-useless-escape
-const isAValidGithubSource= (src) => /(?:git|ssh|https?|git@[-\w.]+):(\/\/)?(.*?)(\.git)(\/?|\#[-\d\w._]+?)$/.test(src);
+export const isAValidGithubSource = (src) => /(?:git|ssh|https?|git@[-\w.]+):(\/\/)?(.*?)(\.git)(\/?|\#[-\d\w._]+?)$/.test(src);
 
-const getRepositorySource = () => {
+export const getRepositorySource = () => {
 	return inquirer.prompt({
 		type: 'input',
 		name: 'repositorySource',
 		message: 'Enter the src of the repository you want to consume templates from:',
 		validate: (src) => {
-			if(!isAValidGithubSource(src)) {
+			if (!isAValidGithubSource(src)) {
 				return 'Invalid github source';
 			}
 			return true;
 		}
 	});
-};
-
-module.exports = {
-	getRepositorySource,
-	getKeysValues,
-	chooseTemplate,
-	getQuestionMessage,
-	extractAllKeysFromTemplate,
-	getValidationFunction,
-	isAValidGithubSource
 };
