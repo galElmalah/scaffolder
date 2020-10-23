@@ -7,7 +7,8 @@
     "test": "lerna run test",
     "version": "lerna version --conventional-commits",
     "publish": "lerna publish from-package",
-    "lint": "eslint packages/scaffolder-cli packages/scaffolder-core"
+    "lint": "eslint packages/scaffolder-cli packages/scaffolder-core",
+    "publish-extension": "lerna run --scope scaffolder-vscode publish"
   },
   "devDependencies": {
     "@babel/core": "^7.12.0",
