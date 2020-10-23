@@ -70,7 +70,7 @@
     "lint": "eslint src --ext ts",
     "watch": "tsc -watch -p ./",
     "pretest": "npm run compile && npm run lint",
-    "publish": "vsce publish"
+    "publish": "npm run vscode:prepublish && vsce publish"
   },
   "devDependencies": {
     "@types/glob": "^7.1.1",
@@ -89,5 +89,6 @@
   },
   "dependencies": {
     "scaffolder-core": "^1.6.24"
-  }
+  },
+  "gitHead": "15e02d3d29016642d738e961a1abb07a8b1c5817"
 }
