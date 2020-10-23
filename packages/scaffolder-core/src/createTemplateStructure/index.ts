@@ -1,4 +1,4 @@
-import fs from 'fs';
+import fs from 'fs-extra';
 import { NoMatchingTemplate, MissingKeyValuePairs, MissingFunctionImplementation } from '../Errors';
 import { isFolder, join, TYPES } from '../filesUtils';
 import { applyTransformers } from './applyTransformers';
@@ -54,36 +54,29 @@ export const replaceKeyWithValue = (
 		: keyInitialValue;
 };
 
-export const createTemplateStructure = (folderPath: string): TemplateStructure[] => {
-	const folderContent = fs.readdirSync(folderPath);
-	return folderContent.map((file) => {
+export const createTemplateStructure = async (folderPath: string): Promise<TemplateStructure[]> => {
+	const folderContent = await fs.readdir(folderPath);
+	return Promise.all(folderContent.map(async (file) => {
 		if (isFolder(folderPath, file)) {
+			const content = await createTemplateStructure(join(folderPath, file));
 			return {
 				type: TYPES.FOLDER,
 				name: file,
-				content: createTemplateStructure(join(folderPath, file)),
+				content,
 				scaffolderTargetRoot: folderPath,
 			};
 		}
+
+		const fileContent = await  fs.readFile(join(folderPath, file),'utf8');
 		return {
 			name: file,
-			content: fs.readFileSync(join(folderPath, file)).toString(),
+			content:fileContent,
 			scaffolderTargetRoot: folderPath,
 		};
-	});
+	}));
 };
 
 
-export const templateReader = curry((commands,cmd) => {
-	if (!commands[cmd]) {
-		throw new NoMatchingTemplate(cmd);
-	}
-
-	return {
-		config: readConfig(commands[cmd]),
-		currentCommandTemplate: createTemplateStructure(commands[cmd]),
-	};
-});
 
 
 export const templateTransformer = (templateDescriptor: TemplateStructure[], injector, globalCtx) => {
