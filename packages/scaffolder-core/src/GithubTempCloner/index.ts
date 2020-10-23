@@ -40,7 +40,6 @@ export class GithubTempCloner implements GithubCloner {
 		src && this.setSrc(src);
 		this.logger = logger;
 		this.tmpFolderObject = null;
-		this.tempDirPath = '';
 		this.isCloned = false;
 	}
 
@@ -87,6 +86,7 @@ export class GithubTempCloner implements GithubCloner {
 		if (!this.tmpFolderObject) {
 			this.createTempDir();
 		}
+
 		await promisifedSpawn('git', [
 			'clone',
 			'--depth=1',

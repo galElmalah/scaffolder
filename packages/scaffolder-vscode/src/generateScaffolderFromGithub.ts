@@ -20,19 +20,24 @@ export const generateScaffolderFromGithub = async (generateTo: string = "") => {
       validateInput: validationAdapter(isAValidGithubSource),
     });
   };
+  const gitCloner = new GithubTempCloner('', logger.log);
+
 
   try {
     const githubSrc = await chooseGithubSource();
-
     if (!githubSrc) {
       return;
     }
+    gitCloner.setSrc(githubSrc);
 
-    const gitCloner = new GithubTempCloner(githubSrc, logger.log);
-    vscode.window.showInformationMessage("cloning repository...");
-    const githubTempFolderPath = gitCloner.clone();
+    vscode.window.showInformationMessage("Cloning repository...");
+    const githubTempFolderPath = await gitCloner.clone();
+    logger.log(JSON.stringify(gitCloner.getTempDirPath()));
+    vscode.window.showInformationMessage("Finished cloning repository...");
     generateScaffolderTemplate(githubTempFolderPath, generateTo);
   } catch (e) {
+    logger.log(JSON.stringify(gitCloner.getTempDirPath()));
+
     logger.log(e);
   }
 };

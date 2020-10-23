@@ -60,6 +60,7 @@ export const generateScaffolderTemplate = async (
       chosenTemplate
     ).withCustomEntryPoint(generateTo);
 
+    
     await asyncExecutor(
       preTemplateGeneration,
       () =>
