@@ -13,6 +13,7 @@
 [![npm version](https://badge.fury.io/js/scaffolder-cli.svg)](https://badge.fury.io/js/scaffolder-cli)
 [![GalElmalah](https://circleci.com/gh/galElmalah/scaffolder.svg?style=svg)](https://app.circleci.com/pipelines/github/galElmalah/scaffolder)
 [![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lerna.js.org/)
+[![vscode extension](https://vsmarketplacebadge.apphb.com/version-short/ctf-vscode.scaffolder-vscode.svg)](https://marketplace.visualstudio.com/items?itemName=ctf-vscode.scaffolder-vscode)
 
 </div>
 
