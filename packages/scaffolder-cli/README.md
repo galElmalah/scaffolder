@@ -6,7 +6,7 @@
 
 </div>
 
-<h3 align="center">Scaffolder</h3>
+<h1 align="center">Scaffolder CLI</h1>
 
 <div align="center">
 
@@ -15,12 +15,6 @@
 
 </div>
 
----
-
-<p align="center"> 
- Scaffolder CLI
-  <br> 
-</p>
 
 ---
 
