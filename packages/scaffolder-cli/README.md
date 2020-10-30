@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![Scaffolder logo](../images/scaffolder-logo.png)  
+![Scaffolder logo](../../images/scaffolder-logo.png)  
 
 </div>
 
@@ -18,18 +18,13 @@
 ---
 
 <p align="center"> 
-  Copy pasting is hard and prone to mistakes.<br/>
-  Keeping your project file structure consistent is annoying.<br/>
-  Sharing templates is too damn complicated!<br/>
-  This is where Scaffolder come in.
+ Scaffolder CLI
   <br> 
 </p>
 
 ---
 
 **For a brief introduction and motivation for this tool, [read this](https://dev.to/galelmalah/what-is-scaffolder-and-how-you-can-use-it-to-increase-your-team-dev-velocity-558l).**
-
-**check out the [vscode extension](https://github.com/galElmalah/scaffolder-vscode)**
 
 ---
 
