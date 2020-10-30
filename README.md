@@ -6,7 +6,7 @@
 
 </div>
 
-<h3 align="center">Scaffolder</h3>
+<h1 align="center">Scaffolder</h1>
 
 <div align="center">
 
@@ -16,7 +16,6 @@
 
 </div>
 
----
 
 <p align="center"> 
   Copy pasting is hard and prone to mistakes.<br/>
@@ -26,7 +25,6 @@
   <br> 
 </p>
 
----
 
 **For a brief introduction and motivation for this tool, [read this](https://dev.to/galelmalah/what-is-scaffolder-and-how-you-can-use-it-to-increase-your-team-dev-velocity-558l).**
 
