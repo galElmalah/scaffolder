@@ -5,8 +5,9 @@ import { spinners } from './spinners';
 import { githubFlow } from './interactiveGithubFlow';
 import { getChosenTemplate } from './getChosenTemplate';
 import { createChosenTemplate } from './createChosenTemplate';
+import {Command} from 'commander';
 
-export const interactiveCreateCommandHandler = async (command) => {
+export const interactiveCreateCommandHandler = async (command: Command) => {
 	const gitCloner = new GithubTempCloner();
 
 	try {
