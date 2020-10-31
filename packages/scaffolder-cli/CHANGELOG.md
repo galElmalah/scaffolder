@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.7.0](https://github.com/galElmalah/scaffolder/compare/scaffolder-cli@1.6.25...scaffolder-cli@1.7.0) (2020-10-31)
+
+
+### Features
+
+* **Cli:** Improve from github UX and double fetching ([7c5f115](https://github.com/galElmalah/scaffolder/commit/7c5f1151e73cc728ac168139d93528d965ca4331))
+* **Cli:** Support passing a github source to --from-github ([69f748b](https://github.com/galElmalah/scaffolder/commit/69f748b4e0750cf3589b6bc84d4840a86e626605))
+
+
+
+
+
 ## [1.6.25](https://github.com/galElmalah/scaffolder/compare/scaffolder-cli@1.6.24...scaffolder-cli@1.6.25) (2020-10-23)
 
 **Note:** Version bump only for package scaffolder-cli

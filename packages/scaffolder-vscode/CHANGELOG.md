@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.20.0](https://github.com/galElmalah/scaffolder-vscode/compare/scaffolder-vscode@0.19.4...scaffolder-vscode@0.20.0) (2020-10-31)
+
+
+### Features
+
+* **Cli:** Support passing a github source to --from-github ([69f748b](https://github.com/galElmalah/scaffolder-vscode/commit/69f748b4e0750cf3589b6bc84d4840a86e626605))
+
+
+
+
+
 ## [0.19.4](https://github.com/galElmalah/scaffolder-vscode/compare/scaffolder-vscode@0.19.3...scaffolder-vscode@0.19.4) (2020-10-23)
 
 **Note:** Version bump only for package scaffolder-vscode
