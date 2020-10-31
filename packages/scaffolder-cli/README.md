@@ -168,8 +168,8 @@ Run Scaffolder in interactive mode, meaning, it will prompt the user to choose a
 > This command is the most recommended one as it simplifies the process for the user a lot.
 
 **options:**
-- _--from-github_  
-  Passing this flag will cause a prompt to appear, asking the user to enter a github repository (https/ssh) and consume the templates defined on that repository.  
+- _--from-github_  _\<?repositorySource>_   
+  Passing this flag **without** `repositorySource` will cause a prompt to appear, asking the user to enter a github repository (https/ssh) and consume the templates defined on that repository.
   More info about [sharing templates](#sharing-templates).
 - _--entry-point_ _\<absolutePath>_  
   Generate the template to a specified location.
