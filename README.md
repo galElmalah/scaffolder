@@ -19,7 +19,7 @@
 
 
 <p align="center"> 
-  Copy pasting is hard and prone to mistakes.<br/>
+  Copy pasting is prone to mistakes.<br/>
   Keeping your project file structure consistent is annoying.<br/>
   Sharing templates is too damn complicated!<br/>
   This is where Scaffolder come in.
