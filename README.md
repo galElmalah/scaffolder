@@ -199,7 +199,10 @@ Run Scaffolder in interactive mode, meaning, it will prompt the user to choose a
 - _--entry-point_ _\<absolutePath>_  
   Generate the template to a specified location.
 - _--path-prefix_ _\<relativePath>_  
-  Path that will be appended the the location the script is generated into.
+  Path that will be appended the the location the template is generated into.
+  > If the path does not exists Scaffolder will automatically create it and notify the user what paths were created for him.
+
+  For example: `<entry-point>/<path-prefix>/<template-will-be-created-here>`
 - _--template_ _\<templateName>_  
   Start the interactive mode with a preselected template.
 
@@ -214,7 +217,10 @@ _\<templateName>_: One of the templates defined in the **scaffolder** folder. <b
 - _--entry-point_ _\<absolutePath>_  
   Generate the template to a specified location.
 - _--path-prefix_ _\<relativePath>_  
-  Path that will be appended the the location the script is generated into.
+  Path that will be appended the the location the template is generated into.
+  > If the path does not exists Scaffolder will automatically create it and notify the user what paths were created for him.
+
+  For example: `<entry-point>/<path-prefix>/<template-will-be-created-here>`
 - _--folder, -f_ _\<folderName>_  
   _\<folderName>_: The name of the folder you want the template to be generated into. If none is supplied the template will be generated to the current working directory.
 - _\<parameter>=\<value>_  
