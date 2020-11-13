@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.8.0](https://github.com/galElmalah/scaffolder/compare/scaffolder-cli@1.7.0...scaffolder-cli@1.8.0) (2020-11-13)
+
+
+### Features
+
+* **Core,Cli:** Better path-prefix support ([3424e15](https://github.com/galElmalah/scaffolder/commit/3424e15c7ae543f63e034d6ae8567f08f95383ed)), closes [#33](https://github.com/galElmalah/scaffolder/issues/33)
+
+
+
+
+
 # [1.7.0](https://github.com/galElmalah/scaffolder/compare/scaffolder-cli@1.6.25...scaffolder-cli@1.7.0) (2020-10-31)
 
 

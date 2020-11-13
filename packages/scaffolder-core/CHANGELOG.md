@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.7.0](https://github.com/galElmalah/ctf/compare/scaffolder-core@1.6.26...scaffolder-core@1.7.0) (2020-11-13)
+
+
+### Features
+
+* **Core,Cli:** Better path-prefix support ([3424e15](https://github.com/galElmalah/ctf/commit/3424e15c7ae543f63e034d6ae8567f08f95383ed)), closes [#33](https://github.com/galElmalah/ctf/issues/33)
+
+
+
+
+
 ## [1.6.26](https://github.com/galElmalah/ctf/compare/scaffolder-core@1.6.25...scaffolder-core@1.6.26) (2020-10-31)
 
 **Note:** Version bump only for package scaffolder-core
