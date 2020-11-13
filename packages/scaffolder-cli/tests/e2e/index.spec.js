@@ -55,7 +55,7 @@ describe('e2e', () => {
 		cleanUp('generatedInPostHook');
 		cleanUp('generatedInPreHook');
 		cleanUp('prefix/not-nested');
-
+		cleanUp('prefix/not-existing');
 	});
 
 	it('should create the template with the prefix provided', () => {
@@ -84,7 +84,7 @@ describe('e2e', () => {
 		).toBeTruthy();
 	});
 
-	it('should create the missing directories in the prefix-path', () => {
+	it('should create the missing directories in the prefix-path if they are not created yet', () => {
 		execOnTestDir(
 			'create not-nested key1=awesome key5=awesome --folder not-nested --path-prefix prefix/not-existing'
 		);

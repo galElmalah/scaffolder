@@ -1,3 +1,0 @@
-should have AWESOME
-should have {"templateName":"not-nested","templateRoot":"/Users/gale/Desktop/projects/scaffolder/packages/scaffolder-cli/tests/scaffolder/not-nested","parametersValues":{"key1":"awesome","key5":"awesome"},"targetRoot":"/Users/gale/Desktop/projects/scaffolder/packages/scaffolder-cli/tests/e2e/results","fileName":"{{key1 | toUpper}}.js","type":"FILE_CONTENT","currentFilePath":"/Users/gale/Desktop/projects/scaffolder/packages/scaffolder-cli/tests/e2e/results/not-nested"}
-date:13
