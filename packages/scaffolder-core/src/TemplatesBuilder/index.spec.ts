@@ -41,4 +41,14 @@ describe('TemplatesBuilder', () => {
 			expect(p).toBeInstanceOf(Promise);
 		});
 	});
+
+	it('should create the missing path parts', () => {
+		const folder = 'add/here';
+		(existsSync as jest.Mock).mockReturnValue(false);
+		const templateBuilder = new TemplatesBuilder([]);
+		templateBuilder.withPathPrefix(folder).build();
+		console.log(join(process.cwd(), folder));
+		expect(mkdirSync).toHaveBeenCalledWith(join(process.cwd(), 'add'));
+		expect(mkdirSync).toHaveBeenCalledWith(join(process.cwd(), folder));
+	});
 });

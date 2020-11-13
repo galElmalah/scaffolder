@@ -84,6 +84,13 @@ describe('e2e', () => {
 		).toBeTruthy();
 	});
 
+	it('should create the missing directories in the prefix-path', () => {
+		execOnTestDir(
+			'create not-nested key1=awesome key5=awesome --folder not-nested --path-prefix prefix/not-existing'
+		);
+		expect(isFolderExists('prefix/not-existing/not-nested')).toBeTruthy();
+	});
+
 	it('should create the template with the right values as keys', () => {
 		execOnTestDir(
 			'create not-nested key1=awesome key5=awesome --folder not-nested'

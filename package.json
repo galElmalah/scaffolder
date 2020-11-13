@@ -4,7 +4,7 @@
   "scripts": {
     "bootstrap": "lerna bootstrap --hoist",
     "build": "tsc -b packages/scaffolder-cli packages/scaffolder-core",
-    "test": "lerna run test",
+    "test": "npm run build && lerna run test --stream",
     "version": "lerna version --conventional-commits",
     "publish": "lerna publish from-package",
     "lint": "eslint packages/scaffolder-cli packages/scaffolder-core",

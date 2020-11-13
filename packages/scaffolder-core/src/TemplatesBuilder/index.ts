@@ -2,6 +2,8 @@ import fs from 'fs';
 import { mkdir } from 'fs-extra';
 import { FolderAlreadyExists } from '../Errors';
 import { join, TYPES } from '../filesUtils';
+import {path as pathColor, boldGreen, bold} from '../cliHelpers/colors';
+import {createMissingFoldersInPath} from './createMissingFoldersInPath';
 
 const writeFilePromise = (path: string, content: string) =>
 	new Promise((resolve, reject) => {
@@ -42,6 +44,7 @@ export class TemplatesBuilder {
 		if (this.onFileWrite) {
 			this.onFileWrite(this.counter);
 		}
+
 		return data;
 	}
 
@@ -60,7 +63,12 @@ export class TemplatesBuilder {
 		return this;
 	}
 
-	createFolderIfNeeded() {
+	createMissingPathPartsIfNeeded() {
+		this.createMissingPathPrefixFolders();
+		this.createContainingFolder();
+	}
+
+	private createContainingFolder() {
 		if (this.folder) {
 			const newFolderPath = this.getFullPath();
 			if (fs.existsSync(newFolderPath)) {
@@ -72,6 +80,22 @@ export class TemplatesBuilder {
 			}
 			fs.mkdirSync(newFolderPath);
 		}
+	}
+
+	private createMissingPathPrefixFolders() {
+		const missingPaths = createMissingFoldersInPath(this.entryPoint, this.pathPrefix);
+		if (missingPaths.length) {
+			this.logMissingFoldersInPrefixPathDetected(missingPaths);
+		}
+	}
+
+	private logMissingFoldersInPrefixPathDetected(missingPaths) {
+		const colorEndOfPath = (path) => {
+			const [last, ...restOfPath] = path.split('/').reverse();
+			return `${restOfPath.reverse().join('/')}/${boldGreen(last)}`;
+		};
+		const missingPathsString = missingPaths.reduce((paths, path) => `${paths}\n${colorEndOfPath(path)}`, '');
+		console.log(bold(`Scaffolder Detected that your prefix path (${pathColor(this.pathPrefix)}) contains non existing folders and will automatically create them for you.`), missingPathsString);
 	}
 
 	createTemplateFolder(folderDescriptor, root) {
@@ -100,7 +124,7 @@ export class TemplatesBuilder {
 	}
 
 	build(): Promise<any>[] {
-		this.createFolderIfNeeded();
+		this.createMissingPathPartsIfNeeded();
 		const promises = [];
 		this.templates.forEach((template) => {
 			const path = join(

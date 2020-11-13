@@ -1,7 +1,7 @@
 import * as path from 'path';
 import { createTemplateStructure } from '../index';
 
-const expectedTemplate = [
+const expectedTemplateStructure = [
 	{
 		content: '',
 		name: 'another.js',
@@ -29,10 +29,11 @@ const expectedTemplate = [
 		type: 'FOLDER',
 	},
 ];
+
 describe('template reader', () => {
 	it('should create a tree structure matching the provided template', () => {
 		const {templatesStructure, filesCount} = createTemplateStructure(path.join(__dirname, '/example'));
-		expect(templatesStructure).toEqual(expectedTemplate);
+		expect(templatesStructure).toEqual(expectedTemplateStructure);
 		expect(filesCount).toBe(4);
 	});
 });
