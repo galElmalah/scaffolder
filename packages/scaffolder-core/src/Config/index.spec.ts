@@ -1,13 +1,13 @@
 import {Config} from '.';
 import {defaultConfig} from '../configHelpers';
-const configObject = require('./fixtures/validConfig.js');
-const getConfig = (overrides:any = {}) => ({...defaultConfig(), ...overrides});
+import configObject from './fixtures/validConfig';
+export const getConfigObject = (overrides:any = {}) => ({...defaultConfig(), ...overrides});
 
 describe('Config', () => {
 
 	describe('Config validations', () => {
 		it('should not have any errors with he default config', () => {
-			const errors = new Config(getConfig()).getSchemaErrors();
+			const errors = new Config(getConfigObject()).getSchemaErrors();
 			expect(errors).toHaveLength(0);
 		});
 	
@@ -17,19 +17,19 @@ describe('Config', () => {
 		});
 	
 		it('should assert that the parametersOptions have the right types', () => {
-			const aConfigObject = getConfig({parametersOptions:{yo:'yo'}});
+			const aConfigObject = getConfigObject({parametersOptions:{yo:'yo'}});
 			const errors = new Config(aConfigObject).getSchemaErrors();
 			expect(errors[0]).toEqual(expect.stringContaining('parametersOptions'));
 		});
 	
 		it('should assert that the transformers have the right types', () => {
-			const aConfigObject = getConfig({transformers: {gal:'not a function'}});
+			const aConfigObject = getConfigObject({transformers: {gal:'not a function'}});
 			const errors = new Config(aConfigObject).getSchemaErrors();
 			expect(errors[0]).toEqual(expect.stringContaining('transformers'));
 		});
 
 		it('should assert first level options', () => {
-			const aConfigObject = getConfig({transformers: '', functions: '', parametersOptions: ''});
+			const aConfigObject = getConfigObject({transformers: '', functions: '', parametersOptions: ''});
 			const errors = new Config(aConfigObject).getSchemaErrors();
 			expect(errors.some(e => e.includes('transformers'))).toBeTruthy();
 			expect(errors.some(e => e.includes('functions'))).toBeTruthy();
@@ -37,19 +37,19 @@ describe('Config', () => {
 		});
 
 		it('should detect transformers errors scoped to specific templates', () => {
-			const errors = new Config(getConfig({templatesOptions:{someTemplate: {transformers: {l:'not a function'}} }})).getSchemaErrors();
+			const errors = new Config(getConfigObject({templatesOptions:{someTemplate: {transformers: {l:'not a function'}} }})).getSchemaErrors();
 			expect(errors).toHaveLength(1);
 		});
 
 		it('should detect hooks errors scoped to specific templates', () => {
-			const errors = new Config(getConfig({templatesOptions:{someTemplate: {hooks: {l:'not a function'}} }})).getSchemaErrors();
+			const errors = new Config(getConfigObject({templatesOptions:{someTemplate: {hooks: {l:'not a function'}} }})).getSchemaErrors();
 			expect(errors).toHaveLength(1);
 		});
 
 
 		describe('validateConfig', () => {
 			it('should throw an error when validating invalid config', () => {
-				const aConfigObject = getConfig({transformers: {gal:'not a function'}, functions: {f:''},parametersOptions:{yo:'yo'}});
+				const aConfigObject = getConfigObject({transformers: {gal:'not a function'}, functions: {f:''},parametersOptions:{yo:'yo'}});
 				expect(() => new Config(aConfigObject).validateConfig()).toThrowError();
 			});
 
@@ -58,7 +58,7 @@ describe('Config', () => {
 			});
 
 			it('should NOT throw an error when validating default config', () => {
-				expect(() => new Config(getConfig()).validateConfig()).not.toThrowError();
+				expect(() => new Config(getConfigObject()).validateConfig()).not.toThrowError();
 			});
 		});
 

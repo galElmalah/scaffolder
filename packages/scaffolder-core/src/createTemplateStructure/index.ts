@@ -5,6 +5,7 @@ import { applyTransformers } from './applyTransformers';
 import { Context } from '../configHelpers/config';
 import { readConfig } from '../configHelpers';
 import { curry } from 'ramda';
+import { IConfig } from '../Config';
 
 
 
@@ -26,19 +27,19 @@ export const getKeyAndTransformers = (initialKey) =>
 		.map((_) => _.trim());
 
 export const replaceKeyWithValue = (
-	keyValuePairs,
-	transformersMap,
-	functionsMap,
+	keyValuePairs: { [x: string]: any; },
+	config:IConfig,
 	ctx: Context
 ) => (match) => {
 	if (isAFunctionKey(match)) {
 		const functionKey = extractKey(match).replace(/\(|\)/g, '');
-		if (!(functionKey in functionsMap)) {
+		const scaffolderFunction  = config.get.function(functionKey);
+		if (!scaffolderFunction) {
 			throw new MissingFunctionImplementation({
 				functionKey
 			});
 		}
-		return functionsMap[functionKey](ctx);
+		return scaffolderFunction(ctx);
 	}
 
 	const [key, ...transformersKeys] = getKeyAndTransformers(match);
@@ -50,7 +51,7 @@ export const replaceKeyWithValue = (
 	const keyInitialValue = keyValuePairs[key];
 
 	return transformersKeys
-		? applyTransformers(keyInitialValue, transformersMap, transformersKeys, ctx)
+		? applyTransformers(keyInitialValue, config, transformersKeys, ctx)
 		: keyInitialValue;
 };
 
@@ -142,7 +143,7 @@ export const keyPatternString = '{{s*[a-zA-Z_|0-9- ()]+s*}}';
 
 export const injector = (
 	keyValuePairs,
-	{ transformers = {}, functions = {} } = {},
+	config: IConfig,
 	globalCtx
 ) => (text, localCtx) => {
 	const ctx = {
@@ -151,8 +152,7 @@ export const injector = (
 	const keyPattern = new RegExp(keyPatternString, 'g');
 	const replacer = replaceKeyWithValue(
 		keyValuePairs,
-		transformers,
-		functions,
+		config,
 		ctx
 	);
 	const transformedText = text.replace(keyPattern, replacer);

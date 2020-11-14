@@ -1,6 +1,9 @@
 import { Config } from './config';
 import fs from 'fs';
 
+// TODO: deprectae this file!
+
+
 export const getQuestionMessage = (
 	parametersOptions = {},
 	key: string

@@ -21,7 +21,7 @@ export class TemplatesBuilder {
 	folder: string;
 	cmd: string;
 	entryPoint: string;
-	onFileWrite: (filesWritten: number) => void;
+	onFileWrite?: (filesWritten: number) => void;
 
 	counter: number;
 	constructor(
@@ -135,6 +135,8 @@ export class TemplatesBuilder {
 			);
 			if (template.type) {
 				promises.push(
+					// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+					//@ts-ignore
 					this.createTemplateFolder(
 						template,
 						join(this.entryPoint, this.pathPrefix, this.folder)
@@ -142,6 +144,8 @@ export class TemplatesBuilder {
 				);
 				return;
 			}
+			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+			//@ts-ignore
 			promises.push(writeFilePromise(path, template.content));
 		});
 		return promises;

@@ -9,7 +9,7 @@ export const SEARCH_DEPTH_LIMIT = 25;
 
 
 export const templatePathsFinder = (currentPath) => {
-	const pathsQueue = [];
+	const pathsQueue: string[] = [];
 	const pathRoot = path.parse(currentPath).root;
 	const isEndOfPath = (_path) => _path === pathRoot || _path === '/' || _path === '' || _path === './';
 	const shouldStopSearching = (_path, depth) => isEndOfPath(_path) || depth === SEARCH_DEPTH_LIMIT;
@@ -73,7 +73,7 @@ export const readTemplatesFromPaths =  (paths: string[]): CommandsToPaths => {
  * @param {string} currentPath Initial path to start searching from for scaffolder folders.
  * @returns {Object<string, string>} Mapping between each available template and the path the template is located at.
  */
-export const commandsBuilder = (currentPath: string) => {
+export const commandsBuilder = (currentPath: string): { [s: string]: string; } => {
 	const scaffolderPaths = templatePathsFinder(currentPath);
 	return readTemplatesFromPaths(scaffolderPaths);
 };

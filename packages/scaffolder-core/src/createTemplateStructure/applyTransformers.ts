@@ -1,15 +1,16 @@
 import { MissingTransformerImplementation } from '../Errors';
 import { defaultTransformers } from './defaultTransformers';
 import { trim } from 'ramda';
+import { IConfig } from '../Config';
 
 export const removeTransformationsFromKey = (key = '') => {
 	return key.replace(/\|.*/g, '}}').replace(/\s*/g, '');
 };
 
 
-const toValueAfterTransformations = (transformersMap,ctx) => (currValue, nextTransformerKey) => {
+const toValueAfterTransformations = (config: IConfig, ctx) => (currValue, nextTransformerKey) => {
 	const transformerFunction =
-		transformersMap[nextTransformerKey] ||
+		config.get.transformer(nextTransformerKey) ||
 		defaultTransformers[nextTransformerKey];
 	if (!transformerFunction) {
 		throw new MissingTransformerImplementation({
@@ -21,13 +22,13 @@ const toValueAfterTransformations = (transformersMap,ctx) => (currValue, nextTra
 
 export const applyTransformers = (
 	initialValue,
-	transformersMap,
+	config:IConfig,
 	transformersKeys,
 	ctx
 ) => {
 	return transformersKeys
 		.map(trim)
-		.reduce(toValueAfterTransformations(transformersMap,ctx), initialValue);
+		.reduce(toValueAfterTransformations(config, ctx), initialValue);
 };
 
 export default {
