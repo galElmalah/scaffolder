@@ -29,8 +29,8 @@ export interface ParameterOptions {
 }
 
 export interface Hooks {
-  preTemplateGeneration: (context: Context) => any | Promise<any>;
-  postTemplateGeneration: (context: Context) => any | Promise<any>;
+  preTemplateGeneration?: (context: Context) => any | Promise<any>;
+  postTemplateGeneration?: (context: Context) => any | Promise<any>;
 }
 
 // this interface should extend a common options interface with transformers. function and parameters options

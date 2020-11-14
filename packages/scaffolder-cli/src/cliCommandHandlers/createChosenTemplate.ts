@@ -4,13 +4,12 @@ import {
 	asyncExecutor,
 	getTemplateHooksFromConfig,
 	TemplatesBuilder,
-
 	templateReader,
 	templateTransformer,
 	injector
 } from 'scaffolder-core';
-import console from 'console';
 import {spinners} from './spinners';
+
 export async function createChosenTemplate(availableTemplateCommands: any, chosenTemplate: any, command: any) {
 	const { config, currentCommandTemplate, filesCount } = templateReader(availableTemplateCommands, chosenTemplate);
 

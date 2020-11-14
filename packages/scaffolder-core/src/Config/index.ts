@@ -1,74 +1,108 @@
+import { Dictionary } from '../configHelpers/config';
 import {
-	Dictionary,
 	ParameterOptions,
 	ScaffolderTransformer,
 	ScaffolderFunction,
+	Hooks,
 } from '../configHelpers/config';
+import { ConfigSchema, errorMap } from './Schema';
+import * as z from 'zod';
 
-interface ConfigGetters {
-	parameterOptions(parameter: string): ParameterOptions;
-	transformer(transformer: string): ScaffolderTransformer;
-	function(aFunction: string): ScaffolderFunction;
+export interface ConfigGetters {
+  parameterOptions(parameter: string): ParameterOptions;
+  transformer(transformer: string): ScaffolderTransformer;
+  function(aFunction: string): ScaffolderFunction;
+  hooks(): Hooks;
 }
 
 interface IConfig {
-	forTemplate(templateName: string): IConfig;
-	get: ConfigGetters;
+  forTemplate(templateName: string): IConfig;
+  get: ConfigGetters;
+  validateConfig: () => void;
 }
 
-type ScopedProps = 'parametersOptions' | 'transformers' | 'functions';
+type ScopedProps = 'parametersOptions' | 'transformers' | 'functions' | 'hooks';
 
 export class Config implements IConfig {
-	private configJson: Dictionary<any>;
-	private templateName: string;
-	constructor(configJson: Dictionary<any>) {
-		this.configJson = configJson;
-	}
+  private configJson: Dictionary<any>;
+  private templateName: string;
+  private parsedSchemaResult: { success: boolean; error?: z.ZodError };
 
-	forTemplate(templateName: string) {
-		this.templateName = templateName;
-		return this;
-	}
+  constructor(configJson: Dictionary<any>) {
+  	this.configJson = configJson;
+  	this.parsedSchemaResult = ConfigSchema.safeParse(this.configJson, {
+  		errorMap,
+  	});
+  }
 
-	private getFromTemplateScope(prop: ScopedProps, field: string) {
-		const hasTemplateOptions = this.configJson.templatesOptions[
-			this.templateName
-		];
-		if (!hasTemplateOptions) {
-			return;
-		}
-		const hasPropOptions = this.configJson.templatesOptions[this.templateName][
-			prop
-		];
-		if (hasPropOptions) {
-			return this.configJson.templatesOptions[this.templateName][prop][field];
-		}
-	}
+  forTemplate(templateName: string) {
+  	this.templateName = templateName;
+  	return this;
+  }
 
-	private getFromFirstLevel(prop: ScopedProps, field: string) {
-		if (!this.configJson[prop]) {
-			return;
-		}
-		return this.configJson[prop][field];
-	}
+  validateConfig() {
+  	if (!this.parsedSchemaResult.success) {
+  		const errorMessage = this.parsedSchemaResult.error?.errors.reduce(
+  			(acc, error, i) => `${acc}\n(${i + 1}) ${error.message}`,
+  			'Scaffolder detected some errors in your config file.\n'
+  		);
+  		throw new Error(errorMessage);
+  	}
+  }
 
-	private getFromConfig(prop: ScopedProps, field: string, defaultValue?: any) {
-		return (
-			this.getFromTemplateScope(prop, field) ||
-			this.getFromFirstLevel(prop, field) ||
-			defaultValue
-		);
-	}
+  getSchemaErrors() {
+  	return (
+  		this.parsedSchemaResult.error?.errors.map((error) => error.message) || []
+  	);
+  }
 
-	get = {
-		parameterOptions: (parameter: string) => {
-			return this.getFromConfig('parametersOptions', parameter);
-		},
-		transformer: (transformer: string) => {
-			return this.getFromConfig('transformers', transformer);
-		},
-		function: (aFunction: string) => {
-			return this.getFromConfig('functions', aFunction);
-		},
-	};
+  private getFromTemplateScope(prop: ScopedProps, field?: string) {
+  	if (!this.hasTemplateOptions()) {
+  		return;
+  	}
+  	const propInTemplateScope = this.configJson.templatesOptions[
+  		this.templateName
+  	][prop];
+  	if (propInTemplateScope && field) {
+  		return this.configJson.templatesOptions[this.templateName][prop][field];
+  	}
+  	return propInTemplateScope;
+  }
+
+  private hasTemplateOptions() {
+  	return this.configJson.templatesOptions[this.templateName];
+  }
+
+  private getFromFirstLevel(prop: ScopedProps, field: string) {
+  	if (!this.configJson[prop]) {
+  		return;
+  	}
+  	return this.configJson[prop][field];
+  }
+
+  private getFromConfig(prop: ScopedProps, field: string, defaultValue?: any) {
+  	return (
+  		this.getFromTemplateScope(prop, field) ||
+      this.getFromFirstLevel(prop, field) ||
+      defaultValue
+  	);
+  }
+
+  get: ConfigGetters = {
+  	parameterOptions: (parameter: string) => {
+  		const defaultOptions = {
+  			question: `Enter a value for the following parameter "${parameter}"`,
+  		};
+  		return this.getFromConfig('parametersOptions', parameter, defaultOptions);
+  	},
+  	transformer: (transformer: string) => {
+  		return this.getFromConfig('transformers', transformer);
+  	},
+  	function: (aFunction: string) => {
+  		return this.getFromConfig('functions', aFunction);
+  	},
+  	hooks: () => {
+  		return this.getFromTemplateScope('hooks') || {};
+  	},
+  };
 }
