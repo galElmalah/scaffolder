@@ -7,6 +7,7 @@ import {
 } from '../configHelpers/config';
 import { ConfigSchema, errorMap } from './Schema';
 import * as z from 'zod';
+import { warning } from '../cliHelpers/colors';
 
 export interface ConfigGetters {
 	parameterOptions(parameter: string): ParameterOptions;
@@ -42,11 +43,12 @@ export class Config implements IConfig {
 
 	validateConfig() {
 		if (!this.parsedSchemaResult.success) {
+			const takeActionWarningMessage = warning('\nScaffolder detected some errors in your config file.\nLeft unattended these errors can lead to unexpected behavior.');
 			const errorMessage = this.parsedSchemaResult.error?.errors.reduce(
 				(acc, error, i) => `${acc}\n(${i + 1}) ${error.message}`,
-				'Scaffolder detected some errors in your config file.\n'
+				takeActionWarningMessage
 			);
-			throw new Error(errorMessage);
+			throw new Error(`${errorMessage}\n`);
 		}
 	}
 

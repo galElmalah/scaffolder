@@ -11,18 +11,24 @@ import {
 import {spinners} from './spinners';
 
 export async function createChosenTemplate(availableTemplateCommands: any, chosenTemplate: any, command: any) {
-	const { config, currentCommandTemplate, filesCount } = templateReader(availableTemplateCommands, chosenTemplate);
+	const { config:configObject, currentCommandTemplate, filesCount } = templateReader(availableTemplateCommands, chosenTemplate);
 
-	const _config =  new Config(config).forTemplate(chosenTemplate);
+	const config =  new Config(configObject).forTemplate(chosenTemplate);
+
+	try {
+		config.validateConfig();
+	}catch(e) {
+		console.log(e.message);
+	} 
 
 	const {
 		preTemplateGeneration,
 		postTemplateGeneration
-	} = _config.get.hooks();
+	} = config.get.hooks();
 
 	const keyValuePairs = await getKeysValues(
 		currentCommandTemplate,
-		_config
+		config
 	);
 
 	const globalCtx = {
@@ -35,7 +41,7 @@ export async function createChosenTemplate(availableTemplateCommands: any, chose
 	spinners.creatingTemplate.start(`Creating "${chosenTemplate}"...`);
 	const templates = templateTransformer(
 		currentCommandTemplate,
-		injector(keyValuePairs, _config, globalCtx),
+		injector(keyValuePairs, config, globalCtx),
 		globalCtx
 	);
 

@@ -38,7 +38,12 @@ const getTransformedTemplates = (command, cmd) => {
 	);
 
 	const config = new Config(configObject).forTemplate(command);
-
+	
+	try {
+		config.validateConfig();
+	}catch(e) {
+		console.log(e.message);
+	} 
 
 	const keyValuePairs = generateKeyValues(cmd);
 
