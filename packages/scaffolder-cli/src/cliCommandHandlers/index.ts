@@ -20,7 +20,7 @@ export { interactiveCreateCommandHandler } from './interactiveCreateHandler';
 
 const validateParametersValues = (config: IConfig, keyValuePairs) => {
 	for (const [parameter, value] of Object.entries(keyValuePairs)) {
-		const {validation} = config.get.parameterOptions(parameter);
+		const { validation } = config.get.parameterOptions(parameter);
 		if (validation) {
 			const res = validation(value);
 			if (typeof res === 'string') {
@@ -33,17 +33,17 @@ const validateParametersValues = (config: IConfig, keyValuePairs) => {
 const getTransformedTemplates = (command, cmd) => {
 	const commandsLocations = commandsBuilder(cmd.loadFrom || process.cwd());
 
-	const { config:configObject, currentCommandTemplate } = templateReader(commandsLocations)(
+	const { config: configObject, currentCommandTemplate } = templateReader(commandsLocations)(
 		command
 	);
 
 	const config = new Config(configObject).forTemplate(command);
-	
+
 	try {
 		config.validateConfig();
-	}catch(e) {
+	} catch (e) {
 		console.log(e.message);
-	} 
+	}
 
 	const keyValuePairs = generateKeyValues(cmd);
 
@@ -55,6 +55,7 @@ const getTransformedTemplates = (command, cmd) => {
 		parametersValues: keyValuePairs,
 		targetRoot: cmd.entryPoint || process.cwd(),
 	};
+
 
 	const _injector = injector(keyValuePairs, config, globalCtx);
 	const transformedTemplate = templateTransformer(

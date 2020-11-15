@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "allowJs": true,
+    "module": "commonjs",
+    "target": "es2017",
+        "allowJs": true,
     "noImplicitAny": false,
     "preserveConstEnums": true,
     "sourceMap": true,

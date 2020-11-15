@@ -1,16 +1,17 @@
 const { error, boldGreen } = require('../cliHelpers/colors');
 
 export class NoMatchingTemplate extends Error {
-	constructor(cmd) {
+	private templateName: string
+	constructor(templateName) {
 		super();
-		this.cmd = cmd;
+		this.templateName = templateName;
 	}
 
 	getDisplayErrorMessage() {
 		const message = `${error(
-			`Error while creating the ${boldGreen(this.cmd)} template.`
+			`Error while creating the ${boldGreen(this.templateName)} template.`
 		)}\nThere is no template matching the ${boldGreen(
-			this.cmd
+			this.templateName
 		)} command.\nYou can see the available commands by typing ${boldGreen(
 			'scaffolder list'
 		)} in the terminal.`;
