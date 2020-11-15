@@ -6,8 +6,7 @@ import {
 	templateReader,
 	templateTransformer,
 	injector,
-	Config,
-	TemplateStructure
+	Config
 } from 'scaffolder-core';
 import {spinners} from './spinners';
 
@@ -36,7 +35,7 @@ export async function createChosenTemplate(availableTemplateCommands: any, chose
 	spinners.creatingTemplate.start(`Creating "${chosenTemplate}"...`);
 	const templates = templateTransformer(
 		currentCommandTemplate,
-		injector(keyValuePairs, config, globalCtx),
+		injector(keyValuePairs, _config, globalCtx),
 		globalCtx
 	);
 
