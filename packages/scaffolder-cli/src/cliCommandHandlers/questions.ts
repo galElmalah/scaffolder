@@ -1,5 +1,6 @@
 import inquirer from 'inquirer';
 import { getAllKeys, extractKey } from 'scaffolder-core';
+import { IConfig,TemplateStructure  } from 'scaffolder-core';
 
 const QUESTIONS = {
 	TEMPLATES: {
@@ -36,20 +37,21 @@ export const getValidationFunction = (parametersOptions = {}, key) => {
 
 };
 
-export const extractAllKeysFromTemplate = (currentCommandTemplate) => {
+export const extractAllKeysFromTemplate = (currentCommandTemplate:TemplateStructure) => {
 	const keySet = new Set();
 	const keys = getAllKeys(currentCommandTemplate, keySet);
 	return keys.filter(Boolean);
 };
 
-export const getKeysValues = (currentCommandTemplate, parametersOptions) => {
+export const getKeysValues = (currentCommandTemplate:TemplateStructure, config: IConfig) => {
 	const questions = extractAllKeysFromTemplate(currentCommandTemplate).map((key) => {
 		const cleanKey = extractKey(key);
+		const { validation, question } = config.get.parameterOptions(cleanKey);
 		return {
 			type: 'input',
 			name: cleanKey,
-			message: getQuestionMessage(parametersOptions, cleanKey),
-			validate: getValidationFunction(parametersOptions, cleanKey)
+			message: question,
+			validate:validation
 		};
 	});
 	return inquirer.prompt(questions);

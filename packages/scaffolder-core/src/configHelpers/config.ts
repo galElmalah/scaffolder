@@ -25,7 +25,7 @@ export type ScaffolderFunction = (context: Context) => any;
 
 export interface ParameterOptions {
   question?: string;
-  validation?: string | boolean;
+  validation?: (parameterValue:any) => string | boolean;
 }
 
 export interface Hooks {

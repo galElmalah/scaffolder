@@ -35,7 +35,7 @@ const stopSpinnersOnError = (source: string) => {
 
 export const githubFlow = async (
 	gitCloner: GithubTempCloner,
-	repoSource?: string | boolean,
+	repoSource: string | boolean,
 	preSelectedTemplate?: string
 ) => {
 	const { repositorySource } = await getRepositorySourceIfNeeded(repoSource);

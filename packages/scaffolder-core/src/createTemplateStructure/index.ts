@@ -1,5 +1,9 @@
 import fs from 'fs';
-import { NoMatchingTemplate, MissingKeyValuePairs, MissingFunctionImplementation } from '../Errors';
+import {
+	NoMatchingTemplate,
+	MissingKeyValuePairs,
+	MissingFunctionImplementation,
+} from '../Errors';
 import { isFolder, join, TYPES } from '../filesUtils';
 import { applyTransformers } from './applyTransformers';
 import { Context } from '../configHelpers/config';
@@ -7,17 +11,14 @@ import { readConfig } from '../configHelpers';
 import { curry } from 'ramda';
 import { IConfig } from '../Config';
 
-
-
 export interface TemplateStructure {
-	name: string;
-	type?: TYPES;
-	content: string | TemplateStructure[];
-	[key: string]: any;
+  name: string;
+  type?: TYPES;
+  content: string | TemplateStructure[];
+  [key: string]: any;
 }
 
 export const extractKey = (k) => k.replace(/({|})/g, '').trim();
-
 
 export const isAFunctionKey = (key: string) => /.+\(\)/.test(key);
 
@@ -27,16 +28,16 @@ export const getKeyAndTransformers = (initialKey) =>
 		.map((_) => _.trim());
 
 export const replaceKeyWithValue = (
-	keyValuePairs: { [x: string]: any; },
-	config:IConfig,
+	keyValuePairs: { [x: string]: any },
+	config: IConfig,
 	ctx: Context
 ) => (match) => {
 	if (isAFunctionKey(match)) {
 		const functionKey = extractKey(match).replace(/\(|\)/g, '');
-		const scaffolderFunction  = config.get.function(functionKey);
+		const scaffolderFunction = config.get.function(functionKey);
 		if (!scaffolderFunction) {
 			throw new MissingFunctionImplementation({
-				functionKey
+				functionKey,
 			});
 		}
 		return scaffolderFunction(ctx);
@@ -56,14 +57,16 @@ export const replaceKeyWithValue = (
 };
 
 interface CreateTemplateStructure {
-	templatesStructure:TemplateStructure[], 
-	filesCount: number;
+  templatesStructure: TemplateStructure[];
+  filesCount: number;
 }
-export const createTemplateStructure = (folderPath: string): CreateTemplateStructure => {
+export const createTemplateStructure = (
+	folderPath: string
+): CreateTemplateStructure => {
 	let filesCount = 0;
-	const createStructure = (fromPath):TemplateStructure[] => {
+	const createStructure = (fromPath:string): TemplateStructure[] => {
 		const folderContent = fs.readdirSync(fromPath);
-		const toTemplateStructure = (aFilePath):TemplateStructure => {
+		const toTemplateStructure = (aFilePath:string): TemplateStructure => {
 			filesCount++;
 			if (isFolder(fromPath, aFilePath)) {
 				return {
@@ -81,11 +84,10 @@ export const createTemplateStructure = (folderPath: string): CreateTemplateStruc
 		};
 		return folderContent.map(toTemplateStructure);
 	};
-	return {templatesStructure: createStructure(folderPath), filesCount};
+	return { templatesStructure: createStructure(folderPath), filesCount };
 };
 
-
-export const templateReader = curry((commands,cmd) => {
+export const templateReader = curry((commands, cmd) => {
 	if (!commands[cmd]) {
 		throw new NoMatchingTemplate(cmd);
 	}
@@ -98,15 +100,20 @@ export const templateReader = curry((commands,cmd) => {
 	};
 });
 
-
-export const templateTransformer = (templateDescriptor: TemplateStructure[], injector, globalCtx) => {
+export const templateTransformer = (
+	templateDescriptor: TemplateStructure[],
+	injector,
+	globalCtx
+) => {
 	const createLocalCtx = ({ type = 'FILE', scaffolderTargetRoot, name }) => {
 		const currentFileLocationPath = scaffolderTargetRoot
 			.split('scaffolder')
 			.pop();
 		const currentFilePath = `${globalCtx.targetRoot}${currentFileLocationPath}`;
 		return {
-			fileName: name, type, currentFilePath
+			fileName: name,
+			type,
+			currentFilePath,
 		};
 	};
 
@@ -114,13 +121,15 @@ export const templateTransformer = (templateDescriptor: TemplateStructure[], inj
 		name: injector(
 			descriptor.name,
 			createLocalCtx({
-				...descriptor, type: TYPES.FILE_NAME
+				...descriptor,
+				type: TYPES.FILE_NAME,
 			})
 		),
 		content: injector(
 			descriptor.content,
 			createLocalCtx({
-				...descriptor, type: TYPES.FILE_CONTENT
+				...descriptor,
+				type: TYPES.FILE_CONTENT,
 			})
 		),
 	});
@@ -141,21 +150,19 @@ export const templateTransformer = (templateDescriptor: TemplateStructure[], inj
 
 export const keyPatternString = '{{s*[a-zA-Z_|0-9- ()]+s*}}';
 
-export const injector = (
-	keyValuePairs,
-	config: IConfig,
-	globalCtx
-) => (text, localCtx) => {
+export const injector = (keyValuePairs, config: IConfig, globalCtx) => (
+	text,
+	localCtx
+) => {
+
 	const ctx = {
-		...globalCtx, ...localCtx
+		...globalCtx,
+		...localCtx,
 	};
+
+
 	const keyPattern = new RegExp(keyPatternString, 'g');
-	const replacer = replaceKeyWithValue(
-		keyValuePairs,
-		config,
-		ctx
-	);
+	const replacer = replaceKeyWithValue(keyValuePairs, config, ctx);
 	const transformedText = text.replace(keyPattern, replacer);
 	return transformedText;
 };
-
