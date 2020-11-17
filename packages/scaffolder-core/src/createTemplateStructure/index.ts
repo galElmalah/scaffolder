@@ -6,7 +6,7 @@ import {
 } from '../Errors';
 import { isFolder, join, TYPES } from '../filesUtils';
 import { applyTransformers } from './applyTransformers';
-import { Context } from '../configHelpers/config';
+import { Context } from '../context';
 import { readConfig } from '../configHelpers';
 import { curry } from 'ramda';
 import { IConfig } from '../Config';

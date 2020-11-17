@@ -38,6 +38,14 @@ module.exports = {
 					fs.mkdirSync(`${process.cwd()}/results/generatedInPostHook`);
 				}
 			}
+		},
+		'preQuestions': {
+			hooks: {
+				preAskingQuestions: (ctx) => {
+					console.log("PreAskingQuestion");
+					process.exit(0);
+				}
+			}
 		}
 	}
 };

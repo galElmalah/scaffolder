@@ -11,6 +11,7 @@ const execOnTestDir = (cmd, withEntryPoint = true) =>
 			// stdio: 'inherit',
 			// stderr: 'inherit',
 			cwd: __dirname,
+			encoding: 'utf8'
 		}
 	);
 
@@ -56,6 +57,7 @@ describe('e2e', () => {
 		cleanUp('generatedInPreHook');
 		cleanUp('prefix/not-nested');
 		cleanUp('prefix/not-existing');
+		cleanUp('preQuestions');
 	});
 
 	it('should create the template with the prefix provided', () => {
@@ -127,19 +129,30 @@ describe('e2e', () => {
 		// execOnTestDir("show nested", false);
 	});
 
-	it('execute pre generation hook', () => {
-		execOnTestDir(
-			'create not-nested key1=awesome key5=awesome --folder not-nested'
-		);
-		expect(isFolderExists('/generatedInPreHook')).toBeTruthy();
+	describe('hooks', () => {
+		it('execute pre generation hook', () => {
+			execOnTestDir(
+				'create not-nested key1=awesome key5=awesome --folder not-nested'
+			);
+			expect(isFolderExists('/generatedInPreHook')).toBeTruthy();
+		});
+	
+		it('execute post generation hook', () => {
+			execOnTestDir(
+				'create nested key=awesome keyF=awesome --folder not-nested'
+			);
+			expect(isFolderExists('/generatedInPostHook')).toBeTruthy();
+		});
+	
+		it('execute pre asking questions hook', () => {
+			const out = execOnTestDir(
+				'create preQuestions key=awesome keyF=awesome --folder preQuestions'
+			);
+			expect(out).toBe('PreAskingQuestion\n');
+		});
 	});
 
-	it('execute post generation hook', () => {
-		execOnTestDir(
-			'create nested key=awesome keyF=awesome --folder not-nested'
-		);
-		expect(isFolderExists('/generatedInPostHook')).toBeTruthy();
-	});
+
 
 
 	it('should create a nested template', () => {

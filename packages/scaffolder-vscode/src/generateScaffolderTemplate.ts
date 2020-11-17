@@ -7,8 +7,8 @@ import {
   injector,
   TemplatesBuilder,
   asyncExecutor,
-  getTemplateHooksFromConfig,
-  Config,IConfig
+  Config,
+  IConfig
 } from "scaffolder-core";
 import { chooseTemplate } from "./chooseTemplate";
 import { errorHandler } from "./errorHandler";
