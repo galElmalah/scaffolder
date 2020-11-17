@@ -2,7 +2,7 @@
   "name": "root",
   "private": true,
   "scripts": {
-    "bootstrap": "lerna bootstrap --hoist",
+    "bootstrap": "lerna bootstrap",
     "build": "tsc -b  packages/scaffolder-core packages/scaffolder-cli",
     "test": "npm run build && lerna run test --stream",
     "version": "lerna version --conventional-commits",

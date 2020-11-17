@@ -1,11 +1,11 @@
 import { handleError } from '../cliHelpers';
 
 import { GithubTempCloner, commandsBuilder } from 'scaffolder-core';
-import { failAll } from './spinners';
+import { spinners } from './spinners';
 import { githubFlow } from './interactiveGithubFlow';
 import { getChosenTemplate } from './getChosenTemplate';
 import { createChosenTemplate } from './createChosenTemplate';
-import { Command } from 'commander';
+import {Command} from 'commander';
 
 export const interactiveCreateCommandHandler = async (command: Command) => {
 	const gitCloner = new GithubTempCloner();
@@ -35,8 +35,10 @@ export const interactiveCreateCommandHandler = async (command: Command) => {
 			);
 		}
 	} catch (err) {
-		failAll();
 		handleError(err);
+		if (spinners.cloneTemplatesFromGithub.isSpinning) {
+			spinners.cloneTemplatesFromGithub.fail('Failed to clone your templates.');
+		}
 	} finally {
 		gitCloner.cleanUp();
 	}
