@@ -292,7 +292,7 @@ module.exports = {
 };
 ```
 
-> transformers, functions, parametersOptions can be scoped to specific templates, and will have precedes over non scoped options.
+> transformers, functions, parametersOptions can be scoped to specific templates, and will have precedents over non scoped options.
 
 ### transformers
 
@@ -363,8 +363,7 @@ For example, lets say we have a parameter named myReactComponentName and we want
 
 ### templatesOptions
 templatesOptions is a map from templates names to their options.  
-Currently there is only support for hooks but this will probably change in the future as more and more features will be supported.
-
+> transformers, functions, parametersOptions can be scoped to specific templates, and will have precedents over non scoped options.
 
 
 #### templates options object
