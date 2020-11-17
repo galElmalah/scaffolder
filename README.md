@@ -404,10 +404,11 @@ If an hook function returns a Promise then it will be awaited and only then the 
 
 | property        | type                                                        | description                                                                                            |
 | :-------------- | :---------------------------------------------------------- | :----------------------------------------------------------------------------------------------------- |
+| preAskingQuestions    | ([context](#context-object)): any \| Promise\<any>                             | Executed before the user is prompted for the template questions.</br>**The context object will include an empty `parametersValues` object.**        |
 | preTemplateGeneration    | ([context](#context-object)): any \| Promise\<any>                                    | Executed before the template is generated.             |
 | postTemplateGeneration    | ([context](#context-object)): any \| Promise\<any>                                    | Executed after the template is generated.             |
 
-> By default all errors thrown inside of hooks are ignored. For a way to stop execution read the section below.
+> By default all errors thrown inside of hooks are ignored. To stop execution inside a hook you can use `process.exit(1)` .
 
 
 

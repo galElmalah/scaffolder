@@ -50,5 +50,3 @@ export const readConfig = (path: string) : Config => {
 	}
 	return config;
 };
-
-export {Logger} from './config';

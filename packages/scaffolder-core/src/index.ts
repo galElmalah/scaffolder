@@ -9,3 +9,4 @@ export * from './getAllKeys';
 export * from './cliHelpers';
 export * from './configHelpers';
 export * from './Config';
+export * from './context';

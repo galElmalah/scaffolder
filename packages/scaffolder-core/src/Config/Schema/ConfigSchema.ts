@@ -22,6 +22,7 @@ export const ConfigSchema = z
 						.object({
 							preTemplateGeneration: z.function().optional(),
 							postTemplateGeneration: z.function().optional(),
+							preAskingQuestions: z.function().optional(),
 						})
 						.optional(),
 				})

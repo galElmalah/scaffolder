@@ -188,8 +188,10 @@ describe('Config', () => {
 		it('should return all of the template hooks', () => {
 			const template = 'someTemplate';
 			const config = new Config(configObject);
+			const numberOfPossibleHooks = 3;
 			config.forTemplate(template);
 			expect(config.get.hooks()).toBeDefined();
+			expect(Object.keys(config.get.hooks())).toHaveLength(numberOfPossibleHooks);
 			expect(config.get.hooks()).toEqual(configObject.templatesOptions[template].hooks);
 		});
 	});

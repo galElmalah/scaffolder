@@ -6,47 +6,61 @@ import {
 	templateReader,
 	templateTransformer,
 	injector,
-	Config
+	Config,
+	contextFactory
 } from 'scaffolder-core';
-import {spinners} from './spinners';
-import {join} from 'path';
-import {makeLogger} from '../cliHelpers/logger';
+import { spinners } from './spinners';
+import { join } from 'path';
+import { makeLogger } from '../cliHelpers/logger';
 
 export async function createChosenTemplate(availableTemplateCommands: any, chosenTemplate: any, command: any) {
 	const { config: configObject, currentCommandTemplate, filesCount } = templateReader(availableTemplateCommands, chosenTemplate);
 
-	const config =  new Config(configObject).forTemplate(chosenTemplate);
+	const config = new Config(configObject).forTemplate(chosenTemplate);
 
 	try {
 		config.validateConfig();
-	}catch(e) {
+	} catch (e) {
 		console.log(e.message);
-	} 
+	}
 
-	const {
-		preTemplateGeneration,
-		postTemplateGeneration
-	} = config.get.hooks();
-
-	const keyValuePairs = await getKeysValues(
-		currentCommandTemplate,
-		config
-	);
-
-
-	const globalCtx = {
-		parametersValues: keyValuePairs,
+	const baseCtx = {
+		parametersValues: {},
 		templateName: chosenTemplate,
 		templateRoot: availableTemplateCommands[chosenTemplate],
 		targetRoot: join(command.entryPoint || process.cwd(), command.pathPrefix || ''),
 		logger: makeLogger()
 	};
 
+	const {
+		preAskingQuestions,
+		preTemplateGeneration,
+		postTemplateGeneration
+	} = config.get.hooks();
+
+	const makeContext = contextFactory(baseCtx);
+
+	await asyncExecutor(
+		preAskingQuestions,
+		`\nExecuted "${chosenTemplate}" pre-asking questions hook.`,
+		(e) =>
+			`\nError while Executing "${chosenTemplate}" pre-asking questions hook::\n${e}`,
+		makeContext()
+	);
+
+	const parametersValues = await getKeysValues(
+		currentCommandTemplate,
+		config
+	);
+
+
+	const globalCtx = makeContext({ parametersValues });
+
 	spinners.creatingTemplate.start(`Creating "${chosenTemplate}"...`);
-	
+
 	const templates = templateTransformer(
 		currentCommandTemplate,
-		injector(keyValuePairs, config, globalCtx),
+		injector(parametersValues, config, globalCtx),
 		globalCtx
 	);
 

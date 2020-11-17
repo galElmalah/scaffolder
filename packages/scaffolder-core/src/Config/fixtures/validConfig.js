@@ -21,7 +21,8 @@ module.exports = {
 		someTemplate: {
 			hooks: {
 				preTemplateGeneration: () => {},
-				postTemplateGeneration: () => {}
+				postTemplateGeneration: () => {},				
+				preAskingQuestions: () => {}
 			},
 			parametersOptions: {
 				paramOne: {

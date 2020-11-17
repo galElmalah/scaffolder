@@ -15,6 +15,7 @@ import {
 	injector,
 	Config,
 	IConfig,
+	contextFactory
 } from 'scaffolder-core';
 import { join } from 'path';
 import { makeLogger } from '../cliHelpers/logger';
@@ -32,7 +33,8 @@ const validateParametersValues = (config: IConfig, keyValuePairs) => {
 	}
 };
 
-const getTransformedTemplates = (command, cmd) => {
+
+const getTransformedTemplates = async (command, cmd) => {
 	const commandsLocations = commandsBuilder(cmd.loadFrom || process.cwd());
 
 	const { config: configObject, currentCommandTemplate } = templateReader(commandsLocations)(
@@ -47,20 +49,35 @@ const getTransformedTemplates = (command, cmd) => {
 		console.log(e.message);
 	}
 
-	const keyValuePairs = generateKeyValues(cmd);
+	
+	const { preAskingQuestions } = config.get.hooks();
 
-	validateParametersValues(config, keyValuePairs);
-
-	const globalCtx = {
+	const baseCtx = {
 		templateName: command,
 		templateRoot: commandsLocations[command],
-		parametersValues: keyValuePairs,
 		targetRoot: join(cmd.entryPoint || process.cwd(), cmd.pathPrefix || ''),
-		logger: makeLogger()
+		logger: makeLogger(),
+		parametersValues: {}
 	};
 
+	const makeContext = contextFactory(baseCtx);
 
-	const _injector = injector(keyValuePairs, config, globalCtx);
+	await asyncExecutor(
+		preAskingQuestions,
+		`\nExecuted "${command}" pre-asking questions hook.`,
+		(e) =>
+			`\nError while Executing "${command}" pre-asking questions hook::\n${e}`,
+		makeContext()
+	);
+
+	const parametersValues = generateKeyValues(cmd);
+
+
+	validateParametersValues(config, parametersValues);
+
+	const globalCtx = makeContext({parametersValues});
+
+	const _injector = injector(parametersValues, config, 	globalCtx);
 	const transformedTemplate = templateTransformer(
 		currentCommandTemplate,
 		_injector,
@@ -80,7 +97,7 @@ export const createCommandHandler = async (command, cmd) => {
 			transformedTemplate: templates,
 			config,
 			globalCtx,
-		} = getTransformedTemplates(command, cmd);
+		} = await getTransformedTemplates(command, cmd);
 
 
 		const {
