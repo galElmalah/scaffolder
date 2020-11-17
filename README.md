@@ -52,6 +52,7 @@
   * [parametersOptions](#parametersoptions)
     + [parameter options object](#parameter-options-object)
   * [context object](#context-object)
+    + [logger](#logger)
   * [templatesOptions](#templatesoptions)
     + [templates options object](#templates-options-object)
     + [hooks object](#hooks-object)
@@ -357,6 +358,7 @@ For example, lets say we have a parameter named myReactComponentName and we want
 | type            | string, one of: `"FILE_NAME"`, `"FILE_CONTENT"`, `"FOLDER"` | The current type being operated upon - file/folder/content.                                            |
 | fileName        | string                                                      | The name of the file being operated upon. Available only if the type is "FILE_NAME" or "FILE_CONTENT". |
 | logger        | [Logger](#logger)                                                      | A [logger](#logger) instance |
+
 
 
 ### logger

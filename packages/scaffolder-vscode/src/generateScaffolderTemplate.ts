@@ -62,7 +62,7 @@ export const generateScaffolderTemplate = async (
       templateName: chosenTemplate,
       templateRoot: availableTemplateCommands[chosenTemplate],
       targetRoot: generateTo,
-      logger: makeLogger
+      logger: makeLogger()
     };
 
     const templates = templateTransformer(
