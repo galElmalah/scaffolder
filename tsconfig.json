@@ -1,13 +1,15 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "module": "commonjs",
+    "target": "es2017",
     "allowJs": true,
     "noImplicitAny": false,
     "preserveConstEnums": true,
     "sourceMap": true,
     "declaration": true,
     "lib": ["es6"],
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "strictNullChecks": true
   },
   "exclude": ["node_modules", "**/*.spec.ts","**/*.spec.js"]
 }

@@ -1,6 +1,7 @@
 import { injector, extractKey } from './index';
 import { MissingKeyValuePairs, MissingTransformerImplementation } from '../Errors';
-
+import {Config} from '../Config';
+import {getConfigObject} from '../Config/index.spec';
 describe('templatesCreator -> injector', () => {
 	it('should replace all keys matching the folllwing format {{ key }}', () => {
 		const keys = {
@@ -151,6 +152,9 @@ describe('templatesCreator -> injector', () => {
 				date: jest.fn().mockImplementation((ctx) => new Date().getDate()),
 			};
 
+			const config = new Config(getConfigObject({transformers,functions}));
+
+
 			const globalCtx = {
 				templateName: 'what',
 				templateRoot: 'yay',
@@ -165,7 +169,7 @@ describe('templatesCreator -> injector', () => {
 
 			const keysInjector = injector(
 				keys,
-				{ transformers, functions },
+				config,
 				globalCtx
 			);
 
@@ -214,6 +218,8 @@ describe('templatesCreator -> injector', () => {
 			const functions = {
 				date: jest.fn().mockImplementation((ctx) => new Date().getDate()),
 			};
+			const transformers = {};
+			const config = new Config(getConfigObject({transformers,functions}));
 
 			const globalCtx = {
 				templateName: 'what',
@@ -225,9 +231,8 @@ describe('templatesCreator -> injector', () => {
 				type: 'FILE',
 				targetRoot: 'here/the/file/is/created',
 			};
-
-			const transformers = {};
-			const keysInjector = injector({}, { transformers, functions }, globalCtx);
+			
+			const keysInjector = injector({}, config, globalCtx);
 
 			const result = keysInjector(testTemplate, localCtx);
 
@@ -245,8 +250,10 @@ describe('templatesCreator -> injector', () => {
 			const transformers = {
 				someTransformer: () => {},
 			};
+			const config = new Config(getConfigObject({transformers}));
 
-			const keysInjector = injector(keys, { transformers });
+
+			const keysInjector = injector(keys, config);
 
 			expect(() => keysInjector(testTemplate)).toThrowError(
 				MissingTransformerImplementation

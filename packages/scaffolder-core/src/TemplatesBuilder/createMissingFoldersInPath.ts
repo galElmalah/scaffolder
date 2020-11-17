@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 
 export const createMissingFoldersInPath = (basePath: string, toPath: string) => {
-	const missingFoldersPaths = [];
+	const missingFoldersPaths:string[] = [];
 	if (!toPath) {
 		return missingFoldersPaths;
 	}

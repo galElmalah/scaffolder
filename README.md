@@ -274,19 +274,25 @@ module.exports = {
     },
   },
    templatesOptions: {
-      someTemplate: {
-        hooks: {
-          preTemplateGeneration: (context) => {
-          // do something before generating a template
-          },
-          postTemplateGeneration: (context) => {
-          // do something after generating a template
-          }
-      }
-    },
-  },
+    someTemplate: {
+      hooks: {
+        preTemplateGeneration: (context) => {
+        // do something before generating a template
+        },
+        postTemplateGeneration: (context) => {
+        // do something after generating a template
+        }
+      },
+      // transformers, functions, parametersOptions can be scoped to specific templates
+      transformers: {...},
+      functions: {...},
+      parametersOptions: {...}
+    }
+  }
 };
 ```
+
+> transformers, functions, parametersOptions can be scoped to specific templates, and will have precedes over non scoped options.
 
 ### transformers
 

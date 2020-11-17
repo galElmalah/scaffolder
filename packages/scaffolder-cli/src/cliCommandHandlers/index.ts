@@ -5,25 +5,24 @@ import {
 	displayAvailableCommands,
 	displaySpecificCommandTemplate,
 } from '../cliHelpers';
-
-import { getValidationFunction } from './questions';
 import {
 	asyncExecutor,
-	getTemplateHooksFromConfig,
 	TemplatesBuilder,
 	commandsBuilder,
 	templateReader,
 	templateTransformer,
 	injector,
+	Config,
+	IConfig,
 } from 'scaffolder-core';
 
 export { interactiveCreateCommandHandler } from './interactiveCreateHandler';
 
-const validateParametersValues = (parametersOptions, keyValuePairs) => {
+const validateParametersValues = (config: IConfig, keyValuePairs) => {
 	for (const [parameter, value] of Object.entries(keyValuePairs)) {
-		const validationFn = getValidationFunction(parametersOptions, parameter);
-		if (validationFn) {
-			const res = validationFn(value);
+		const { validation } = config.get.parameterOptions(parameter);
+		if (validation) {
+			const res = validation(value);
 			if (typeof res === 'string') {
 				throw new Error(`invalid value for "${parameter}"::${res}`);
 			}
@@ -34,13 +33,21 @@ const validateParametersValues = (parametersOptions, keyValuePairs) => {
 const getTransformedTemplates = (command, cmd) => {
 	const commandsLocations = commandsBuilder(cmd.loadFrom || process.cwd());
 
-	const { config, currentCommandTemplate } = templateReader(commandsLocations)(
+	const { config: configObject, currentCommandTemplate } = templateReader(commandsLocations)(
 		command
 	);
 
+	const config = new Config(configObject).forTemplate(command);
+
+	try {
+		config.validateConfig();
+	} catch (e) {
+		console.log(e.message);
+	}
+
 	const keyValuePairs = generateKeyValues(cmd);
 
-	validateParametersValues(config.parametersOptions, keyValuePairs);
+	validateParametersValues(config, keyValuePairs);
 
 	const globalCtx = {
 		templateName: command,
@@ -49,11 +56,12 @@ const getTransformedTemplates = (command, cmd) => {
 		targetRoot: cmd.entryPoint || process.cwd(),
 	};
 
+
 	const _injector = injector(keyValuePairs, config, globalCtx);
 	const transformedTemplate = templateTransformer(
 		currentCommandTemplate,
 		_injector,
-		globalCtx
+		globalCtx,
 	);
 
 	return {
@@ -71,10 +79,11 @@ export const createCommandHandler = async (command, cmd) => {
 			globalCtx,
 		} = getTransformedTemplates(command, cmd);
 
+
 		const {
 			preTemplateGeneration,
 			postTemplateGeneration,
-		} = getTemplateHooksFromConfig(config, command);
+		} = config.get.hooks();
 
 		const templatesBuilder = new TemplatesBuilder(templates, command);
 		cmd.folder && templatesBuilder.inAFolder(cmd.folder);

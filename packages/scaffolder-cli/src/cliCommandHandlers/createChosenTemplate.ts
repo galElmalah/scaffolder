@@ -2,26 +2,33 @@ import { showSuccessMessage } from '../cliHelpers';
 import { getKeysValues } from './questions';
 import {
 	asyncExecutor,
-	getTemplateHooksFromConfig,
 	TemplatesBuilder,
-
 	templateReader,
 	templateTransformer,
-	injector
+	injector,
+	Config
 } from 'scaffolder-core';
-import console from 'console';
 import {spinners} from './spinners';
+
 export async function createChosenTemplate(availableTemplateCommands: any, chosenTemplate: any, command: any) {
-	const { config, currentCommandTemplate, filesCount } = templateReader(availableTemplateCommands, chosenTemplate);
+	const { config:configObject, currentCommandTemplate, filesCount } = templateReader(availableTemplateCommands, chosenTemplate);
+
+	const config =  new Config(configObject).forTemplate(chosenTemplate);
+
+	try {
+		config.validateConfig();
+	}catch(e) {
+		console.log(e.message);
+	} 
 
 	const {
 		preTemplateGeneration,
 		postTemplateGeneration
-	} = getTemplateHooksFromConfig(config, chosenTemplate);
+	} = config.get.hooks();
 
 	const keyValuePairs = await getKeysValues(
 		currentCommandTemplate,
-		config.parametersOptions
+		config
 	);
 
 	const globalCtx = {

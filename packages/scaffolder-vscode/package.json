@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/galElmalah/scaffolder-vscode"
+    "url": "https://github.com/galElmalah/scaffolder"
   },
   "categories": [
     "Other",
@@ -38,15 +38,15 @@
     "commands": [
       {
         "command": "scaffolder-vscode.createTemplateFromGithub",
-        "title": "Scaffolder: Generate Template from Github"
+        "title": "Scaffolder: Use Template from Github"
       },
       {
         "command": "scaffolder-vscode.createTemplateInFolder",
-        "title": "Scaffolder: Generate Template"
+        "title": "Scaffolder: Use Template"
       },
       {
         "command": "scaffolder-vscode.createTemplateInFile",
-        "title": "Scaffolder: Generate Template"
+        "title": "Scaffolder: Use Template"
       }
     ],
     "menus": {

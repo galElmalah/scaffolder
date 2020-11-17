@@ -25,12 +25,12 @@ export type ScaffolderFunction = (context: Context) => any;
 
 export interface ParameterOptions {
   question?: string;
-  validation?: string | boolean;
+  validation?: (parameterValue:any) => string | boolean;
 }
 
 export interface Hooks {
-  preTemplateGeneration: (context: Context) => any | Promise<any>;
-  postTemplateGeneration: (context: Context) => any | Promise<any>;
+  preTemplateGeneration?: (context: Context) => any | Promise<any>;
+  postTemplateGeneration?: (context: Context) => any | Promise<any>;
 }
 
 // this interface should extend a common options interface with transformers. function and parameters options

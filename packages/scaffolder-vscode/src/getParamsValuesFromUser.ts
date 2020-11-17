@@ -2,15 +2,14 @@ import {
   getQuestionMessage,
   extractKey,
   getValidationFunction,
+  IConfig,
 } from "scaffolder-core";
 import * as vscode from "vscode";
 import { validationAdapter } from "./generateScaffolderFromGithub";
 
 const vscodeValidationFunctionAdapter = (
-  parametersOptions: {},
-  key: string
+  validationFn: any
 ) => {
-  const validationFn = getValidationFunction(parametersOptions, key);
   if (validationFn) {
     return validationAdapter(validationFn);
   }
@@ -18,20 +17,18 @@ const vscodeValidationFunctionAdapter = (
 
 export const getParamsValuesFromUser = async (
   templateKeys: string[],
-  config: any
+  config: IConfig
 ) => {
   const paramsValues = {};
   for (let param of templateKeys) {
     const cleanKey = extractKey(param);
+    const parameterOptions = config.get.parameterOptions(cleanKey);
     const paramValue = await vscode.window.showInputBox({
-      prompt: getQuestionMessage(config.parametersOptions, cleanKey),
+      prompt: parameterOptions.question,
       placeHolder: `Enter value (${templateKeys.indexOf(param) + 1}/${
         templateKeys.length
       })`,
-      validateInput: vscodeValidationFunctionAdapter(
-        config.parametersOptions,
-        cleanKey
-      ),
+      validateInput: vscodeValidationFunctionAdapter(parameterOptions.validation)
     });
     // @ts-ignore
     paramsValues[extractKey(param)] = paramValue;

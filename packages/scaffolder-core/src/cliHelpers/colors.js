@@ -1,6 +1,7 @@
 import chalk from 'chalk';
 
 export const error = chalk.bold.red;
+export const warning = chalk.keyword('orange');
 export const boldGreen = chalk.green.bold;
 export const path = chalk.blue.underline.bold;
 export const bold = chalk.bold;
