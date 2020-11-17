@@ -6,7 +6,7 @@
     "build": "tsc -b  packages/scaffolder-core packages/scaffolder-cli",
     "test": "npm run build && lerna run test --stream",
     "version": "lerna version --conventional-commits",
-    "publish": "lerna publish from-package",
+    "publish": "lerna publish from-package ---conventional-commits",
     "lint": "eslint packages/scaffolder-cli packages/scaffolder-core",
     "publish-extension": "lerna run --scope scaffolder-vscode publish"
   },
