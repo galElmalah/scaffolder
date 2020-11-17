@@ -61,8 +61,8 @@ export async function createChosenTemplate(availableTemplateCommands: any, chose
 
 	await asyncExecutor(
 		preTemplateGeneration,
-		`Executed "${chosenTemplate}" pre-template generation hook.`,
-		(e) => `Error while Executing "${chosenTemplate}" pre template generation hook::\n${e}`,
+		`\nExecuted "${chosenTemplate}" pre-template generation hook.`,
+		(e) => `\nError while Executing "${chosenTemplate}" pre template generation hook::\n${e}`,
 		globalCtx,
 	);
 
