@@ -14,7 +14,7 @@ import { chooseTemplate } from "./chooseTemplate";
 import { errorHandler } from "./errorHandler";
 import { getParamsValuesFromUser } from "./getParamsValuesFromUser";
 import { scaffolderMessage } from "./scaffolderMessage";
-import { logger } from "./logger";
+import { logger, makeLogger } from "./logger";
 
 const validateScaffolderConfig = (config:IConfig) => {
   try {
@@ -62,6 +62,7 @@ export const generateScaffolderTemplate = async (
       templateName: chosenTemplate,
       templateRoot: availableTemplateCommands[chosenTemplate],
       targetRoot: generateTo,
+      logger: makeLogger
     };
 
     const templates = templateTransformer(

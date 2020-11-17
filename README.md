@@ -356,6 +356,26 @@ For example, lets say we have a parameter named myReactComponentName and we want
 | currentFilePath | string                                                      | The path to the file being created.                                                                    |
 | type            | string, one of: `"FILE_NAME"`, `"FILE_CONTENT"`, `"FOLDER"` | The current type being operated upon - file/folder/content.                                            |
 | fileName        | string                                                      | The name of the file being operated upon. Available only if the type is "FILE_NAME" or "FILE_CONTENT". |
+| logger        | [Logger](#logger)                                                      | A [logger](#logger) instance |
+
+
+### logger
+
+
+| property        | type                                                        | description                                                                                            |
+| :-------------- | :---------------------------------------------------------- | :----------------------------------------------------------------------------------------------------- |
+| info    | ((message: string): void                                  | Output general info.            |
+| warning    | ((message: string): void                                  | Output warnings, meaning, it will be colored orange.              |
+| error    | ((message: string): void                                  | Output error, meaning, it will be colored red.            |
+
+> In vscode context, the loggers will pass the context to "scaffolder" output channel prefixed with the log level used.
+
+vscode logs example
+```
+[error][context-logger] some message
+[warning][context-logger] some message
+[info][context-logger] some message
+```
 
 
 ---
