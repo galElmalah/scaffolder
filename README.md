@@ -369,7 +369,7 @@ For example, lets say we have a parameter named myReactComponentName and we want
 | warning    | (message: string): void                                  | Output warnings, meaning, it will be colored orange.              |
 | error    | (message: string): void                                  | Output error, meaning, it will be colored red.            |
 
-> In vscode context, the loggers will pass the context to "scaffolder" output channel prefixed with the log level used.
+> In vscode context, the loggers will pass the message to "scaffolder" output channel prefixed with the log level used.
 
 vscode logs example
 ```
