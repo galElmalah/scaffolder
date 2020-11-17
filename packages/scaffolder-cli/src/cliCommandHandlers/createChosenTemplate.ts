@@ -9,9 +9,10 @@ import {
 	Config
 } from 'scaffolder-core';
 import {spinners} from './spinners';
+import {join} from 'path';
 
 export async function createChosenTemplate(availableTemplateCommands: any, chosenTemplate: any, command: any) {
-	const { config:configObject, currentCommandTemplate, filesCount } = templateReader(availableTemplateCommands, chosenTemplate);
+	const { config: configObject, currentCommandTemplate, filesCount } = templateReader(availableTemplateCommands, chosenTemplate);
 
 	const config =  new Config(configObject).forTemplate(chosenTemplate);
 
@@ -31,20 +32,21 @@ export async function createChosenTemplate(availableTemplateCommands: any, chose
 		config
 	);
 
+
 	const globalCtx = {
 		parametersValues: keyValuePairs,
 		templateName: chosenTemplate,
 		templateRoot: availableTemplateCommands[chosenTemplate],
-		targetRoot: command.entryPoint || process.cwd(),
+		targetRoot: join(command.entryPoint || process.cwd(), command.pathPrefix || ''),
 	};
 
 	spinners.creatingTemplate.start(`Creating "${chosenTemplate}"...`);
+	
 	const templates = templateTransformer(
 		currentCommandTemplate,
 		injector(keyValuePairs, config, globalCtx),
 		globalCtx
 	);
-
 
 	const templatesBuilder = new TemplatesBuilder(templates, chosenTemplate);
 
@@ -59,13 +61,15 @@ export async function createChosenTemplate(availableTemplateCommands: any, chose
 		preTemplateGeneration,
 		`Executed "${chosenTemplate}" pre-template generation hook.`,
 		(e) => `Error while Executing "${chosenTemplate}" pre template generation hook::\n${e}`,
-		globalCtx
+		globalCtx,
 	);
 
 	const writePromise = templatesBuilder.build();
 
 	await Promise.all(writePromise);
+
 	spinners.creatingTemplate.succeed(`Creating "${chosenTemplate}"...\n${filesCount} files have been created.`);
+
 	showSuccessMessage(chosenTemplate, templatesBuilder.getFullPath());
 	await asyncExecutor(
 		postTemplateGeneration,

@@ -5,6 +5,7 @@ import {
 	displayAvailableCommands,
 	displaySpecificCommandTemplate,
 } from '../cliHelpers';
+import { failAll } from './spinners';
 import {
 	asyncExecutor,
 	TemplatesBuilder,
@@ -15,6 +16,7 @@ import {
 	Config,
 	IConfig,
 } from 'scaffolder-core';
+import { join } from 'path';
 
 export { interactiveCreateCommandHandler } from './interactiveCreateHandler';
 
@@ -53,7 +55,7 @@ const getTransformedTemplates = (command, cmd) => {
 		templateName: command,
 		templateRoot: commandsLocations[command],
 		parametersValues: keyValuePairs,
-		targetRoot: cmd.entryPoint || process.cwd(),
+		targetRoot: join(cmd.entryPoint || process.cwd(), cmd.pathPrefix || ''),
 	};
 
 
@@ -90,6 +92,7 @@ export const createCommandHandler = async (command, cmd) => {
 		cmd.entryPoint && templatesBuilder.withCustomEntryPoint(cmd.entryPoint);
 		cmd.pathPrefix && templatesBuilder.withPathPrefix(cmd.pathPrefix);
 
+
 		await asyncExecutor(
 			preTemplateGeneration,
 			`Executed "${command}" pre-template generation hook.`,
@@ -110,17 +113,18 @@ export const createCommandHandler = async (command, cmd) => {
 		);
 	} catch (err) {
 		handleError(err);
+		failAll();
 	}
 };
 
 export const listCommandHandler = (command) => {
-	const entryPoint = command.entryPoint || process.cwd();
+	const entryPoint = join(command.entryPoint || process.cwd(), command.pathPrefix || '');
 	const commands = commandsBuilder(entryPoint);
 	displayAvailableCommands(commands);
 };
 
 export const showCommandHandler = (command, cmd) => {
-	const commandsLocations = commandsBuilder(process.cwd());
+	const commandsLocations = commandsBuilder(command.entryPoint || process.cwd());
 	const { currentCommandTemplate } = templateReader(commandsLocations)(command);
 
 	displaySpecificCommandTemplate(currentCommandTemplate, cmd.showContent);
