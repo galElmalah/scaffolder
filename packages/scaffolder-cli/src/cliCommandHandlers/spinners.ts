@@ -5,3 +5,7 @@ export const spinners = {
 	cloneTemplatesFromGithub:  ora(),
 	creatingTemplate:  ora(),
 };
+
+export const failAll = () => {
+	Object.values(spinners).forEach(s => s.isSpinning && s.fail());
+};

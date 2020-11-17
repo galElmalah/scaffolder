@@ -357,25 +357,54 @@ For example, lets say we have a parameter named myReactComponentName and we want
 | type            | string, one of: `"FILE_NAME"`, `"FILE_CONTENT"`, `"FOLDER"` | The current type being operated upon - file/folder/content.                                            |
 | fileName        | string                                                      | The name of the file being operated upon. Available only if the type is "FILE_NAME" or "FILE_CONTENT". |
 
+
 ---
+
 
 ### templatesOptions
 templatesOptions is a map from templates names to their options.  
 Currently there is only support for hooks but this will probably change in the future as more and more features will be supported.
 
 
+
 #### templates options object
 | property        | type                                                        | description                                                                                            |
 | :-------------- | :---------------------------------------------------------- | :----------------------------------------------------------------------------------------------------- |
-| hooks    | [hooks object](#hooks-object)                                     | Hooks are functions to be executed at some point throughout the template generation process.             |
+| hooks    | [hooks object](#hooks-object)                                     | Hooks are functions to be executed at some point throughout the template
+| parametersOptions    | [parameter options object](#parameter-options-object)                                    
+| functions    | [functions](#functions)                                    
+| transformers    | [transformers](#transformers)                                    
+
+
 
 #### hooks object
-If an hook function returns a Promise then it will be awaited and only then the template generation process will continue .
+If an hook function returns a Promise then it will be awaited and only then the template generation process will continue.
+
+
 
 | property        | type                                                        | description                                                                                            |
 | :-------------- | :---------------------------------------------------------- | :----------------------------------------------------------------------------------------------------- |
 | preTemplateGeneration    | ([context](#context-object)): any \| Promise\<any>                                    | Executed before the template is generated.             |
 | postTemplateGeneration    | ([context](#context-object)): any \| Promise\<any>                                    | Executed after the template is generated.             |
+
+> By default all errors thrown inside of hooks are ignored. For a way to stop execution read the section below.
+
+
+To stop the template generation process you need to add a "stopScaffolder" property to your error object and throw it from inside the hook.
+```javascript 
+ const e = new Error('my error message');
+ e.stopScaffolder = true;
+ throw e;
+```
+To add a custom error message, instead of showing the default error stack and message, you can add a `getDisplayErrorMessage` method to your error object.
+```javascript 
+ const e = new Error('my error message');
+ e.stopScaffolder = true;
+ e.getDisplayErrorMessage = () => "My custom error message";
+ throw e;
+```
+
+_________________
 
 ## Motivation and goals
 ### Why I wrote Scaffolder?
