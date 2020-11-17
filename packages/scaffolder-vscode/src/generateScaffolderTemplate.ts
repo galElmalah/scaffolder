@@ -8,13 +8,24 @@ import {
   TemplatesBuilder,
   asyncExecutor,
   getTemplateHooksFromConfig,
-  Config
+  Config,IConfig
 } from "scaffolder-core";
 import { chooseTemplate } from "./chooseTemplate";
 import { errorHandler } from "./errorHandler";
 import { getParamsValuesFromUser } from "./getParamsValuesFromUser";
 import { scaffolderMessage } from "./scaffolderMessage";
 import { logger } from "./logger";
+
+const validateScaffolderConfig = (config:IConfig) => {
+  try {
+    config.validateConfig();
+  }catch(e) {
+    vscode.window.showInformationMessage(
+      scaffolderMessage(`You "scaffolder.config.js" files seems to include some miss configured fields.\nCheck the output console for more information.`)
+    );
+    logger.log(e.message);
+  }
+};
 
 export const generateScaffolderTemplate = async (
   path: string,
@@ -34,6 +45,8 @@ export const generateScaffolderTemplate = async (
       )(chosenTemplate);
 
     const config = new Config(configObject).forTemplate(chosenTemplate);
+
+    validateScaffolderConfig(config);
 
     const {
       preTemplateGeneration,
