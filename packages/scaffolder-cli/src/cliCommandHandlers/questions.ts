@@ -51,7 +51,7 @@ export const getKeysValues = (currentCommandTemplate:TemplateStructure, config: 
 			type: 'input',
 			name: cleanKey,
 			message: question,
-			validate:validation
+			validate: validation
 		};
 	});
 	return inquirer.prompt(questions);

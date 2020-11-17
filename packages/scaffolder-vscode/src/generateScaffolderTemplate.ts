@@ -8,6 +8,7 @@ import {
   TemplatesBuilder,
   asyncExecutor,
   getTemplateHooksFromConfig,
+  Config
 } from "scaffolder-core";
 import { chooseTemplate } from "./chooseTemplate";
 import { errorHandler } from "./errorHandler";
@@ -28,14 +29,16 @@ export const generateScaffolderTemplate = async (
       return;
     }
 
-    const { config, currentCommandTemplate } = templateReader(
+    const { config:configObject, currentCommandTemplate } = templateReader(
       availableTemplateCommands
-    )(chosenTemplate);
+      )(chosenTemplate);
+
+    const config = new Config(configObject).forTemplate(chosenTemplate);
 
     const {
       preTemplateGeneration,
       postTemplateGeneration,
-    } = getTemplateHooksFromConfig(config, chosenTemplate);
+    } = config.get.hooks();
 
     const templateKeys = extractAllKeysFromTemplate(currentCommandTemplate);
 
@@ -53,6 +56,7 @@ export const generateScaffolderTemplate = async (
       injector(paramsValues, config, globalCtx),
       globalCtx
     );
+
 
     const templatesBuilder = new TemplatesBuilder(
       templates,
