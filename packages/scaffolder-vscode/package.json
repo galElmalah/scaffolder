@@ -2,7 +2,7 @@
   "name": "scaffolder-vscode",
   "displayName": "scaffolder-vscode",
   "description": "Easily generate dynamic boilerplate for your project!",
-  "version": "0.20.2",
+  "version": "0.21.1",
   "publisher": "ctf-vscode",
   "icon": "images/scaffolder-icon.png",
   "engines": {
@@ -70,7 +70,7 @@
     "lint": "eslint src --ext ts",
     "watch": "tsc -watch -p ./",
     "pretest": "npm run compile && npm run lint",
-    "publish": "npm run vscode:prepublish && vsce publish"
+    "publish": "vsce publish"
   },
   "devDependencies": {
     "@types/glob": "^7.1.1",
