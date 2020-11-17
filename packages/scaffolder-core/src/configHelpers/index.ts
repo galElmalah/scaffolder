@@ -1,6 +1,8 @@
 import { Config } from './config';
 import fs from 'fs';
 
+
+
 // TODO: deprectae this file!
 
 
@@ -48,3 +50,5 @@ export const readConfig = (path: string) : Config => {
 	}
 	return config;
 };
+
+export {Logger} from './config';

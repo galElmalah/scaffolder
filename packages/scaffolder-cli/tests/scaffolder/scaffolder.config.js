@@ -26,6 +26,8 @@ module.exports = {
 		'not-nested': {
 			hooks: {
 				preTemplateGeneration: (ctx) => {
+					console.log({ctx})
+					ctx.logger.error('test')
 					fs.mkdirSync(`${process.cwd()}/results/generatedInPreHook`);
 				}
 			}

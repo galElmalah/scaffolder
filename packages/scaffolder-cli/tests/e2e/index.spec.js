@@ -8,7 +8,7 @@ const execOnTestDir = (cmd, withEntryPoint = true) =>
 			withEntryPoint ? `--entry-point ${__dirname}/results` : ''
 		}`,
 		{
-			stdio: 'inherit',
+			// stdio: 'inherit',
 			// stderr: 'inherit',
 			cwd: __dirname,
 		}

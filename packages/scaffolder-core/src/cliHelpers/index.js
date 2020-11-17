@@ -73,3 +73,5 @@ export const displaySpecificCommandTemplate = (templates, shouldShowContent) => 
 	});
 };
 
+export * from './colors';
+

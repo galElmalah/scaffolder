@@ -1,5 +1,10 @@
 import { TYPES } from '../filesUtils';
 
+export interface Logger  {
+  info(message: string):void
+  warning(message: string):void
+  error(message: string):void
+}
 
 export interface Dictionary<T> {
   [key: string]: T;
@@ -10,6 +15,7 @@ export interface GlobalCtx {
   templateName: string;
   templateRoot: string;
   targetRoot: string;
+  logger: Logger;
 }
 
 export interface LocalCtx {

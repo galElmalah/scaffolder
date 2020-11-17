@@ -10,6 +10,7 @@ import {
 } from 'scaffolder-core';
 import {spinners} from './spinners';
 import {join} from 'path';
+import {makeLogger} from '../cliHelpers/logger';
 
 export async function createChosenTemplate(availableTemplateCommands: any, chosenTemplate: any, command: any) {
 	const { config: configObject, currentCommandTemplate, filesCount } = templateReader(availableTemplateCommands, chosenTemplate);
@@ -38,6 +39,7 @@ export async function createChosenTemplate(availableTemplateCommands: any, chose
 		templateName: chosenTemplate,
 		templateRoot: availableTemplateCommands[chosenTemplate],
 		targetRoot: join(command.entryPoint || process.cwd(), command.pathPrefix || ''),
+		logger: makeLogger()
 	};
 
 	spinners.creatingTemplate.start(`Creating "${chosenTemplate}"...`);

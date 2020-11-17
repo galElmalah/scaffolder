@@ -17,7 +17,7 @@ import {
 	IConfig,
 } from 'scaffolder-core';
 import { join } from 'path';
-
+import { makeLogger } from '../cliHelpers/logger';
 export { interactiveCreateCommandHandler } from './interactiveCreateHandler';
 
 const validateParametersValues = (config: IConfig, keyValuePairs) => {
@@ -56,6 +56,7 @@ const getTransformedTemplates = (command, cmd) => {
 		templateRoot: commandsLocations[command],
 		parametersValues: keyValuePairs,
 		targetRoot: join(cmd.entryPoint || process.cwd(), cmd.pathPrefix || ''),
+		logger: makeLogger()
 	};
 
 
