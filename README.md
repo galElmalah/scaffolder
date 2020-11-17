@@ -404,7 +404,7 @@ If an hook function returns a Promise then it will be awaited and only then the 
 
 | property        | type                                                        | description                                                                                            |
 | :-------------- | :---------------------------------------------------------- | :----------------------------------------------------------------------------------------------------- |
-| preAskingQuestions    | (Partial([context](#context-object))): any \| Promise\<any>                             | Executed before the user is prompted for the template questions. **The context object will not include the `parametersValues` object.**        |
+| preAskingQuestions    | (Partial([context](#context-object))): any \| Promise\<any>                             | Executed before the user is prompted for the template questions.</br>**The context object will not include the `parametersValues` object.**        |
 | preTemplateGeneration    | ([context](#context-object)): any \| Promise\<any>                                    | Executed before the template is generated.             |
 | postTemplateGeneration    | ([context](#context-object)): any \| Promise\<any>                                    | Executed after the template is generated.             |
 
