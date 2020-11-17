@@ -8,7 +8,8 @@ import {
   TemplatesBuilder,
   asyncExecutor,
   Config,
-  IConfig
+  IConfig,
+  contextFactory
 } from "scaffolder-core";
 import { chooseTemplate } from "./chooseTemplate";
 import { errorHandler } from "./errorHandler";
@@ -16,10 +17,10 @@ import { getParamsValuesFromUser } from "./getParamsValuesFromUser";
 import { scaffolderMessage } from "./scaffolderMessage";
 import { logger, makeLogger } from "./logger";
 
-const validateScaffolderConfig = (config:IConfig) => {
+const validateScaffolderConfig = (config: IConfig) => {
   try {
     config.validateConfig();
-  }catch(e) {
+  } catch (e) {
     vscode.window.showInformationMessage(
       scaffolderMessage(`You "scaffolder.config.js" files seems to include some miss configured fields.\nCheck the output console for more information.`)
     );
@@ -40,34 +41,53 @@ export const generateScaffolderTemplate = async (
       return;
     }
 
-    const { config:configObject, currentCommandTemplate } = templateReader(
+    const { config: configObject, currentCommandTemplate } = templateReader(
       availableTemplateCommands
-      )(chosenTemplate);
+    )(chosenTemplate);
 
     const config = new Config(configObject).forTemplate(chosenTemplate);
 
     validateScaffolderConfig(config);
 
+
     const {
+      preAskingQuestions,
       preTemplateGeneration,
       postTemplateGeneration,
     } = config.get.hooks();
 
-    const templateKeys = extractAllKeysFromTemplate(currentCommandTemplate);
-
-    const paramsValues = await getParamsValuesFromUser(templateKeys, config);
-
-    const globalCtx = {
-      parametersValues: paramsValues,
+    const baseCtx = {
+      parametersValues: {},
       templateName: chosenTemplate,
       templateRoot: availableTemplateCommands[chosenTemplate],
       targetRoot: generateTo,
       logger: makeLogger()
     };
 
+    const makeContext = contextFactory(baseCtx);
+
+    await asyncExecutor(
+      preAskingQuestions,
+      () =>
+        logger.log(
+          `Executed "${chosenTemplate}" pre-asking questions hook.`
+        ),
+      (e: Error) =>
+        logger.log(
+          `Error while Executing "${chosenTemplate}" pre-asking questions hook::\n${e}`
+        ),
+      makeContext()
+    );
+
+    const templateKeys = extractAllKeysFromTemplate(currentCommandTemplate);
+
+    const parametersValues = await getParamsValuesFromUser(templateKeys, config);
+
+    const globalCtx = makeContext({ parametersValues });
+
     const templates = templateTransformer(
       currentCommandTemplate,
-      injector(paramsValues, config, globalCtx),
+      injector(parametersValues, config, globalCtx),
       globalCtx
     );
 
@@ -77,7 +97,7 @@ export const generateScaffolderTemplate = async (
       chosenTemplate
     ).withCustomEntryPoint(generateTo);
 
-    
+
     await asyncExecutor(
       preTemplateGeneration,
       () =>
