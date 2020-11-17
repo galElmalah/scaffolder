@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.22.0](https://github.com/galElmalah/scaffolder/compare/scaffolder-vscode@0.21.4...scaffolder-vscode@0.22.0) (2020-11-17)
+
+
+### Features
+
+* **Cli,Core,Vscode:** Support preasking questions hook ([f397826](https://github.com/galElmalah/scaffolder/commit/f397826a306fdb59c53dc5f9e84ab7280f04610d))
+
+
+
+
+
 ## [0.21.4](https://github.com/galElmalah/scaffolder/compare/scaffolder-vscode@0.21.3...scaffolder-vscode@0.21.4) (2020-11-17)
 
 **Note:** Version bump only for package scaffolder-vscode
