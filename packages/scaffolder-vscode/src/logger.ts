@@ -3,7 +3,7 @@ import { Logger } from 'scaffolder-core';
 
 const scaffolderOutChannel = vscode.window.createOutputChannel("Scaffolder");
 
-const logFormat = (logLevel: keyof Logger, message:string) => `[${logLevel}][context-logger]::${message}`;
+const logFormat = (logLevel: keyof Logger, message:string) => `[${logLevel}][context-logger]:: ${message}`;
 
 export const makeLogger = ():Logger => {
   return {
