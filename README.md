@@ -363,7 +363,6 @@ For example, lets say we have a parameter named myReactComponentName and we want
 
 ### logger
 
-
 | property        | type                                                        | description                                                                                            |
 | :-------------- | :---------------------------------------------------------- | :----------------------------------------------------------------------------------------------------- |
 | info    | (message: string): void                                  | Output general info.            |
