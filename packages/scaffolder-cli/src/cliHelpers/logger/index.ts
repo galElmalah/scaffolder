@@ -1,9 +1,9 @@
-import {warning as warningColor, error as errorColor, Logger} from 'scaffolder-core';
+import { warning as warningColor, error as errorColor, Logger } from 'scaffolder-core';
 
-export const makeLogger = ():Logger => {
+export const makeLogger = (): Logger => {
 	return {
-		warning: (msg?:string) => console.log(`\n${warningColor(msg)}`),
-		error: (msg?:string) => console.log(`\n${errorColor(msg)}`),
-		info: (msg?:string) => console.log(`\n${msg}`),
+		warning: (msg = '\n') => console.log(`\n${warningColor(msg)}`),
+		error: (msg = '\n') => console.log(`\n${errorColor(msg)}`),
+		info: (msg = '\n') => console.log(`\n${msg}`),
 	};
 };

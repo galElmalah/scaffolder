@@ -1,7 +1,6 @@
-const chalk = require('chalk');
-const { bold, boldGreen, path, multiColors } = require('./colors');
+import { bold, boldGreen, path, success } from 'scaffolder-core';
 
-const handleError = (err) => {
+export const handleError = (err) => {
 	if (err.getDisplayErrorMessage) {
 		console.log(err.getDisplayErrorMessage());
 	} else {
@@ -10,7 +9,7 @@ const handleError = (err) => {
 };
 
 
-const generateKeyValues = (cmd) =>
+export const generateKeyValues = (cmd) =>
 	cmd.parent.rawArgs
 		.filter((arg) => arg.includes('='))
 		.map((keyValuePair) => keyValuePair.split('='))
@@ -22,10 +21,10 @@ const generateKeyValues = (cmd) =>
 			{}
 		);
 
-const showSuccessMessage = (command, createdAtPath) => {
-	const message = `${multiColors(
+export const showSuccessMessage = (command, createdAtPath) => {
+	const message = `${success(
 		'Hooray!!'
-	)}\nSuccessfuly created the ${boldGreen(command)} template at ${path(
+	)}\nSuccessfully created the ${boldGreen(command)} template at ${path(
 		createdAtPath
 	)}
     `;
@@ -40,10 +39,10 @@ const getLongestCommand = (commands) => {
 	);
 };
 
-const displayAvailableCommands = (commands) => {
+export const displayAvailableCommands = (commands) => {
 	const longestCommandLength = getLongestCommand(commands);
 	console.log(
-		chalk.bold(`${'Command'.padEnd(longestCommandLength, ' ')} | Location`)
+		bold(`${'Command'.padEnd(longestCommandLength, ' ')} | Location`)
 	);
 
 	Object.entries(commands)
@@ -63,7 +62,7 @@ const boxFileName = (name) => {
 	console.log(bold(''.padEnd(name.length + 4, '-')));
 };
 
-const displaySpecificCommandTemplate = (templates, shouldShowContent) => {
+export const displaySpecificCommandTemplate = (templates, shouldShowContent) => {
 	templates.forEach(({ name, content }) => {
 		boxFileName(`${name}`);
 
@@ -73,10 +72,4 @@ const displaySpecificCommandTemplate = (templates, shouldShowContent) => {
 	});
 };
 
-module.exports = {
-	generateKeyValues,
-	showSuccessMessage,
-	handleError,
-	displayAvailableCommands,
-	displaySpecificCommandTemplate,
-};
+

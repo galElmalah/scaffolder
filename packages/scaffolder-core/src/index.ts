@@ -6,7 +6,7 @@ export * from './getTemplateHooksFromConfig';
 export * from './GithubTempCloner';
 export * from './Errors';
 export * from './getAllKeys';
-export * from './cliHelpers';
+export * from './cliHelpers/colors';
 export * from './configHelpers';
 export * from './Config';
 export * from './context';

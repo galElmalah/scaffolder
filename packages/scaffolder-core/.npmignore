@@ -1,0 +1,4 @@
+tests
+*.spec.js
+.vscode
+src
