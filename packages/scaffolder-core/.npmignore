@@ -2,3 +2,4 @@ tests
 *.spec.js
 .vscode
 src
+package-lock.json
