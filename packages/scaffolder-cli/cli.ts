@@ -51,9 +51,12 @@ cli
 	.option(
 		'--template <templateName>',
 		'Start the interactive mode with a preselected template.'
+	).option(
+		'--values <commaSeparatedParametersValue>',
+		'Predefine values for specific parameters param1=val1,param2=val2....'
 	)
 	.description(
-		'Interactive mode that ask for the user input on each step of the way'
+		'Interactive mode that ask for the user input on each step of the way.'
 	)
 	.action(interactiveCreateCommandHandler);
 

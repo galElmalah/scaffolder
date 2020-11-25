@@ -8,18 +8,19 @@ export const handleError = (err) => {
 	}
 };
 
+export const extractParametersValuesFromArgs = (args) => args.filter((arg) => arg.includes('='))
+	.map((keyValuePair) => keyValuePair.split('='))
+	.reduce(
+		(accm, [key, value]) => ({
+			...accm,
+			[key.trim()]: value.trim(),
+		}),
+		{}
+	);
 
 export const generateKeyValues = (cmd) =>
-	cmd.parent.rawArgs
-		.filter((arg) => arg.includes('='))
-		.map((keyValuePair) => keyValuePair.split('='))
-		.reduce(
-			(accm, [key, value]) => ({
-				...accm,
-				[key.trim()]: value.trim(),
-			}),
-			{}
-		);
+	extractParametersValuesFromArgs(cmd.parent.rawArgs);
+		
 
 export const showSuccessMessage = (command, createdAtPath) => {
 	const message = `${success(

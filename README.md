@@ -206,6 +206,9 @@ Run Scaffolder in interactive mode, meaning, it will prompt the user to choose a
   For example: `<entry-point>/<path-prefix>/<template-will-be-created-here>`
 - _--template_ _\<templateName>_  
   Start the interactive mode with a preselected template.
+- _--values_ _\<commaSeparatedParametersValue>_   
+	Predefine values for specific parameters param1=val1,param2=val2...
+
 
 ### **create** _\<templateName>_
 

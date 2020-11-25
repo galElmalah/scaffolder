@@ -1,4 +1,4 @@
-import { showSuccessMessage } from '../cliHelpers';
+import { extractParametersValuesFromArgs, generateKeyValues, showSuccessMessage } from '../cliHelpers';
 import { getKeysValues } from './questions';
 import {
 	asyncExecutor,
@@ -48,11 +48,14 @@ export async function createChosenTemplate(availableTemplateCommands: any, chose
 		makeContext()
 	);
 
-	const parametersValues = await getKeysValues(
-		currentCommandTemplate,
-		config
-	);
+	const preDefinedParametersValues = command.values ? extractParametersValuesFromArgs(command.values.split(',')) : {};
 
+	const userValues = await getKeysValues(
+		currentCommandTemplate,
+		config,
+		preDefinedParametersValues
+	);
+	const parametersValues = {...userValues, ...preDefinedParametersValues};
 
 	const globalCtx = makeContext({ parametersValues });
 

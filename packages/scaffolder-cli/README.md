@@ -177,7 +177,8 @@ Run Scaffolder in interactive mode, meaning, it will prompt the user to choose a
   Path that will be appended the the location the script is generated into.
 - _--template_ _\<templateName>_  
   Start the interactive mode with a preselected template.
-
+- _--values_ _\<commaSeparatedParametersValue>_   
+	Predefine values for specific parameters param1=val1,param2=val2...
 ### **create** _\<templateName>_
 
 _\<templateName>_: One of the templates defined in the **scaffolder** folder. <br/>
