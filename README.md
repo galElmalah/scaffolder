@@ -335,7 +335,11 @@ For example, lets say we have a parameter named myReactComponentName and we want
   parametersOptions: {
     myReactComponentName: {
       question: "Enter a name for your react component:",
-       validation: (value) => value.length > 3 ? true : "The component name must be longer than 3 chars" 
+      validation: (value) => value.length > 3 ? true : "The component name must be longer than 3 chars" 
+    },
+    parameterTwo: {
+      question: "Enter a name for your react component:",
+      options: ["These", "values", "will", "be", "shown", "to the user to choose from" ]
     }
   }
 }
@@ -345,6 +349,7 @@ For example, lets say we have a parameter named myReactComponentName and we want
 | :-------------- | :---------------------------------------------------------- | :----------------------------------------------------------------------------------------------------- |
 | question    | string                                     | The question that will be shown to the user when he will enter a value for the matching parameter             |
 | validation    | (value: string): string \| true                                                      | this function will be invoked to validate the user input.<br/>Return a string  if the value is invalid, this string will be shown to the user as an error message. Return true if the value is valid.                                                              |
+| choices     | {values: string[]} | Object containing a values property from which the user will be asked to choose a value for that parameter. |
 
 
 

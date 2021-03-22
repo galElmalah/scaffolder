@@ -6,6 +6,9 @@ const ScopedOptionsSchema = z.object({
 			z.object({
 				question: z.string().optional(),
 				validation: z.function().optional(),
+				choices: z.object({
+					values: z.array(z.string())
+				}).optional(),
 			})
 		)
 		.optional(),

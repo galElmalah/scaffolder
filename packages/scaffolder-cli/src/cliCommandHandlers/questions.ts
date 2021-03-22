@@ -49,22 +49,34 @@ export const getKeysValues = (
 	config: IConfig,
 	preDefinedParameters: { [key: string]: any }
 ) => {
+	const toInquirerQuestion = (key:string) => {
+		const { validation, question, choices } = config.get.parameterOptions(key);
+		console.log({choices,question});
+		if (choices && choices?.values.length) {
+			return {
+				type: 'list',
+				validate: validation,
+				name: key,
+				choices: choices.values,
+				message: question,
+			};
+		}
+		return {
+			type: 'input',
+			name: key,
+			message: question,
+			validate: validation,
+		};
+	};
+	
 	const questions = extractAllKeysFromTemplate(currentCommandTemplate)
 		.map(extractKey)
 		.filter((key) => !preDefinedParameters[key])
-		.map((key) => {
-			const { validation, question } = config.get.parameterOptions(key);
-			return {
-				type: 'input',
-				name: key,
-				message: question,
-				validate: validation,
-			};
-		});
+		.map(toInquirerQuestion);
 	return inquirer.prompt(questions);
 };
 
-export const isAValidGithubSource = (src) => /(?:git|ssh|https?|git@[-\w.]+):(\/\/)?(.*?)(\.git)(\/?|\#[-\d\w._]+?)$/.test(src);
+export const isAValidGithubSource = (src:string) => /(?:git|ssh|https?|git@[-\w.]+):(\/\/)?(.*?)(\.git)(\/?|\#[-\d\w._]+?)$/.test(src);
 
 export const getRepositorySource = () => {
 	return inquirer.prompt({
@@ -80,3 +92,4 @@ export const getRepositorySource = () => {
 		},
 	});
 };
+
