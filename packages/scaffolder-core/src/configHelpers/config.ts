@@ -7,9 +7,14 @@ export interface Dictionary<T> {
 export type ScaffolderTransformer = (parameterValue: any, context: Context) => any;
 export type ScaffolderFunction = (context: Context) => any;
 
+export interface ParametersOptionsOptions {
+  values: [string|number]
+}
+
 export interface ParameterOptions {
   question?: string;
-  validation?: (parameterValue:any) => string | boolean;
+  validation?: (parameterValue: any) => string | boolean;
+  options?: ParametersOptionsOptions
 }
 
 export interface Hooks {

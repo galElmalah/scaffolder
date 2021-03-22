@@ -49,18 +49,29 @@ export const getKeysValues = (
 	config: IConfig,
 	preDefinedParameters: { [key: string]: any }
 ) => {
+	const toInquirerQuestion = (key:string) => {
+		const { validation, question, options } = config.get.parameterOptions(key);
+		if (options && options?.values.length) {
+			return {
+				type: 'list',
+				validate: validation,
+				name: key,
+				choices: options.values,
+				message: question,
+			};
+		}
+		return {
+			type: 'input',
+			name: key,
+			message: question,
+			validate: validation,
+		};
+	};
+	
 	const questions = extractAllKeysFromTemplate(currentCommandTemplate)
 		.map(extractKey)
 		.filter((key) => !preDefinedParameters[key])
-		.map((key) => {
-			const { validation, question } = config.get.parameterOptions(key);
-			return {
-				type: 'input',
-				name: key,
-				message: question,
-				validate: validation,
-			};
-		});
+		.map(toInquirerQuestion);
 	return inquirer.prompt(questions);
 };
 
@@ -80,3 +91,5 @@ export const getRepositorySource = () => {
 		},
 	});
 };
+
+
