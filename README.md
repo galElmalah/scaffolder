@@ -349,7 +349,7 @@ For example, lets say we have a parameter named myReactComponentName and we want
 | :-------------- | :---------------------------------------------------------- | :----------------------------------------------------------------------------------------------------- |
 | question    | string                                     | The question that will be shown to the user when he will enter a value for the matching parameter             |
 | validation    | (value: string): string \| true                                                      | this function will be invoked to validate the user input.<br/>Return a string  if the value is invalid, this string will be shown to the user as an error message. Return true if the value is valid.                                                              |
-| options     | {values: [string|number]} | Object containing a values property from which the user will be asked to choose a value for that parameter. |
+| choices     | {values: string[]} | Object containing a values property from which the user will be asked to choose a value for that parameter. |
 
 
 

@@ -50,13 +50,14 @@ export const getKeysValues = (
 	preDefinedParameters: { [key: string]: any }
 ) => {
 	const toInquirerQuestion = (key:string) => {
-		const { validation, question, options } = config.get.parameterOptions(key);
-		if (options && options?.values.length) {
+		const { validation, question, choices } = config.get.parameterOptions(key);
+		console.log({choices,question});
+		if (choices && choices?.values.length) {
 			return {
 				type: 'list',
 				validate: validation,
 				name: key,
-				choices: options.values,
+				choices: choices.values,
 				message: question,
 			};
 		}
@@ -75,7 +76,7 @@ export const getKeysValues = (
 	return inquirer.prompt(questions);
 };
 
-export const isAValidGithubSource = (src) => /(?:git|ssh|https?|git@[-\w.]+):(\/\/)?(.*?)(\.git)(\/?|\#[-\d\w._]+?)$/.test(src);
+export const isAValidGithubSource = (src:string) => /(?:git|ssh|https?|git@[-\w.]+):(\/\/)?(.*?)(\.git)(\/?|\#[-\d\w._]+?)$/.test(src);
 
 export const getRepositorySource = () => {
 	return inquirer.prompt({
@@ -91,5 +92,4 @@ export const getRepositorySource = () => {
 		},
 	});
 };
-
 
