@@ -51,7 +51,6 @@ export const getKeysValues = (
 ) => {
 	const toInquirerQuestion = (key:string) => {
 		const { validation, question, choices } = config.get.parameterOptions(key);
-		console.log({choices,question});
 		if (choices && choices?.values.length) {
 			return {
 				type: 'list',
