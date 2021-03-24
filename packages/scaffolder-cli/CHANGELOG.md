@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.9.5](https://github.com/galElmalah/scaffolder/compare/scaffolder-cli@1.9.4...scaffolder-cli@1.9.5) (2021-03-24)
+
+**Note:** Version bump only for package scaffolder-cli
+
+
+
+
+
 ## [1.9.4](https://github.com/galElmalah/scaffolder/compare/scaffolder-cli@1.9.3...scaffolder-cli@1.9.4) (2021-03-22)
 
 **Note:** Version bump only for package scaffolder-cli
