@@ -339,7 +339,9 @@ For example, lets say we have a parameter named myReactComponentName and we want
     },
     parameterTwo: {
       question: "Enter a name for your react component:",
-      options: ["These", "values", "will", "be", "shown", "to the user to choose from" ]
+      choices: {
+        values:["These", "values", "will", "be", "shown", "to the user to choose from" ]
+      }
     }
   }
 }
