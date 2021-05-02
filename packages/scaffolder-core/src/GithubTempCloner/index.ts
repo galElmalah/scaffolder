@@ -5,10 +5,13 @@ import axios from 'axios';
 import gitUrlParse from 'git-url-parse';
 import { allPass } from 'ramda';
 import { CommandsToPaths } from '../commandsBuilder';
+const GIT_ERROR_CODES = [1,128,127];
 const promisifedSpawn = (cmd, args, options) => new Promise((resolve, reject) => {
 	const cp = spawn(cmd,args,options);
 	cp.on('error',reject);
+	cp.on('exit',(code:number) => GIT_ERROR_CODES.includes(code) && reject(code));
 	cp.on('close',resolve);
+
 });
 // make sure we delete all of the tmp files when the process exit.
 tmp.setGracefulCleanup();
@@ -62,6 +65,10 @@ export class GithubTempCloner implements GithubCloner {
 		this.tmpFolderObject = tmp.dirSync();
 	}
 
+	getSrc(){
+		return this.gitSrc;
+	}
+
 	getParsedGitSrc() {
 		return gitUrlParse(this.gitSrc);
 	}
@@ -93,6 +100,7 @@ export class GithubTempCloner implements GithubCloner {
 			this.gitSrc,
 			this.getTempDirPath(),
 		],{stdio:'ignore'});
+
 		this.isCloned = true;
 		return this.getTempDirPath();
 	}
