@@ -9,7 +9,6 @@ jobs:
       - checkout
       - node/with-cache:
           steps:
-            - run: npm install
             - run: npm run bootstrap --hoist
             - run: npm test         
   publish:
