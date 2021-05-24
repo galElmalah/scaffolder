@@ -13,6 +13,7 @@ export interface ConfigGetters {
 	parameterOptions(parameter: string): ParameterOptions;
 	transformer(transformer: string): ScaffolderTransformer;
 	function(aFunction: string): ScaffolderFunction;
+	templateDescription(): string,
 	hooks(): Hooks;
 }
 
@@ -22,7 +23,7 @@ export interface IConfig {
 	validateConfig: () => void;
 }
 
-type ScopedProps = 'parametersOptions' | 'transformers' | 'functions' | 'hooks';
+type ScopedProps = 'parametersOptions' | 'transformers' | 'functions' | 'hooks' | 'description';
 
 export class Config implements IConfig {
 	private configJson: Dictionary<any>;
@@ -97,8 +98,8 @@ export class Config implements IConfig {
 			};
 			return this.getFromConfig('parametersOptions', parameter, defaultOptions);
 		},
-		transformer: (transformer: string) => {
-			return this.getFromConfig('transformers', transformer);
+		transformer: (aTransformer: string) => {
+			return this.getFromConfig('transformers', aTransformer);
 		},
 		function: (aFunction: string) => {
 			return this.getFromConfig('functions', aFunction);
@@ -106,5 +107,8 @@ export class Config implements IConfig {
 		hooks: () => {
 			return this.getFromTemplateScope('hooks') || {};
 		},
+		templateDescription: () => {
+			return this.getFromTemplateScope('description') || '';
+		}
 	};
 }

@@ -24,6 +24,7 @@ module.exports = {
 				postTemplateGeneration: () => {},				
 				preAskingQuestions: () => {}
 			},
+			description: 'yo',
 			parametersOptions: {
 				paramOne: {
 					question: 'another question',

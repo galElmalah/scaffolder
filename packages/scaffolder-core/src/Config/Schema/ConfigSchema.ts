@@ -28,6 +28,9 @@ export const ConfigSchema = z
 							preAskingQuestions: z.function().optional(),
 						})
 						.optional(),
+					description: z
+						.string()
+						.optional(),
 				})
 				.merge(ScopedOptionsSchema)
 		),

@@ -57,6 +57,17 @@ describe('Config', () => {
 			expect(errors).toHaveLength(1);
 		});
 
+		it('should assert template description is a string', () => {
+			const errors = new Config(
+				getConfigObject({
+					templatesOptions: {
+						someTemplate: { description: { } },
+					},
+				})
+			).getSchemaErrors();
+			expect(errors).toHaveLength(1);
+		});
+
 		it('should detect hooks errors scoped to specific templates', () => {
 			const errors = new Config(
 				getConfigObject({
@@ -237,26 +248,38 @@ describe('Config', () => {
 		});
 	});
 
-	describe('hooks', () => {
-		it('should return an empty object if that template doesn\'t have hooks', () => {
-			const template = 'some-template';
-			const config = new Config(configObject);
-			config.forTemplate(template);
-			expect(config.get.hooks()).toEqual({});
-		});
+	describe('templateOptions', () => {
 
-		it('should return all of the template hooks', () => {
+		it('should return the template description', () => {
 			const template = 'someTemplate';
 			const config = new Config(configObject);
-			const numberOfPossibleHooks = 3;
 			config.forTemplate(template);
-			expect(config.get.hooks()).toBeDefined();
-			expect(Object.keys(config.get.hooks())).toHaveLength(
-				numberOfPossibleHooks
-			);
-			expect(config.get.hooks()).toEqual(
-				configObject.templatesOptions[template].hooks
-			);
+			expect(config.get.templateDescription()).toEqual(configObject.templatesOptions.someTemplate.description);
+		});
+
+		describe('hooks', () => {
+			it('should return an empty object if that template doesn\'t have hooks', () => {
+				const template = 'some-template';
+				const config = new Config(configObject);
+				config.forTemplate(template);
+				expect(config.get.hooks()).toEqual({});
+			});
+	
+			it('should return all of the template hooks', () => {
+				const template = 'someTemplate';
+				const config = new Config(configObject);
+				const numberOfPossibleHooks = 3;
+				config.forTemplate(template);
+				expect(config.get.hooks()).toBeDefined();
+				expect(Object.keys(config.get.hooks())).toHaveLength(
+					numberOfPossibleHooks
+				);
+				expect(config.get.hooks()).toEqual(
+					configObject.templatesOptions[template].hooks
+				);
+			});
 		});
 	});
+
+
 });
