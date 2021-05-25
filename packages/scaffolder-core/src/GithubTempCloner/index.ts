@@ -80,13 +80,13 @@ export class GithubTempCloner implements GithubCloner {
 		const { tree } = await axios.get(apiUrl).then(({ data }) => data);
 		const isTemplate = ({ path }) =>
 			path.startsWith('scaffolder') && path.split('/').length === 2;
-		const notConfig = ({ path }) => !path.endsWith('scaffolder.config.js');
+		const notAConfig = ({ path }) => !path.endsWith('scaffolder.config.js');
 		const toTemplate = (acc, { path }) => ({
 			...acc,
 			[path.split('/').pop()]: {location:`${this.getTempDirPath()}/${path}`,type:CommandType.LOCAL},
 		});
 
-		return tree.filter(allPass([isTemplate, notConfig])).reduce(toTemplate, {});
+		return tree.filter(allPass([isTemplate, notAConfig])).reduce(toTemplate, {});
 	}
 
 	async clone() {

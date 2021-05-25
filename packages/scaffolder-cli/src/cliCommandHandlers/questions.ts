@@ -1,17 +1,28 @@
 import inquirer from 'inquirer';
-import { getAllKeys, extractKey } from 'scaffolder-core';
-import { IConfig, TemplateStructure } from 'scaffolder-core';
+
+import { IConfig, TemplateStructure,Commands,getAllKeys, extractKey, CommandType } from 'scaffolder-core';
 
 const QUESTIONS = {
 	TEMPLATES: {
 		type: 'list',
-		name: 'chosenTemplate',
+		name: 'chosenTemplateName',
 		message: 'Choose the template you want to create.',
 	},
 };
 
-export const chooseTemplate = (commands: Commands) => {
-	const choices = Object.keys(commands);
+export const chooseTemplate = async (commands: Commands) => {
+	const choices = Object.entries(commands).map(([key,val]) => {
+		if(val.type === CommandType.REMOTE ) {
+			return `[REMOTE] ${key}`;
+		}
+		return key;
+	}).sort((a,b) => {
+		if(a.includes('REMOTE')) {
+			return -1;
+		}
+		return a.localeCompare(b);
+	});
+
 	return inquirer.prompt([
 		{
 			...QUESTIONS.TEMPLATES,

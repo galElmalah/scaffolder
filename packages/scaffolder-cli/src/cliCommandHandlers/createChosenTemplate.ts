@@ -13,7 +13,7 @@ import { spinners } from './spinners';
 import { join } from 'path';
 import { makeLogger } from '../cliHelpers/logger';
 
-export async function createChosenTemplate(availableTemplateCommands: any, chosenTemplate: any, command: any) {
+export async function createChosenTemplate(availableTemplateCommands: any, chosenTemplate: string, command: any) {
 	const { config: configObject, currentCommandTemplate, filesCount } = templateReader(availableTemplateCommands, chosenTemplate);
 
 	const config = new Config(configObject).forTemplate(chosenTemplate);
@@ -27,7 +27,7 @@ export async function createChosenTemplate(availableTemplateCommands: any, chose
 	const baseCtx = {
 		parametersValues: {},
 		templateName: chosenTemplate,
-		templateRoot: availableTemplateCommands[chosenTemplate],
+		templateRoot: availableTemplateCommands[chosenTemplate.replace('[REMOTE] ', '')],
 		targetRoot: join(command.entryPoint || process.cwd(), command.pathPrefix || ''),
 		logger: makeLogger()
 	};

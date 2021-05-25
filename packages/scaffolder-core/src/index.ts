@@ -10,3 +10,4 @@ export * from './cliHelpers/colors';
 export * from './configHelpers';
 export * from './Config';
 export * from './context';
+export  * from './dataStore';

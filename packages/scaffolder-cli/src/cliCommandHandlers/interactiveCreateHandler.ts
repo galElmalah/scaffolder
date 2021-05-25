@@ -1,6 +1,6 @@
 import { handleError } from '../cliHelpers';
 
-import { GithubTempCloner, commandsBuilder } from 'scaffolder-core';
+import { GithubTempCloner, commandsBuilder, getRemotes, CommandType } from 'scaffolder-core';
 import { spinners } from './spinners';
 import { githubFlow } from './interactiveGithubFlow';
 import { getChosenTemplate } from './getChosenTemplate';
@@ -24,13 +24,34 @@ export const interactiveCreateCommandHandler = async (command: Command) => {
 			);
 		} else {
 			const availableTemplateCommands = commandsBuilder(process.cwd());
-			const { chosenTemplate } = await getChosenTemplate(
-				availableTemplateCommands,
+			const remotes = await getRemotes();
+			const templatesAndRemotes = {
+				...availableTemplateCommands,...remotes
+			};
+
+			const { chosenTemplateName } = await getChosenTemplate(
+				templatesAndRemotes,
 				command.template
 			);
+			const chosenTemplateOrScope = templatesAndRemotes[chosenTemplateName.replace('[REMOTE] ','')];
+
+			if(chosenTemplateOrScope.type === CommandType.REMOTE) {
+
+				const { availableTemplateCommands, chosenTemplate } = await githubFlow(
+					gitCloner,
+					chosenTemplateOrScope.location,
+					command.template
+				);
+				await createChosenTemplate(
+					availableTemplateCommands,
+					chosenTemplate,
+					command
+				);
+				return;
+			}
 			await createChosenTemplate(
 				availableTemplateCommands,
-				chosenTemplate,
+				chosenTemplateOrScope.name as string,
 				command
 			);
 		}

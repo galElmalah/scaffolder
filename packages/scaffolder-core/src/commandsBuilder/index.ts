@@ -16,6 +16,7 @@ export interface CommandEntry {
   type: CommandType;
   location: string;
   description?: string;
+	name?:string;
 }
 
 export type Commands = Record<string, CommandEntry> 
@@ -74,6 +75,7 @@ export const readTemplatesFromPaths =  (
 					[cmd]: {
 						location: path.join(scaffolderPath, cmd),
 						type: CommandType.LOCAL,
+						name: cmd
 					},
 				}),
 				{}

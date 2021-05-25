@@ -11,7 +11,7 @@ const dataShape: StoreData = {
 }; 
 
 export const getRemotes = async () => {
-	const store = await anAppDataStore(APP_NAME, {initialData:dataShape});
+	const store = await anAppDataStore(APP_NAME, {initialData:dataShape,useCache:false});
 	return store.get('remotes');
 };
 

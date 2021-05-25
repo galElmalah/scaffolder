@@ -5,6 +5,7 @@ import {
 	listCommandHandler,
 	showCommandHandler,
 	interactiveCreateCommandHandler,
+	saveRemotesCommandHandler
 } from './src/cliCommandHandlers';
 
 
@@ -77,4 +78,7 @@ cli
 	.option('-c, --show-content')
 	.action(showCommandHandler);
 
+cli.command('save <src>').option('-n, --name <value>').action(saveRemotesCommandHandler);
+
 cli.parse(process.argv);
+
