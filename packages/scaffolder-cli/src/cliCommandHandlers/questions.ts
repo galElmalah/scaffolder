@@ -10,7 +10,7 @@ const QUESTIONS = {
 	},
 };
 
-export const chooseTemplate = (commands) => {
+export const chooseTemplate = (commands: Commands) => {
 	const choices = Object.keys(commands);
 	return inquirer.prompt([
 		{

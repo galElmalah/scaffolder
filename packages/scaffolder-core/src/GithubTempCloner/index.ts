@@ -4,7 +4,7 @@ import { spawn } from 'child_process';
 import axios from 'axios';
 import gitUrlParse from 'git-url-parse';
 import { allPass } from 'ramda';
-import { CommandsToPaths } from '../commandsBuilder';
+import { Commands, CommandType } from '../commandsBuilder';
 const GIT_ERROR_CODES = [1,128,127];
 const promisifedSpawn = (cmd, args, options) => new Promise((resolve, reject) => {
 	const cp = spawn(cmd,args,options);
@@ -28,7 +28,7 @@ export interface GithubCloner {
 	hasCloned(): boolean;
 	getParsedGitSrc(): any;
 	createTempDir(): void;
-	listTemplates(): Promise<CommandsToPaths>;
+	listTemplates(): Promise<Commands>;
 	clone(): void;
 	cleanUp(): void;
 }
@@ -73,7 +73,7 @@ export class GithubTempCloner implements GithubCloner {
 		return gitUrlParse(this.gitSrc);
 	}
 
-	async listTemplates(): Promise<CommandsToPaths> {
+	async listTemplates(): Promise<Commands> {
 		this.createTempDir();
 		const { owner, name } = this.getParsedGitSrc();
 		const apiUrl = `https://api.github.com/repos/${owner}/${name}/git/trees/master?recursive=true`;
@@ -83,7 +83,7 @@ export class GithubTempCloner implements GithubCloner {
 		const notConfig = ({ path }) => !path.endsWith('scaffolder.config.js');
 		const toTemplate = (acc, { path }) => ({
 			...acc,
-			[path.split('/').pop()]: `${this.getTempDirPath()}/${path}`,
+			[path.split('/').pop()]: {location:`${this.getTempDirPath()}/${path}`,type:CommandType.LOCAL},
 		});
 
 		return tree.filter(allPass([isTemplate, notConfig])).reduce(toTemplate, {});

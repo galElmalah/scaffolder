@@ -1,5 +1,5 @@
 import { readdirSync, lstatSync } from 'fs';
-import { templatePathsFinder, commandsBuilder, SEARCH_DEPTH_LIMIT } from './index';
+import { templatePathsFinder, commandsBuilder, SEARCH_DEPTH_LIMIT, CommandType, CommandEntry } from './index';
 import { NoScaffolderFolder } from '../Errors';
 
 jest.mock('fs');
@@ -91,6 +91,8 @@ describe('commandsBuilder -> commandsBuilder', () => {
 		jest.resetAllMocks();
 	});
 
+	const aLocalCommand = (location:string):CommandEntry => ({location, type:CommandType.LOCAL});
+
 	it('builds the commands with the templates path from all levels', () => {
 		const path = 'global/templatesAreHere/project';
 		mockedReaddirSync
@@ -104,16 +106,16 @@ describe('commandsBuilder -> commandsBuilder', () => {
 			isDirectory: () => true 
 		});
 		expect(commandsBuilder(path)).toEqual({
-			cmd1: 'global/templatesAreHere/scaffolder/cmd1',
-			cmd10: 'global/scaffolder/cmd10',
-			cmd2: 'global/templatesAreHere/scaffolder/cmd2',
-			cmd3: 'global/templatesAreHere/scaffolder/cmd3',
-			cmd4: 'global/templatesAreHere/scaffolder/cmd4',
-			cmd5: 'global/templatesAreHere/scaffolder/cmd5',
-			cmd6: 'global/scaffolder/cmd6',
-			cmd7: 'global/scaffolder/cmd7',
-			cmd8: 'global/scaffolder/cmd8',
-			cmd9: 'global/scaffolder/cmd9',
+			cmd1: aLocalCommand( 'global/templatesAreHere/scaffolder/cmd1'),
+			cmd10: aLocalCommand( 'global/scaffolder/cmd10'),
+			cmd2: aLocalCommand( 'global/templatesAreHere/scaffolder/cmd2'),
+			cmd3: aLocalCommand( 'global/templatesAreHere/scaffolder/cmd3'),
+			cmd4: aLocalCommand( 'global/templatesAreHere/scaffolder/cmd4'),
+			cmd5: aLocalCommand( 'global/templatesAreHere/scaffolder/cmd5'),
+			cmd6: aLocalCommand( 'global/scaffolder/cmd6'),
+			cmd7: aLocalCommand( 'global/scaffolder/cmd7'),
+			cmd8: aLocalCommand( 'global/scaffolder/cmd8'),
+			cmd9: aLocalCommand( 'global/scaffolder/cmd9'),
 		});
 	});
 
@@ -131,13 +133,13 @@ describe('commandsBuilder -> commandsBuilder', () => {
 			isDirectory: () => true 
 		});
 		expect(commandsBuilder(path)).toEqual({
-			cmd1: 'global/templatesAreHere/scaffolder/cmd1',
-			cmd2: 'global/templatesAreHere/scaffolder/cmd2',
-			cmd3: 'global/templatesAreHere/scaffolder/cmd3',
-			cmd4: 'global/templatesAreHere/scaffolder/cmd4',
-			cmd5: 'global/templatesAreHere/scaffolder/cmd5',
-			cmd6: 'global/scaffolder/cmd6',
-			cmd7: 'global/scaffolder/cmd7',
+			cmd1: aLocalCommand('global/templatesAreHere/scaffolder/cmd1'),
+			cmd2: aLocalCommand('global/templatesAreHere/scaffolder/cmd2'),
+			cmd3: aLocalCommand('global/templatesAreHere/scaffolder/cmd3'),
+			cmd4: aLocalCommand('global/templatesAreHere/scaffolder/cmd4'),
+			cmd5: aLocalCommand('global/templatesAreHere/scaffolder/cmd5'),
+			cmd6: aLocalCommand('global/scaffolder/cmd6'),
+			cmd7: aLocalCommand('global/scaffolder/cmd7'),
 		});
 	});
 
