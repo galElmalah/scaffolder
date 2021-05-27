@@ -18,8 +18,7 @@ import {
 	contextFactory,
 	boldGreen,
 	saveRemote,
-	GlobalCtx,
-	getRemotes
+	deleteRemote
 } from 'scaffolder-core';
 import { join } from 'path';
 import { makeLogger } from '../cliHelpers/logger';
@@ -153,9 +152,14 @@ export const showCommandHandler = (command, cmd) => {
 
 
 
-export const saveRemotesCommandHandler = async (location, cmd) => {
+export const saveRemotesCommandHandler = async (location:string, cmd) => {
 	const name = cmd.name;
 	
 	await saveRemote(name, location);
 	console.log(boldGreen(`Successfully saved "${location}" under the alias "${name}"`));
+};
+
+export const deleteRemotesCommandHandler = async (name:string) => {
+	await deleteRemote(name);
+	console.log(boldGreen(`Successfully deleted "${name}"."`));
 };
