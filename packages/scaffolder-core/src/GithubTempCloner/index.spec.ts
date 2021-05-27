@@ -1,5 +1,6 @@
 import { GithubTempCloner } from '.';
 import nock from 'nock';
+import { aLocalCommand } from '../commandsBuilder/index.spec';
 
 const responseData = require('./repoStructureApiReponse.json');
 
@@ -24,16 +25,17 @@ describe('GithubTempCloner', () => {
 			})
 			.get(`/repos/${username}/${repo}/git/trees/master?recursive=true`)
 			.reply(200, responseData);
-
+		aLocalCommand;
 		const gitHttpsSrc = `https://github.com/${username}/${repo}.git`;
 
 		const cloner = new GithubTempCloner(gitHttpsSrc);
 		const templates = await cloner.listTemplates();
 		const expectedTemplates = {
-			'index':`${cloner.getTempDirPath()}/scaffolder/index`,
-			'react-comp':`${cloner.getTempDirPath()}/scaffolder/react-comp`,
-			'typescript-module':`${cloner.getTempDirPath()}/scaffolder/typescript-module`
+			'index':aLocalCommand(`${cloner.getTempDirPath()}/scaffolder/index`),
+			'react-comp':aLocalCommand(`${cloner.getTempDirPath()}/scaffolder/react-comp`),
+			'typescript-module':aLocalCommand(`${cloner.getTempDirPath()}/scaffolder/typescript-module`),
 		};
+		
 		expect(templates).toEqual(expectedTemplates);
 	});
 });

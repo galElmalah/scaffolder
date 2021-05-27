@@ -1,11 +1,12 @@
-import { readdirSync, lstatSync } from 'fs';
+import fs from 'fs';
 import { templatePathsFinder, commandsBuilder, SEARCH_DEPTH_LIMIT, CommandType, CommandEntry } from './index';
 import { NoScaffolderFolder } from '../Errors';
 
 jest.mock('fs');
 
-const mockedReaddirSync = readdirSync as jest.Mock;
-const mockedLstatSync = lstatSync as jest.Mock;
+const mockedReaddirSync = fs.readdirSync as jest.Mock;
+const mockedLstatSync = fs.lstatSync as jest.Mock;
+export const aLocalCommand = (location:string):CommandEntry => ({location, type:CommandType.LOCAL, name: location.split('/').pop()});
 
 
 const path = 'g/d/a/s/d/f';
@@ -91,7 +92,6 @@ describe('commandsBuilder -> commandsBuilder', () => {
 		jest.resetAllMocks();
 	});
 
-	const aLocalCommand = (location:string):CommandEntry => ({location, type:CommandType.LOCAL});
 
 	it('builds the commands with the templates path from all levels', () => {
 		const path = 'global/templatesAreHere/project';
@@ -132,6 +132,7 @@ describe('commandsBuilder -> commandsBuilder', () => {
 		mockedLstatSync.mockReturnValue({
 			isDirectory: () => true 
 		});
+
 		expect(commandsBuilder(path)).toEqual({
 			cmd1: aLocalCommand('global/templatesAreHere/scaffolder/cmd1'),
 			cmd2: aLocalCommand('global/templatesAreHere/scaffolder/cmd2'),

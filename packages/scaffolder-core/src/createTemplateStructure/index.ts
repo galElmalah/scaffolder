@@ -10,6 +10,7 @@ import { Context } from '../context';
 import { readConfig } from '../configHelpers';
 import { curry } from 'ramda';
 import { IConfig } from '../Config';
+import { Commands } from '../commandsBuilder';
 
 export interface TemplateStructure {
   name: string;
@@ -87,14 +88,15 @@ export const createTemplateStructure = (
 	return { templatesStructure: createStructure(folderPath), filesCount };
 };
 
-export const templateReader = curry((commands, cmd) => {
+export const templateReader = curry((commands:Commands, cmd) => {
+	
 	if (!commands[cmd]) {
 		throw new NoMatchingTemplate(cmd);
 	}
 
-	const templates = createTemplateStructure(commands[cmd]);
+	const templates = createTemplateStructure(commands[cmd].location);
 	return {
-		config: readConfig(commands[cmd]),
+		config: readConfig(commands[cmd].location),
 		currentCommandTemplate: templates.templatesStructure,
 		filesCount: templates.filesCount,
 	};

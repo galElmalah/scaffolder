@@ -12,16 +12,7 @@ export const interactiveCreateCommandHandler = async (command: Command) => {
 
 	try {
 		if (command.fromGithub) {
-			const { availableTemplateCommands, chosenTemplate } = await githubFlow(
-				gitCloner,
-				command.fromGithub,
-				command.template
-			);
-			await createChosenTemplate(
-				availableTemplateCommands,
-				chosenTemplate,
-				command
-			);
+			await createATemplateWithGithubFlow(gitCloner, command, command.fromGithub, command.template);
 		} else {
 			const availableTemplateCommands = commandsBuilder(process.cwd());
 			const remotes = await getRemotes();
@@ -32,23 +23,15 @@ export const interactiveCreateCommandHandler = async (command: Command) => {
 			const { chosenTemplateName } = await getChosenTemplate(
 				templatesAndRemotes,
 				command.template
-			);
-			const chosenTemplateOrScope = templatesAndRemotes[chosenTemplateName.replace('[REMOTE] ','')];
+			);			
+
+			const chosenTemplateOrScope = templatesAndRemotes[chosenTemplateName];
 
 			if(chosenTemplateOrScope.type === CommandType.REMOTE) {
-
-				const { availableTemplateCommands, chosenTemplate } = await githubFlow(
-					gitCloner,
-					chosenTemplateOrScope.location,
-					command.template
-				);
-				await createChosenTemplate(
-					availableTemplateCommands,
-					chosenTemplate,
-					command
-				);
+				await createATemplateWithGithubFlow(gitCloner, command, chosenTemplateOrScope.location);
 				return;
 			}
+			
 			await createChosenTemplate(
 				availableTemplateCommands,
 				chosenTemplateOrScope.name as string,
@@ -64,3 +47,16 @@ export const interactiveCreateCommandHandler = async (command: Command) => {
 		gitCloner.cleanUp();
 	}
 };
+async function createATemplateWithGithubFlow(gitCloner: GithubTempCloner, command:Command ,githubSrc:string, preSelectedTemplate?:string) {
+	const { availableTemplateCommands, chosenTemplate } = await githubFlow(
+		gitCloner,
+		githubSrc,
+		preSelectedTemplate
+	);
+	await createChosenTemplate(
+		availableTemplateCommands,
+		chosenTemplate,
+		command
+	);
+}
+

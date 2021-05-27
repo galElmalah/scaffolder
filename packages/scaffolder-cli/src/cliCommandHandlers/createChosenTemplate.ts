@@ -1,4 +1,4 @@
-import { extractParametersValuesFromArgs, generateKeyValues, showSuccessMessage } from '../cliHelpers';
+import { extractParametersValuesFromArgs, showSuccessMessage } from '../cliHelpers';
 import { getKeysValues } from './questions';
 import {
 	asyncExecutor,
@@ -27,7 +27,7 @@ export async function createChosenTemplate(availableTemplateCommands: any, chose
 	const baseCtx = {
 		parametersValues: {},
 		templateName: chosenTemplate,
-		templateRoot: availableTemplateCommands[chosenTemplate.replace('[REMOTE] ', '')],
+		templateRoot: availableTemplateCommands[chosenTemplate],
 		targetRoot: join(command.entryPoint || process.cwd(), command.pathPrefix || ''),
 		logger: makeLogger()
 	};

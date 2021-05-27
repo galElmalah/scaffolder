@@ -81,9 +81,9 @@ export class GithubTempCloner implements GithubCloner {
 		const isTemplate = ({ path }) =>
 			path.startsWith('scaffolder') && path.split('/').length === 2;
 		const notAConfig = ({ path }) => !path.endsWith('scaffolder.config.js');
-		const toTemplate = (acc, { path }) => ({
+		const toTemplate = (acc, { path }: {path:string}) => ({
 			...acc,
-			[path.split('/').pop()]: {location:`${this.getTempDirPath()}/${path}`,type:CommandType.LOCAL},
+			[toName(path)]: {location:`${this.getTempDirPath()}/${path}`,type:CommandType.LOCAL, name:toName(path)},
 		});
 
 		return tree.filter(allPass([isTemplate, notAConfig])).reduce(toTemplate, {});
@@ -119,3 +119,7 @@ export class GithubTempCloner implements GithubCloner {
 			});
 	}
 }
+function toName(fromPath: string) {
+	return fromPath.split('/').pop() as string;
+}
+

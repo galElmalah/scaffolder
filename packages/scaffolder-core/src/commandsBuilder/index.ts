@@ -1,4 +1,4 @@
-import fs from 'fs-extra';
+import fs from 'fs';
 import path from 'path';
 import { NoScaffolderFolder } from '../Errors';
 import { isFolder } from '../filesUtils';
@@ -21,7 +21,7 @@ export interface CommandEntry {
 
 export type Commands = Record<string, CommandEntry> 
 
-export const templatePathsFinder = (currentPath) => {
+export const templatePathsFinder = (currentPath:string) => {
 	const pathsQueue: string[] = [];
 	const pathRoot = path.parse(currentPath).root;
 	const isEndOfPath = (_path) =>
@@ -38,6 +38,7 @@ export const templatePathsFinder = (currentPath) => {
 			return pathsQueue;
 		}
 
+		
 		const currentDir = fs.readdirSync(currentPath);
 
 		const isScaffolderFolderInThisLevel = currentDir.some(
