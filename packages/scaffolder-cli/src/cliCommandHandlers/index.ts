@@ -152,11 +152,9 @@ export const showCommandHandler = (command, cmd) => {
 
 
 
-export const saveRemotesCommandHandler = async (location:string, cmd) => {
-	const name = cmd.name;
-	
-	await saveRemote(name, location);
-	console.log(boldGreen(`Successfully saved "${location}" under the alias "${name}"`));
+export const saveRemotesCommandHandler = async (name:string, cmd) => {
+	await saveRemote(name, cmd.location);
+	console.log(boldGreen(`Successfully saved "${cmd.location}" under the alias "${name}"`));
 };
 
 export const deleteRemotesCommandHandler = async (name:string) => {

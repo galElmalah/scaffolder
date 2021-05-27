@@ -79,7 +79,7 @@ cli
 	.option('-c, --show-content')
 	.action(showCommandHandler);
 
-cli.command('save-remote <src>').option('-n, --name <value>').action(saveRemotesCommandHandler);
+cli.command('save-remote <name>').option('-lc, --location <value>').action(saveRemotesCommandHandler);
 cli.command('delete-remote <name>').action(deleteRemotesCommandHandler);
 
 cli.parse(process.argv);
