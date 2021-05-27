@@ -5,6 +5,8 @@ import {
 	listCommandHandler,
 	showCommandHandler,
 	interactiveCreateCommandHandler,
+	saveRemotesCommandHandler,
+	deleteRemotesCommandHandler
 } from './src/cliCommandHandlers';
 
 
@@ -77,4 +79,8 @@ cli
 	.option('-c, --show-content')
 	.action(showCommandHandler);
 
+cli.command('save-remote <name>').option('-lc, --location <value>').action(saveRemotesCommandHandler);
+cli.command('delete-remote <name>').action(deleteRemotesCommandHandler);
+
 cli.parse(process.argv);
+

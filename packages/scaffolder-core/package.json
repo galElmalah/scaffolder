@@ -1,6 +1,6 @@
 {
   "name": "scaffolder-core",
-  "version": "1.8.7",
+  "version": "1.8.8",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -15,6 +15,7 @@
   "license": "ISC",
   "dependencies": {
     "@types/git-url-parse": "^9.0.0",
+    "app-local-store": "^1.0.5",
     "axios": ">=0.21.1",
     "fs-extra": "^9.0.1",
     "git-url-parse": "^11.3.0",
@@ -40,5 +41,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "4851d2a1b5860c5dfece291bc26edb433ec6fa6b"
+  "gitHead": "1ba9806671e2dcdcd88fe65de97091b9b07526ac"
 }

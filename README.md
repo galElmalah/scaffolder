@@ -42,6 +42,8 @@
 - [API](#api)
   * [**interactive, i**](#interactive-i)
   * [**create** _\<templateName>_](#create-templatename)
+  * [**save-remote** _\<alias>_](#save-remote-alias)
+  * [**delete-remote** _\<alias>_](#delete-remote-alias)
   * [**list**, **ls**](#list-ls)
   * [**show** _\<templateName>_](#show-templatename)
 - [Sharing templates](#sharing-templates)
@@ -230,6 +232,21 @@ _\<templateName>_: One of the templates defined in the **scaffolder** folder. <b
 - _\<parameter>=\<value>_  
   _\<parameter>_: One of the parameters for a specific template  
   _\<value>_: The value you want the parameter to be replaced with.
+
+### **save-remote** _\<alias>_
+
+_\<alias>_: The alias that will map to your remote templates. <br/>
+
+**options:**
+
+- _--location_ _\<githubSrc>_  
+  The location of your remotes, e.g github ssh or https.  
+  For example: `git@github.com:galElmalah/scaffolder-templates-example.git` or `https://github.com/galElmalah/scaffolder-templates-example.git`
+
+
+### **delete-remote** _\<alias>_
+
+_\<alias>_: The alias you wish to delete. <br/>
 
 ### **list**, **ls**
 

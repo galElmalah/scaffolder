@@ -1,4 +1,4 @@
-import { extractParametersValuesFromArgs, generateKeyValues, showSuccessMessage } from '../cliHelpers';
+import { extractParametersValuesFromArgs, showSuccessMessage } from '../cliHelpers';
 import { getKeysValues } from './questions';
 import {
 	asyncExecutor,
@@ -13,7 +13,7 @@ import { spinners } from './spinners';
 import { join } from 'path';
 import { makeLogger } from '../cliHelpers/logger';
 
-export async function createChosenTemplate(availableTemplateCommands: any, chosenTemplate: any, command: any) {
+export async function createChosenTemplate(availableTemplateCommands: any, chosenTemplate: string, command: any) {
 	const { config: configObject, currentCommandTemplate, filesCount } = templateReader(availableTemplateCommands, chosenTemplate);
 
 	const config = new Config(configObject).forTemplate(chosenTemplate);

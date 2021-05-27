@@ -1,6 +1,6 @@
 {
   "name": "scaffolder-cli",
-  "version": "1.9.8",
+  "version": "1.9.9",
   "bin": {
     "scaff": "./dist/cli.js"
   },
@@ -39,7 +39,7 @@
     "fs-extra": "^9.0.1",
     "inquirer": "^6.5.0",
     "ora": "^5.1.0",
-    "scaffolder-core": "^1.8.7",
+    "scaffolder-core": "^1.8.8",
     "tmp": "^0.2.1"
   },
   "keywords": [
@@ -55,5 +55,5 @@
     "type": "git",
     "url": "https://github.com/galElmalah/scaffolder"
   },
-  "gitHead": "4851d2a1b5860c5dfece291bc26edb433ec6fa6b"
+  "gitHead": "1ba9806671e2dcdcd88fe65de97091b9b07526ac"
 }

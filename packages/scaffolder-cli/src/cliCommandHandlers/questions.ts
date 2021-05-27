@@ -1,17 +1,18 @@
-import inquirer from 'inquirer';
-import { getAllKeys, extractKey } from 'scaffolder-core';
-import { IConfig, TemplateStructure } from 'scaffolder-core';
+import inquirer, { ChoiceOptions } from 'inquirer';
+import { CommandEntry, Commands, CommandType, extractKey, getAllKeys, IConfig, TemplateStructure, metaText} from 'scaffolder-core';
+
 
 const QUESTIONS = {
 	TEMPLATES: {
 		type: 'list',
-		name: 'chosenTemplate',
+		name: 'chosenTemplateName',
 		message: 'Choose the template you want to create.',
 	},
 };
 
-export const chooseTemplate = (commands) => {
-	const choices = Object.keys(commands);
+export const chooseTemplate = async (commands: Commands) => {
+	const choices = Object.entries(commands).map(toChoiceObject).sort(byRemotes);
+
 	return inquirer.prompt([
 		{
 			...QUESTIONS.TEMPLATES,
@@ -91,4 +92,21 @@ export const getRepositorySource = () => {
 		},
 	});
 };
+
+const byRemotes = (a:Required<ChoiceOptions>,b:Required<ChoiceOptions>) => {
+	if(a.name.includes('remote')) {
+		return -1;
+	}
+	return a.name.localeCompare(b.name);
+};
+
+const toChoiceObject = ([key, val]:[string, CommandEntry]): ChoiceOptions => {
+	if (val.type === CommandType.REMOTE) {
+		return { name: `(remote) ${key} - ${metaText(`Choosing this option will fetch and let you select one of the templates from "${val.location}"`)}`, value: key };
+	}
+	return { name: key, value: key };
+};
+
+
+
 

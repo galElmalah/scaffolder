@@ -4,7 +4,7 @@ import { spawn } from 'child_process';
 import axios from 'axios';
 import gitUrlParse from 'git-url-parse';
 import { allPass } from 'ramda';
-import { CommandsToPaths } from '../commandsBuilder';
+import { Commands, CommandType } from '../commandsBuilder';
 const GIT_ERROR_CODES = [1,128,127];
 const promisifedSpawn = (cmd, args, options) => new Promise((resolve, reject) => {
 	const cp = spawn(cmd,args,options);
@@ -28,7 +28,7 @@ export interface GithubCloner {
 	hasCloned(): boolean;
 	getParsedGitSrc(): any;
 	createTempDir(): void;
-	listTemplates(): Promise<CommandsToPaths>;
+	listTemplates(): Promise<Commands>;
 	clone(): void;
 	cleanUp(): void;
 }
@@ -73,20 +73,20 @@ export class GithubTempCloner implements GithubCloner {
 		return gitUrlParse(this.gitSrc);
 	}
 
-	async listTemplates(): Promise<CommandsToPaths> {
+	async listTemplates(): Promise<Commands> {
 		this.createTempDir();
 		const { owner, name } = this.getParsedGitSrc();
 		const apiUrl = `https://api.github.com/repos/${owner}/${name}/git/trees/master?recursive=true`;
 		const { tree } = await axios.get(apiUrl).then(({ data }) => data);
 		const isTemplate = ({ path }) =>
 			path.startsWith('scaffolder') && path.split('/').length === 2;
-		const notConfig = ({ path }) => !path.endsWith('scaffolder.config.js');
-		const toTemplate = (acc, { path }) => ({
+		const notAConfig = ({ path }) => !path.endsWith('scaffolder.config.js');
+		const toTemplate = (acc, { path }: {path:string}) => ({
 			...acc,
-			[path.split('/').pop()]: `${this.getTempDirPath()}/${path}`,
+			[toName(path)]: {location:`${this.getTempDirPath()}/${path}`,type:CommandType.LOCAL, name:toName(path)},
 		});
 
-		return tree.filter(allPass([isTemplate, notConfig])).reduce(toTemplate, {});
+		return tree.filter(allPass([isTemplate, notAConfig])).reduce(toTemplate, {});
 	}
 
 	async clone() {
@@ -119,3 +119,7 @@ export class GithubTempCloner implements GithubCloner {
 			});
 	}
 }
+function toName(fromPath: string) {
+	return fromPath.split('/').pop() as string;
+}
+

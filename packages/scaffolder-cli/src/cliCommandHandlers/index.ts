@@ -15,7 +15,10 @@ import {
 	injector,
 	Config,
 	IConfig,
-	contextFactory
+	contextFactory,
+	boldGreen,
+	saveRemote,
+	deleteRemote
 } from 'scaffolder-core';
 import { join } from 'path';
 import { makeLogger } from '../cliHelpers/logger';
@@ -36,7 +39,6 @@ const validateParametersValues = (config: IConfig, keyValuePairs) => {
 
 const getTransformedTemplates = async (command, cmd) => {
 	const commandsLocations = commandsBuilder(cmd.loadFrom || process.cwd());
-
 	const { config: configObject, currentCommandTemplate } = templateReader(commandsLocations)(
 		command
 	);
@@ -54,7 +56,7 @@ const getTransformedTemplates = async (command, cmd) => {
 
 	const baseCtx = {
 		templateName: command,
-		templateRoot: commandsLocations[command],
+		templateRoot: commandsLocations[command].location,
 		targetRoot: join(cmd.entryPoint || process.cwd(), cmd.pathPrefix || ''),
 		logger: makeLogger(),
 		parametersValues: {}
@@ -149,3 +151,13 @@ export const showCommandHandler = (command, cmd) => {
 };
 
 
+
+export const saveRemotesCommandHandler = async (name:string, cmd) => {
+	await saveRemote(name, cmd.location);
+	console.log(boldGreen(`Successfully saved "${cmd.location}" under the alias "${name}"`));
+};
+
+export const deleteRemotesCommandHandler = async (name:string) => {
+	await deleteRemote(name);
+	console.log(boldGreen(`Successfully deleted "${name}"."`));
+};
