@@ -267,7 +267,13 @@ Often you find yourself wanting to share a template while not making every consu
 
 In order to address that problem, Scaffolder lets you consume templates from Github repositories that have a **scaffolder** folder at their root.  
 For example, you can see this [repository](https://github.com/galElmalah/scaffolder-templates-example) which contains 3 templates and a config file.  
-To generate one of those templates you can run `npx scaff i --from-github` and enter `https://github.com/galElmalah/scaffolder-templates-example.git` and you'll be promoted to choose one of those templates.   
+To generate one of those templates you can run `npx scaffolder-cli i --from-github` and enter `https://github.com/galElmalah/scaffolder-templates-example.git` and you'll be promoted to choose one of those templates.  
+
+You can now save remote templates repos under aliases!   
+For example, assuming you have scaffolder-cli installed globaly, you can run
+`scaff save-remote my-remote-templates --location https://github.com/galElmalah/scaffolder-templates-example.git`
+and from now on, you will have a new entry named `(remote) my-remote-templates`  when you run [scffolder in interactive mode](#interactive-i) that will list all of the available templates in that repo.
+
 > Any improvement suggestions? go ahead and [open an issue](https://github.com/galElmalah/scaffolder/issues)!
 
 ---
@@ -319,7 +325,7 @@ module.exports = {
 
 Transformers can be used to transform a parameter value.  
 For example, you can write the following:
-`{{ someParameter | toLowerCase | someOtherTransformer }}`
+`{{ someParameter | toLowerCase | someOtherTransformer }}`	
 and the value that will be injected in your template will be the value after all of the transformations.
 
 - Transformers can be chained together.
