@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.8.9](https://github.com/galElmalah/ctf/compare/scaffolder-core@1.8.8...scaffolder-core@1.8.9) (2021-05-31)
+
+**Note:** Version bump only for package scaffolder-core
+
+
+
+
+
 ## [1.8.8](https://github.com/galElmalah/ctf/compare/scaffolder-core@1.8.7...scaffolder-core@1.8.8) (2021-05-27)
 
 **Note:** Version bump only for package scaffolder-core
