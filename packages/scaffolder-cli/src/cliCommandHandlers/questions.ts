@@ -10,7 +10,7 @@ const QUESTIONS = {
 	},
 };
 
-export const chooseTemplate = async (commands: Commands) => {
+export const chooseTemplate =  (commands: Commands) => {
 	const choices = Object.entries(commands).map(toChoiceObject).sort(byRemotes);
 
 	return inquirer.prompt([

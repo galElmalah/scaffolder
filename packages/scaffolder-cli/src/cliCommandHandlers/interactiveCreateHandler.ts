@@ -47,15 +47,16 @@ export const interactiveCreateCommandHandler = async (command: Command) => {
 		gitCloner.cleanUp();
 	}
 };
-async function createATemplateWithGithubFlow(gitCloner: GithubTempCloner, command:Command ,githubSrc:string, preSelectedTemplate?:string) {
-	const { availableTemplateCommands, chosenTemplate } = await githubFlow(
+async function createATemplateWithGithubFlow(gitCloner: GithubTempCloner, command:Command ,githubSrc:string, preSelectedTemplate?:string) {	
+	const { availableTemplateCommands, chosenTemplateName } = await githubFlow(
 		gitCloner,
 		githubSrc,
 		preSelectedTemplate
 	);
+	
 	await createChosenTemplate(
 		availableTemplateCommands,
-		chosenTemplate,
+		chosenTemplateName,
 		command
 	);
 }

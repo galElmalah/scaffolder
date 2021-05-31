@@ -88,8 +88,7 @@ export const createTemplateStructure = (
 	return { templatesStructure: createStructure(folderPath), filesCount };
 };
 
-export const templateReader = curry((commands:Commands, cmd) => {
-	
+export const templateReader = curry((commands:Commands, cmd) => {	
 	if (!commands[cmd]) {
 		throw new NoMatchingTemplate(cmd);
 	}

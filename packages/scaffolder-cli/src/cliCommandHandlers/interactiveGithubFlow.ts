@@ -75,12 +75,12 @@ export const githubFlow = async (
 	};
 
 	const availableTemplateCommands = await listAvailableTemplates();
-	const { chosenTemplate } = await getChosenTemplate(
+	const { chosenTemplateName } = await getChosenTemplate(
 		availableTemplateCommands,
 		preSelectedTemplate
 	);
 
 	await cloneRepo(gitCloner);
 
-	return { chosenTemplate, availableTemplateCommands };
+	return { chosenTemplateName, availableTemplateCommands };
 };
