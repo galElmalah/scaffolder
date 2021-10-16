@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "bootstrap": "lerna bootstrap",
-    "build": "wsrun build",
+    "build": "tsc -b  packages/scaffolder-core packages/scaffolder-cli",
     "test": "npm run build && lerna run test --stream",
     "version": "lerna version --conventional-commits",
     "publish": "lerna publish from-package ---conventional-commits",
