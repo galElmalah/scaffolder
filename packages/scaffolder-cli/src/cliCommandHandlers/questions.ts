@@ -21,12 +21,6 @@ export const chooseTemplate =  (commands: Commands) => {
 	]);
 };
 
-export const getQuestionMessage = (parametersOptions = {}, key) => {
-	return (
-		(parametersOptions[key] && parametersOptions[key].question) ||
-    `Enter a value for the following parameter "${key}"`
-	);
-};
 
 export const getValidationFunction = (parametersOptions = {}, key) => {
 	const validationFn =

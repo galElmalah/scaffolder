@@ -1,6 +1,5 @@
 import fs from 'fs';
 import path from 'path';
-import { NoScaffolderFolder } from '../Errors';
 import { isFolder } from '../filesUtils';
 
 export const TEMPLATE_FOLDER_NAME = 'scaffolder';
@@ -16,29 +15,24 @@ export interface CommandEntry {
   type: CommandType;
   location: string;
   description?: string;
-	name?:string;
+  name?: string;
 }
 
-export type Commands = Record<string, CommandEntry> 
+export type Commands = Record<string, CommandEntry>;
 
-export const templatePathsFinder = (currentPath:string) => {
+export const templatePathsFinder = (currentPath: string): string[] => {
 	const pathsQueue: string[] = [];
 	const pathRoot = path.parse(currentPath).root;
-	const isEndOfPath = (_path) =>
+	const isEndOfPath = (_path: string) =>
 		_path === pathRoot || _path === '/' || _path === '' || _path === './';
-	const shouldStopSearching = (_path, depth) =>
+	const shouldStopSearching = (_path: string, depth: number) =>
 		isEndOfPath(_path) || depth === SEARCH_DEPTH_LIMIT;
 
-	const findTemplate = (currentPath, depth = 0) => {
-		if (isEndOfPath(currentPath) && pathsQueue.length === 0) {
-			throw new NoScaffolderFolder();
-		}
-
+	const findTemplate = (currentPath: string, depth = 0) => {
 		if (shouldStopSearching(currentPath, depth)) {
 			return pathsQueue;
 		}
 
-		
 		const currentDir = fs.readdirSync(currentPath);
 
 		const isScaffolderFolderInThisLevel = currentDir.some(
@@ -57,9 +51,7 @@ export const templatePathsFinder = (currentPath:string) => {
 	return findTemplate(currentPath);
 };
 
-export const readTemplatesFromPaths =  (
-	paths: string[]
-): Commands => {
+export const readTemplatesFromPaths = (paths: string[]): Commands => {
 	let allCommands = {};
 	for (const scaffolderPath of paths) {
 		const commands = fs.readdirSync(scaffolderPath);
@@ -76,7 +68,7 @@ export const readTemplatesFromPaths =  (
 					[cmd]: {
 						location: path.join(scaffolderPath, cmd),
 						type: CommandType.LOCAL,
-						name: cmd
+						name: cmd,
 					},
 				}),
 				{}
@@ -94,9 +86,7 @@ export const readTemplatesFromPaths =  (
 /**
  * @param {string} currentPath Initial path to start searching from for scaffolder folders.
  */
-export const commandsBuilder = (
-	currentPath: string
-) => {
+export const commandsBuilder = (currentPath: string) => {
 	const scaffolderPaths = templatePathsFinder(currentPath);
 	return readTemplatesFromPaths(scaffolderPaths);
 };
