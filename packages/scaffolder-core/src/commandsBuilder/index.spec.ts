@@ -57,19 +57,6 @@ describe('commandsBuilder -> templatePathFinder', () => {
 		expect(mockedReaddirSync).toHaveBeenCalledTimes(path.split('/').length);
 	});
 
-	it('throws an error if there is no scaffolder folder in the hierarchy', () => {
-		mockedReaddirSync
-			.mockReturnValueOnce(['what', 'yeah'])
-			.mockReturnValueOnce(['what', '21'])
-			.mockReturnValueOnce(['what', '12'])
-			.mockReturnValue([]);
-		mockedLstatSync.mockReturnValue({
-			isDirectory: () => true 
-		});
-
-		expect(() => templatePathsFinder(path)).toThrow(NoScaffolderFolder);
-	});
-
 	it('finds all levels of scaffolder', () => {
 		const path = '/home/gal/yeah';
 		mockedReaddirSync

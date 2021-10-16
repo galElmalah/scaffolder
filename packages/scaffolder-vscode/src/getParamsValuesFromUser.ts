@@ -1,7 +1,5 @@
 import {
-  getQuestionMessage,
   extractKey,
-  getValidationFunction,
   IConfig,
 } from "scaffolder-core";
 import * as vscode from "vscode";
