@@ -25,7 +25,7 @@ export const interactiveCreateCommandHandler = async (command: Command) => {
 				command.template
 			);
 		} else {
-			const availableTemplateCommands = commandsBuilder(process.cwd());
+			const availableTemplateCommands = commandsBuilder(command.loadFrom || process.cwd());
 			const remotes = await getRemotes();
 			
 			const templatesAndRemotes = {

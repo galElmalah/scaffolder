@@ -57,6 +57,10 @@ cli
 		'--values <commaSeparatedParametersValue>',
 		'Predefine values for specific parameters param1=val1,param2=val2....'
 	)
+	.option(
+		'--load-from <absolutePath>',
+		'A path to a scaffolder folder from which to load the templates.'
+	)
 	.description(
 		'Interactive mode that ask for the user input on each step of the way.'
 	)

@@ -1,8 +1,6 @@
-
-
 <div align="center">
 
-![Scaffolder logo](../../images/scaffolder-logo.png)  
+![Scaffolder logo](../../images/scaffolder-logo.png)
 
 </div>
 
@@ -15,8 +13,6 @@
 
 </div>
 
-
-
 **For a brief introduction and motivation for this tool, [read this](https://dev.to/galelmalah/what-is-scaffolder-and-how-you-can-use-it-to-increase-your-team-dev-velocity-558l).**
 
 ---
@@ -24,24 +20,26 @@
 ### TOC
 
 - [Getting started](#getting-started)
-  * [Setup](#setup)
-  * [Usage](#usage)
-    + [Create a templates folder in your project root directory](#create-a-templates-folder-in-your-project-root-directory)
+  - [Setup](#setup)
+  - [Usage](#usage)
+    - [Create a templates folder in your project root directory](#create-a-templates-folder-in-your-project-root-directory)
 - [API](#api)
-  * [**interactive, i**](#interactive-i)
-  * [**create** _\<templateName>_](#create-templatename)
-  * [**list**, **ls**](#list-ls)
-  * [**show** _\<templateName>_](#show-templatename)
-  
- ---
- 
+  - [**interactive, i**](#interactive-i)
+  - [**create** _\<templateName>_](#create-templatename)
+  - [**list**, **ls**](#list-ls)
+  - [**show** _\<templateName>_](#show-templatename)
+  ***
+
 ## Getting started
 
 ### Setup
+
 Install scaffolder globally
+
 ```bash
 npm i -g scaffolder-cli
 ```
+
 this will make the `scaff` command available globally, you can now type `scaff i` in the terminal, to enter the cli in [interactive mode](#interactive-i).
 
 You can also use `npx` for example `npx scaffolder-cli i` will start scaffolder in [interactive mode](#interactive-i).
@@ -50,8 +48,9 @@ You can also use `npx` for example `npx scaffolder-cli i` will start scaffolder 
 
 #### Create a templates folder in your project root directory
 
-The templates folder should be named **scaffolder** and should contain folders where each folder represents a different template and inside of that folder, there is the template structure you wish to create.  
-> The templates available are the templates defined in the **scaffolder** folder.  
+The templates folder should be named **scaffolder** and should contain folders where each folder represents a different template and inside of that folder, there is the template structure you wish to create.
+
+> The templates available are the templates defined in the **scaffolder** folder.
 
 If you have more scaffolder folders in the current file system hierarchy then all of them will be included with precedence to the nearest **scaffolder** folder.  
 **For example:**  
@@ -159,30 +158,34 @@ How cool is this, right?
 As you can see our params got injected to the right places and we created our template with little effort.  
 Hooray!! :sparkles: :fireworks: :sparkler: :sparkles:
 
-
 ## API
 
 ### **interactive, i**
 
-Run Scaffolder in interactive mode, meaning, it will prompt the user to choose a template and a value for each parameter.  
+Run Scaffolder in interactive mode, meaning, it will prompt the user to choose a template and a value for each parameter.
+
 > This command is the most recommended one as it simplifies the process for the user a lot.
 
 **options:**
-- _--from-github_  _\<?repositorySource>_   
+
+- _--from-github_ _\<?repositorySource>_  
   Passing this flag **without** `repositorySource` will cause a prompt to appear, asking the user to enter a github repository (https/ssh) and consume the templates defined on that repository.
   More info about [sharing templates](#sharing-templates).
 - _--entry-point_ _\<absolutePath>_  
   Generate the template to a specified location.
+- _--load-from_ _\<absolutePath>_  
+  Load the templates from a specific location.
 - _--path-prefix_ _\<relativePath>_  
   Path that will be appended the the location the script is generated into.
 - _--template_ _\<templateName>_  
   Start the interactive mode with a preselected template.
-- _--values_ _\<commaSeparatedParametersValue>_   
-	Predefine values for specific parameters param1=val1,param2=val2...
+- _--values_ _\<commaSeparatedParametersValue>_  
+  Predefine values for specific parameters param1=val1,param2=val2...
+
 ### **create** _\<templateName>_
 
 _\<templateName>_: One of the templates defined in the **scaffolder** folder. <br/>
- 
+
 **options:**
 
 - _--load-from_ _\<absolutePath>_  
@@ -208,4 +211,3 @@ Show a specific template files
 
 - _--show-content_  
   Also show the full content of the template files.
-
