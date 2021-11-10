@@ -2,7 +2,7 @@
   "name": "scaffolder-cli",
   "version": "1.9.12",
   "bin": {
-    "scaff": "./dist/cli.js"
+    "scaff": "./dist/index.js"
   },
   "jest": {
     "testPathIgnorePatterns": [
