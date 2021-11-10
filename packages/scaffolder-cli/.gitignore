@@ -10,3 +10,4 @@ typings
 *.iml
 test/e2e/screenshots
 .yo-rc.json
+build

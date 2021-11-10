@@ -1,6 +1,6 @@
 {
   "name": "scaffolder-cli",
-  "version": "1.9.11",
+  "version": "1.9.12",
   "bin": {
     "scaff": "./dist/cli.js"
   },
@@ -14,9 +14,10 @@
   "main": "index.js",
   "preversion": "npm test",
   "scripts": {
+    "pkg": "ncc build build/cli.js -o dist",
     "preversion": "npm test",
     "test": "npm run build && jest",
-    "build": "rm -rf ./dist && tsc",
+    "build": "tsc && npm run pkg",
     "test:watch": "jest --watch"
   },
   "author": "Gal ELmalah",
@@ -27,6 +28,7 @@
     "@types/commander": "^2.12.2",
     "@types/fs-extra": "^9.0.2",
     "@types/node": "^14.6.2",
+    "@vercel/ncc": "^0.31.1",
     "babel-jest": "^26.5.2",
     "eslint": "^7.5.0",
     "jest": "^26.4.2",

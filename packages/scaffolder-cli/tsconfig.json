@@ -1,8 +1,8 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "outDir": "./dist",
+    "outDir": "./build",
     "esModuleInterop": true,
   },
-  "files": ["cli.ts", "./src/cliCommandHandlers/getChosenTemplate.ts", "./src/cliCommandHandlers/createChosenTemplate.ts"],
+  "files": ["cli.ts"],
 }

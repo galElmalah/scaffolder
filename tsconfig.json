@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "module": "commonjs",
-    "target": "es2017",
+    "target": "es2019",
     "allowJs": true,
     "noImplicitAny": false,
     "preserveConstEnums": true,
