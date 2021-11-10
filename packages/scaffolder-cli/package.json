@@ -1,6 +1,6 @@
 {
   "name": "scaffolder-cli",
-  "version": "1.9.16",
+  "version": "1.10.0",
   "bin": {
     "scaff": "./dist/index.js"
   },
