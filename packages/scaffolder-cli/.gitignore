@@ -11,4 +11,3 @@ typings
 test/e2e/screenshots
 .yo-rc.json
 build
-package-lock.json
