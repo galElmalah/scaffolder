@@ -36,6 +36,14 @@
     "rimraf": "^2.6.3",
     "typescript": "^4.0.3"
   },
+  "bundledDependencies": [
+    "commander",
+    "fs-extra",
+    "inquirer",
+    "ora",
+    "scaffolder-core",
+    "tmp"
+  ],
   "dependencies": {
     "commander": "^2.20.3",
     "fs-extra": "^9.0.1",
@@ -57,5 +65,5 @@
     "type": "git",
     "url": "https://github.com/galElmalah/scaffolder"
   },
-  "gitHead": "7fe69222db98c203625b863256e92aea730605b5"
+  "gitHead": "2693e41869b765b8e76e641105ce9d144e9e7eea"
 }
