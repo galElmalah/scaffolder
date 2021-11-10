@@ -4,7 +4,7 @@ import rimraf from 'rimraf';
 
 const execOnTestDir = (cmd, withEntryPoint = true) =>
 	execSync(
-		`node ${process.cwd()}/dist/cli.js ${cmd} ${
+		`node ${process.cwd()}/dist/index.js ${cmd} ${
 			withEntryPoint ? `--entry-point ${__dirname}/results` : ''
 		}`,
 		{
