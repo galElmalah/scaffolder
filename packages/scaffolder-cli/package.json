@@ -1,6 +1,6 @@
 {
   "name": "scaffolder-cli",
-  "version": "1.9.14",
+  "version": "1.9.16",
   "bin": {
     "scaff": "./dist/index.js"
   },
@@ -29,22 +29,7 @@
     "rimraf": "^2.6.3",
     "typescript": "^4.0.3"
   },
-  "bundledDependencies": [
-    "commander",
-    "fs-extra",
-    "inquirer",
-    "ora",
-    "scaffolder-core",
-    "tmp"
-  ],
-  "dependencies": {
-    "commander": "^2.20.3",
-    "fs-extra": "^9.0.1",
-    "inquirer": "^6.5.0",
-    "ora": "^5.1.0",
-    "scaffolder-core": "^1.8.13",
-    "tmp": "^0.2.1"
-  },
+  "dependencies": {},
   "keywords": [
     "cli",
     "generator",
