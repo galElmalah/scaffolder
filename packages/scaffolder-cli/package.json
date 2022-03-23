@@ -1,13 +1,13 @@
 {
   "name": "scaffolder-cli",
-  "version": "1.10.0",
+  "version": "1.10.1",
   "bin": {
     "scaff": "./dist/index.js"
   },
   "description": "Dynamically create predefined templates",
   "main": "index.js",
   "scripts": {
-    "pkg": "ncc build build/cli.js -o dist",
+    "pkg": "ncc build build/cli.js -o dist --minify",
     "preversion": "npm test",
     "test": "npm run build && jest",
     "build": "tsc && npm run pkg",
@@ -23,17 +23,17 @@
     "@types/node": "^14.6.2",
     "@vercel/ncc": "^0.31.1",
     "babel-jest": "^26.5.2",
-    "eslint": "^7.5.0",
-    "jest": "^26.4.2",
-    "nock": "^13.0.4",
-    "rimraf": "^2.6.3",
-    "typescript": "^4.0.3",
     "commander": "^2.20.3",
+    "eslint": "^7.5.0",
     "fs-extra": "^9.0.1",
     "inquirer": "^6.5.0",
+    "jest": "^26.4.2",
+    "nock": "^13.0.4",
     "ora": "^5.1.0",
-    "scaffolder-core": "^1.8.13",
-    "tmp": "^0.2.1"
+    "rimraf": "^2.6.3",
+    "scaffolder-core": "^1.8.14",
+    "tmp": "^0.2.1",
+    "typescript": "^4.0.3"
   },
   "keywords": [
     "cli",
@@ -54,5 +54,5 @@
       "results/*"
     ]
   },
-  "gitHead": "9b8533a6bd12f9f95cabe45878aa7c9e8a6cc674"
+  "gitHead": "22ca3d8e7ad63af94faa2623e402710ceb61d366"
 }
