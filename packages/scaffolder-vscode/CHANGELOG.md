@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.22.14](https://github.com/galElmalah/scaffolder/compare/scaffolder-vscode@0.22.13...scaffolder-vscode@0.22.14) (2022-03-23)
+
+**Note:** Version bump only for package scaffolder-vscode
+
+
+
+
+
 ## [0.22.13](https://github.com/galElmalah/scaffolder/compare/scaffolder-vscode@0.22.12...scaffolder-vscode@0.22.13) (2021-11-10)
 
 **Note:** Version bump only for package scaffolder-vscode
