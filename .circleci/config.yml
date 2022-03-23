@@ -3,13 +3,13 @@ orbs:
   node: circleci/node@2.0.2
 jobs:
   build-and-test:
-    version: 14.17.6
     executor:
       name: node/default
     steps:
       - checkout
       - node/with-cache:
           steps:
+            - run: nvm use 14
             - run: npm install
             - run: npm run bootstrap
             - run: npm test         
