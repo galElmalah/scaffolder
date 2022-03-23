@@ -1,8 +1,9 @@
 version: 2.1
 orbs:
-  node: circleci/node@1.1.6
+  node: circleci/node@2.0.2
 jobs:
   build-and-test:
+    version: 14.17.6
     executor:
       name: node/default
     steps:
