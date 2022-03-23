@@ -3,7 +3,7 @@ const { keyPatternString } = require('./index');
 const wrap = (str) => `{{${str}}}`;
 describe('key pattern regex', () => {
 	it('should match words inside a key format', () => {
-		const keyPatternrRegex = new RegExp(keyPatternString);
+		const keyPatternRegex = new RegExp(keyPatternString);
 		const [
 			first,
 			keyWithLowerDash,
@@ -18,10 +18,10 @@ describe('key pattern regex', () => {
 			'key | with | spaces',
 		].map(wrap);
 
-		expect(keyPatternrRegex.test(first)).toBe(true);
-		expect(keyPatternrRegex.test(keyWithLowerDash)).toBe(true);
-		expect(keyPatternrRegex.test(keyWithHyphen)).toBe(true);
-		expect(keyPatternrRegex.test(keyWithSpaces)).toBe(true);
-		expect(keyPatternrRegex.test(keyWithTransformers)).toBe(true);
+		expect(keyPatternRegex.test(first)).toBe(true);
+		expect(keyPatternRegex.test(keyWithLowerDash)).toBe(true);
+		expect(keyPatternRegex.test(keyWithHyphen)).toBe(true);
+		expect(keyPatternRegex.test(keyWithSpaces)).toBe(true);
+		expect(keyPatternRegex.test(keyWithTransformers)).toBe(true);
 	});
 });
