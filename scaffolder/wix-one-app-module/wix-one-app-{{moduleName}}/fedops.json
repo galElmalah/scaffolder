@@ -1,9 +1,0 @@
-{
-  "app_name": "wix-one-app-{{moduleName}}",
-  "notifications": {
-    "slack_channels": ["{{slackChannel}}"]
-  },
-  "dashboard_type": "mobile-native",
-  "preset_type": "MOBILE",
-  "interactions": {}
-}
