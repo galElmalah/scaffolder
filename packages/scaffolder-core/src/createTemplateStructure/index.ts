@@ -4,7 +4,7 @@ import {
 	MissingKeyValuePairs,
 	MissingFunctionImplementation,
 } from '../Errors';
-import { isFolder, join, TYPES } from '../filesUtils';
+import { isFolder, isImage, join, TYPES } from '../filesUtils';
 import { applyTransformers } from './applyTransformers';
 import { Context } from '../context';
 import { readConfig } from '../configHelpers';
@@ -77,9 +77,10 @@ export const createTemplateStructure = (
 					scaffolderTargetRoot: fromPath,
 				};
 			}
+			const fileFormat = isImage(join(fromPath, aFilePath)) ? 'base64' : 'utf8';
 			return {
 				name: aFilePath,
-				content: fs.readFileSync(join(fromPath, aFilePath)).toString(),
+				content: fs.readFileSync(join(fromPath, aFilePath), fileFormat).toString(),
 				scaffolderTargetRoot: fromPath,
 			};
 		};

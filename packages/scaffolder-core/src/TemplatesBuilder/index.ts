@@ -1,13 +1,15 @@
 import fs from 'fs';
 import { mkdir } from 'fs-extra';
 import { FolderAlreadyExists } from '../Errors';
-import { join, TYPES } from '../filesUtils';
+import { isImage, join, TYPES } from '../filesUtils';
 import {path as pathColor, boldGreen, bold} from '../cliHelpers/colors';
 import {createMissingFoldersInPath} from './createMissingFoldersInPath';
 
 const writeFilePromise = (path: string, content: string) =>
 	new Promise((resolve, reject) => {
-		fs.writeFile(path, content, (err) => {
+		const fileFormat = isImage(path) ? 'base64' : 'utf8';
+		const contentOrImage = Buffer.from(content, fileFormat);
+		fs.writeFile(path, contentOrImage, (err) => {
 			if (err) {
 				reject(err);
 			}

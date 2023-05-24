@@ -1,0 +1,13 @@
+{
+  "oneAppEngine": {
+    "modules": [
+      "@wix/wix-one-app-platform"
+    ],
+    "modulesConfig": {
+      "@wix/wix-one-app-platform": {
+        "showAboutTab": true
+      }
+    },
+    "tabs": []
+  }
+}
