@@ -1,5 +1,7 @@
 const baseJestConfig = require('../../jest.base.config.js');
 
 module.exports = {
-	...baseJestConfig
+	...baseJestConfig,
+	'transformIgnorePatterns': ['node_modules/(?!axios)']
+
 };
