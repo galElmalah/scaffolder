@@ -4,6 +4,7 @@ import { join } from '../filesUtils';
 import { FolderAlreadyExists } from '../Errors';
 
 jest.mock('fs');
+const bufferSpy = jest.spyOn(Buffer, 'from');
 
 describe('TemplatesBuilder', () => {
 	beforeEach(() => {
@@ -50,5 +51,19 @@ describe('TemplatesBuilder', () => {
 
 		expect(mkdirSync).toHaveBeenCalledWith(join(process.cwd(), 'add'));
 		expect(mkdirSync).toHaveBeenCalledWith(join(process.cwd(), folder));
+	});
+
+	it('copies images as base64 and text as utf8', async () => {
+		const templates = [
+			{ name: 'gal', content: 'what' },
+			{ name: 'gal1.png', content: 'what1' },
+			{ name: 'gal2.jpg', content: 'what2' },
+		];
+		const templateBuilder = new TemplatesBuilder(templates);
+		templateBuilder.build();
+
+		expect(bufferSpy).toHaveBeenCalledWith('what', 'utf8');
+		expect(bufferSpy).toHaveBeenCalledWith('what1', 'base64');
+		expect(bufferSpy).toHaveBeenCalledWith('what2', 'base64');
 	});
 });
